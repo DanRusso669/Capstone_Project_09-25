@@ -4,6 +4,7 @@ import logo from "../assets/Logo-Rifugio-Mamo.jpg";
 const MyNavbar = () => {
   return (
     // TODO - Collegare i link alle rispettive pagine una volta create.
+    // TODO - Rendere la NavBar Sticky
     <>
       <Navbar expand="lg" className="py-3 my-nav">
         <Container>

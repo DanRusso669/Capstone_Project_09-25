@@ -10,7 +10,7 @@ body {
   box-sizing: border-box;
   font-family: "Roboto", sans-serif;
   font-optical-sizing: auto;
-  font-weight: 500;
+  font-weight: 400;
   font-style: normal;
   font-variation-settings: "wdth" 100;
 }
@@ -26,7 +26,7 @@ p {
   margin: 0;
 }
 
-/* NAVBAR */
+/* NAVBAR & HERO*/
 
 .logo {
   max-width: 120px;
@@ -71,3 +71,103 @@ p {
   font-weight: 600;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
 }
+
+/* MAIN SECTION */
+
+.chi-siamo {
+  max-height: 1000px;
+}
+
+.chi-siamo h3 {
+  color: #3a6b2f;
+  font-weight: 800;
+}
+
+.chi-siamo p {
+  font-family: "Yrsa", serif;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+#middle-img {
+  max-height: 500px;
+  overflow: hidden;
+}
+
+#middle-img img {
+  object-position: top;
+  /* position: relative;
+  top: -1720px;
+  right: 1410px; */
+}
+
+@media screen and (min-width: 992px) {
+  #middle-img img {
+    position: relative;
+    top: -150px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  #middle-img img {
+    position: relative;
+    top: -250px;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  #middle-img img {
+    position: relative;
+    top: -440px;
+  }
+}
+
+.main-section {
+  height: 100vh;
+}
+
+.main-section .card-img-top {
+  max-height: 230px;
+  max-width: 350px;
+  object-fit: contain;
+}
+
+.main-section .card-body {
+  font-family: "Yrsa", serif;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+.main-section .card-title {
+  font-weight: 700;
+  font-size: 22px;
+}
+
+#what-do-we,
+#why-do-we,
+#who-are-we {
+  max-width: 340px;
+  height: 410px;
+}
+
+.learn-more-btn:hover {
+  background-color: white;
+  border-color: black;
+  color: #3a6b2f;
+  font-weight: 800;
+}
+
+.learn-more-btn {
+  background-color: #3a6b2f;
+  color: white;
+  text-decoration: none;
+  letter-spacing: 0.1rem;
+}
+
+/* #what-do-we {
+  margin-top: 100px;
+}
+
+#why-do-we {
+  margin-top: 200px;
+} */
