@@ -222,7 +222,7 @@ p {
 
 .footer {
   min-height: 160px;
-  background-color: rgb(124, 122, 122);
+  background-color: #53a141;
 }
 .footer-logo {
   max-width: 100px;
@@ -230,5 +230,23 @@ p {
 }
 
 .footer-links {
+  position: relative;
   min-width: 130px;
+  text-decoration: none;
+  color: #212529;
+}
+
+.footer-links::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #3a6b2f;
+  transition: width 0.7s linear;
+}
+
+.footer-links:hover::after {
+  width: 100%;
 }

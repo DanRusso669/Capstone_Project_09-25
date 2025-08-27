@@ -1,6 +1,7 @@
 import { Container, Image, Nav, Navbar } from "react-bootstrap";
 import logo from "../assets/Logo-Rifugio-Mamo.jpg";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const MyNavbar = () => {
   const [scrolling, setScrolling] = useState(false);
@@ -26,17 +27,35 @@ const MyNavbar = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
-              <Nav.Link href="#home">Il Rifugio</Nav.Link>
-              <Nav.Link href="#link">Il C.R.A.S.</Nav.Link>
-              <Nav.Link href="#link">News</Nav.Link>
-              <Nav.Link href="#link">Blog</Nav.Link>
+              <Link to={"/il-rifugio"} className="nav-link">
+                Il Rifugio
+              </Link>
+              <Link to={"/cras"} className="nav-link">
+                Il C.R.A.S.
+              </Link>
+              <Link to={"/news"} className="nav-link">
+                News
+              </Link>
+              <Link to={"/blog"} className="nav-link">
+                Blog
+              </Link>
             </Nav>
-            <Image src={logo} alt="logo" className="logo mx-5 d-none d-lg-block" />
+            <Link to={"/"}>
+              <Image src={logo} alt="logo" className="logo mx-5 d-none d-lg-block" />
+            </Link>
             <Nav className="me-auto">
-              <Nav.Link href="#link">FAQ</Nav.Link>
-              <Nav.Link href="#link">Donazioni</Nav.Link>
-              <Nav.Link href="#link">Volontariato</Nav.Link>
-              <Nav.Link href="#link">Visite</Nav.Link>
+              <Link to={"/faq"} className="nav-link">
+                FAQ
+              </Link>
+              <Link to={"/donazioni"} className="nav-link">
+                Donazioni
+              </Link>
+              <Link to={"/volontariato"} className="nav-link">
+                Volontariato
+              </Link>
+              <Link to={"/visite"} className="nav-link">
+                Visite
+              </Link>
             </Nav>
           </Navbar.Collapse>
         </Container>

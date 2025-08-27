@@ -1,5 +1,3 @@
-// import { Image } from "react-bootstrap";
-
 const Hero = () => {
   return (
     <>
