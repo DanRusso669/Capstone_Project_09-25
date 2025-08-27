@@ -33,7 +33,8 @@ const MainSection = () => {
       <div id="middle-img">
         <Image fluid className="object-fit-contain" src="https://images.pexels.com/photos/17867770/pexels-photo-17867770.jpeg" />
       </div>
-      <Articles />
+      <Articles subtitle={"Ultimi articoli"} />
+      <Articles subtitle={"Ultimi post sul blog"} />
     </>
   );
 };

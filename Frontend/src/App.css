@@ -164,14 +164,14 @@ p {
 @media screen and (min-width: 1400px) {
   #middle-img img {
     position: relative;
-    top: -440px;
+    top: -460px;
   }
 }
 
-/* ARTICLES */
+/* ARTICLES & BLOGS*/
 
 .main-section {
-  height: 100vh;
+  min-height: 48vh;
 }
 
 .main-section .card-img-top {
@@ -195,7 +195,7 @@ p {
 #art2,
 #art3,
 #art4 {
-  max-width: 340px;
+  max-width: 320px;
   height: 410px;
 }
 
@@ -211,4 +211,8 @@ p {
   color: white;
   text-decoration: none;
   letter-spacing: 0.1rem;
+}
+
+.news-subtitle {
+  border-bottom: 1px solid #ff7300;
 }
