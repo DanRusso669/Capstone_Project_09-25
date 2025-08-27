@@ -5,7 +5,7 @@ const MainSection = () => {
   return (
     <>
       <Container>
-        <div className="d-flex flex-column align-items-center justify-content-center chi-siamo my-5">
+        <div className="d-flex flex-column align-items-center justify-content-center who-are-we my-5">
           <h3 className="mb-4">Chi siamo</h3>
           <Row className="d-flex justify-content-center ">
             <Col sm={12} md={6}>

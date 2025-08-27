@@ -36,7 +36,7 @@ p {
 .my-nav {
   padding-block: 1rem;
   transition: all 1s ease-in-out;
-  background-color: rgba(89, 141, 89, 0.4);
+  background-color: rgba(89, 141, 89, 0.5);
 }
 
 .my-nav .nav-link {
@@ -46,6 +46,35 @@ p {
 
 .my-nav .nav-link:hover {
   color: rgb(136, 241, 136);
+}
+
+@media screen and (max-width: 992px) {
+  .my-nav .navbar-collapse .nav-link {
+    opacity: 0;
+    transition: opacity 1s 1s linear;
+  }
+}
+
+.navbar-collapse {
+  transition: height 0.8s linear;
+}
+
+.navbar-collapse.collapse.show {
+  height: 340px;
+}
+
+.navbar-collapse.collapse.show .nav-link {
+  opacity: 1;
+}
+
+.navbar-collapse.collapse.show .nav-link:focus {
+  outline: none;
+}
+
+.navbar-toggler:focus,
+.navbar-toggler:active {
+  outline: none;
+  box-shadow: none;
 }
 
 .scrolled-navbar {
@@ -94,16 +123,16 @@ p {
 
 /* MAIN SECTION */
 
-.chi-siamo {
+.who-are-we {
   max-height: 1000px;
 }
 
-.chi-siamo h3 {
+.who-are-we h3 {
   color: #3a6b2f;
   font-weight: 800;
 }
 
-.chi-siamo p {
+.who-are-we p {
   font-family: "Yrsa", serif;
   font-weight: 400;
   font-size: 18px;
@@ -116,9 +145,6 @@ p {
 
 #middle-img img {
   object-position: top;
-  /* position: relative;
-  top: -1720px;
-  right: 1410px; */
 }
 
 @media screen and (min-width: 992px) {
@@ -142,6 +168,8 @@ p {
   }
 }
 
+/* ARTICLES */
+
 .main-section {
   height: 100vh;
 }
@@ -163,9 +191,10 @@ p {
   font-size: 22px;
 }
 
-#what-do-we,
-#why-do-we,
-#who-are-we {
+#art1,
+#art2,
+#art3,
+#art4 {
   max-width: 340px;
   height: 410px;
 }
@@ -183,11 +212,3 @@ p {
   text-decoration: none;
   letter-spacing: 0.1rem;
 }
-
-/* #what-do-we {
-  margin-top: 100px;
-}
-
-#why-do-we {
-  margin-top: 200px;
-} */
