@@ -34,7 +34,9 @@ p {
 }
 
 .my-nav {
-  background: rgba(89, 141, 89, 0.4);
+  padding-block: 1rem;
+  transition: all 1s ease-in-out;
+  background-color: rgba(89, 141, 89, 0.4);
 }
 
 .my-nav .nav-link {
@@ -44,6 +46,11 @@ p {
 
 .my-nav .nav-link:hover {
   color: rgb(136, 241, 136);
+}
+
+.scrolled-navbar {
+  background-color: rgba(89, 141, 89, 0.8);
+  padding-block: 0.25rem;
 }
 
 #bg-nav-hero {
@@ -61,15 +68,28 @@ p {
 }
 
 .bottom-title {
-  color: #3a6b2f;
-  text-shadow: 4px 2px 3px rgba(0, 0, 0, 0.6);
+  color: rgb(255, 115, 0);
+  text-shadow: 4px 4px 3px rgba(0, 0, 0, 0.6);
   font-size: 2.5rem;
   font-weight: bold;
+  animation: pop-up-title 3s ease-in-out;
 }
 
 .upper-title {
   font-weight: 600;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+  animation: pop-up-title 3s ease-in-out;
+}
+
+@keyframes pop-up-title {
+  0% {
+    transform: translateX(100px);
+    opacity: 0;
+  }
+  100% {
+    position: 100;
+    opacity: 1;
+  }
 }
 
 /* MAIN SECTION */

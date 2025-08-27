@@ -1,12 +1,26 @@
 import { Container, Image, Nav, Navbar } from "react-bootstrap";
 import logo from "../assets/Logo-Rifugio-Mamo.jpg";
+import { useEffect, useState } from "react";
 
 const MyNavbar = () => {
+  const [scrolling, setScrolling] = useState(false);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+  }, []);
+
+  const handleScroll = () => {
+    if (window.scrollY > 850) {
+      setScrolling(true);
+    } else {
+      setScrolling(false);
+    }
+  };
+
   return (
     // TODO - Collegare i link alle rispettive pagine una volta create.
-    // TODO - Rendere la NavBar Sticky
     <>
-      <Navbar expand="lg" className="py-3 my-nav">
+      <Navbar expand="lg" className={`my-nav fixed-top ${scrolling ? "scrolled-navbar" : ""}`}>
         <Container>
           <Image src={logo} className="logo d-lg-none m-auto" />
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
