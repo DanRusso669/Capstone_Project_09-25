@@ -132,7 +132,8 @@ p {
   font-weight: 800;
 }
 
-.who-are-we p {
+.who-are-we p,
+.information {
   font-family: "Yrsa", serif;
   font-weight: 400;
   font-size: 18px;
@@ -215,4 +216,19 @@ p {
 
 .news-subtitle {
   border-bottom: 1px solid #ff7300;
+}
+
+/* FOOTER */
+
+.footer {
+  min-height: 160px;
+  background-color: rgb(124, 122, 122);
+}
+.footer-logo {
+  max-width: 100px;
+  max-height: 100px;
+}
+
+.footer-links {
+  min-width: 130px;
 }
