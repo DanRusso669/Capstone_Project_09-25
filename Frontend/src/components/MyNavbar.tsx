@@ -1,10 +1,12 @@
 import { Container, Image, Nav, Navbar } from "react-bootstrap";
 import logo from "../assets/Logo-Rifugio-Mamo.jpg";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const MyNavbar = () => {
   const [scrolling, setScrolling] = useState(false);
+  const location = useLocation();
+  const isHomepage = location.pathname === "/";
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -21,7 +23,7 @@ const MyNavbar = () => {
   return (
     // TODO - Collegare i link alle rispettive pagine una volta create.
     <>
-      <Navbar expand="lg" className={`my-nav fixed-top ${scrolling ? "scrolled-navbar" : ""}`}>
+      <Navbar expand="lg" className={`my-nav ${isHomepage ? "fixed-top" : "sticky-top"} ${scrolling ? "scrolled-navbar" : ""}`}>
         <Container>
           <Image src={logo} className="logo d-lg-none m-auto" />
           <Navbar.Toggle aria-controls="basic-navbar-nav" />

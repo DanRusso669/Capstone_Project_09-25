@@ -33,8 +33,10 @@ const MainSection = () => {
       <div id="middle-img">
         <Image fluid className="object-fit-contain" src="https://images.pexels.com/photos/17867770/pexels-photo-17867770.jpeg" />
       </div>
-      <Articles subtitle={"Ultimi articoli"} />
-      <Articles subtitle={"Ultimi post sul blog"} />
+      <Container className="mb-4 d-flex flex-column justify-content-center align-items-center align-items-xxl-start">
+        <Articles subtitle={"Ultimi articoli"} />
+        <Articles subtitle={"Ultimi post sul blog"} />
+      </Container>
     </>
   );
 };

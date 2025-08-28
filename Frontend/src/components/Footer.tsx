@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <>
-      <Container fluid className="mt-4">
+      <Container fluid>
         <Row className="footer flex-column justify-content-center align-items-center">
           <Col sm={12} className="information mt-3">
             <Row className="align-items-center justify-content-center ">
