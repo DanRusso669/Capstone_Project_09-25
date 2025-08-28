@@ -13,7 +13,7 @@ const MyNavbar = () => {
   }, []);
 
   const handleScroll = () => {
-    if (window.scrollY > 850) {
+    if (window.scrollY > 50) {
       setScrolling(true);
     } else {
       setScrolling(false);
@@ -26,7 +26,7 @@ const MyNavbar = () => {
       <Navbar expand="lg" className={` ${isHomepage ? "fixed-top my-nav" : "sticky-top my-secondary-nav"} ${scrolling ? "scrolled-navbar" : ""}`}>
         <Container>
           <Link to={"/"} className="m-auto">
-            <Image src={logo} className="logo d-lg-none" />
+            <Image src={logo} className="logo d-lg-none ms-5" />
           </Link>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">

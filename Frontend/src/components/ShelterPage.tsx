@@ -3,11 +3,11 @@ import { Col, Container, Row } from "react-bootstrap";
 const ShelterPage = () => {
   return (
     <>
-      <Container fluid className="shelter-intro d-flex flex-column justify-content-center align-items-center">
-        <Row>
-          <Col xs={1} md={2} lg={3} xl={4} className="d-none d-md-block"></Col>
-          <Col xs={10} md={8} lg={6} xl={4} className="shelter-paragraph information d-flex flex-column justify-content-center align-items-center mx-5 my-4">
-            <h1 className="mt-4">Il Rifugio</h1>
+      <Container fluid className="shelter-intro navbar-height d-flex flex-column justify-content-center align-items-center">
+        <Row className="g-0 ">
+          <Col xs={1} md={2} lg={3} xl={4}></Col>
+          <Col xs={10} md={8} lg={6} xl={4} className="shelter-paragraph information d-flex flex-column justify-content-center align-items-center my-4">
+            <h1 className="titles mt-4">Il Rifugio</h1>
             <p className="text-center m-4">
               La parte di "rifugio" è la casa dei Rifugiati: <span className="fw-bold">animali salvati da situazioni di pericolo, disagio o sfruttamento</span>.{" "}
               <br /> <br />
@@ -20,7 +20,7 @@ const ShelterPage = () => {
               comunicano <span className="fw-bold">il diritto e la volontà di essere liberi e felici</span>.
             </p>
           </Col>
-          <Col xs={1} md={2} lg={3} xl={4} className="d-none d-md-block"></Col>
+          <Col xs={1} md={2} lg={3} xl={4}></Col>
         </Row>
       </Container>
     </>

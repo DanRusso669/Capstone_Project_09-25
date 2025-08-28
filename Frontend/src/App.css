@@ -26,6 +26,22 @@ p {
   margin: 0;
 }
 
+/* TITLE AND SUBTITLE */
+
+.titles {
+  color: #3a6b2f;
+  font-weight: 600;
+}
+
+.subtitles {
+  color: #3a6b2f;
+  font-style: italic;
+}
+
+.navbar-height {
+  margin-top: 110px;
+}
+
 /* NAVBAR & HERO*/
 
 .logo {
@@ -40,13 +56,16 @@ p {
 }
 
 .my-secondary-nav {
+  position: fixed;
+  width: 100%;
   padding-block: 1rem;
   transition: all 1s linear;
-  background-color: rgb(83, 161, 65, 0.8);
+  background-color: rgb(83, 161, 65, 0.5);
 }
 
 .nav-link {
   color: white;
+  text-shadow: 5px 5px 4px black;
   font-size: 18px;
 }
 
@@ -86,7 +105,7 @@ p {
 }
 
 .scrolled-navbar {
-  background-color: rgba(89, 141, 89, 0.8);
+  background-color: rgb(83, 161, 65, 0.8);
   padding-block: 0.25rem;
 }
 
@@ -269,23 +288,12 @@ p {
   background-position: center;
 }
 
-.shelter-intro h1,
-.cras-section h2 {
-  color: #3a6b2f;
-  font-weight: 600;
-}
-
 .shelter-paragraph {
   background-color: rgb(245, 245, 245, 0.7);
   border-radius: 50px;
 }
 
 /* CRAS PAGE */
-
-.cras-section h4 {
-  color: #3a6b2f;
-  font-style: italic;
-}
 
 .cras-links {
   color: #3a6b2f;
