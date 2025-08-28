@@ -3,7 +3,7 @@ import { Col, Container, Row } from "react-bootstrap";
 const ShelterPage = () => {
   return (
     <>
-      <Container fluid className="shelter-intro navbar-height d-flex flex-column justify-content-center align-items-center">
+      <Container fluid className="shelter-section navbar-height d-flex flex-column justify-content-center align-items-center">
         <Row className="g-0 ">
           <Col xs={1} md={2} lg={3} xl={4}></Col>
           <Col xs={10} md={8} lg={6} xl={4} className="shelter-paragraph information d-flex flex-column justify-content-center align-items-center my-4">

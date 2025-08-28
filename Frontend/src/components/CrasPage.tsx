@@ -1,7 +1,7 @@
 import { Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-const Cras = () => {
+const CrasPage = () => {
   return (
     <>
       <Container className="cras-section navbar-height d-flex flex-column justify-content-center align-items-start information mb-4">
@@ -12,7 +12,7 @@ const Cras = () => {
           <br /> L'obiettivo principale è restituire la libertà agli animali selvatici, dopo averli curati, riabilitati e aver verificato la loro idoneità per
           il rientro in natura.
         </p>
-        <h4 className="subtitles mt-4 mb-2 ms-sm-3 ms-md-5 fw-semibold">Come operiamo</h4>
+        <h4 className="subtitles mt-4 mb-2 ms-sm-3 ms-md-5">Come operiamo</h4>
         <p className="ms-sm-3 ms-md-5">
           Il cittadino svolge un ruolo cruciale come primo anello della catena di pronto intervento. Segnalando tempestivamente il ritrovamento di un animale
           ferito o in difficoltà al <span className="fw-bold">numero unico di emergenza 112 o al nostro numero dedicato</span>, consente ai volontari di
@@ -34,7 +34,7 @@ const Cras = () => {
           richiesto l’intervento, che permette non solo una gestione puntuale di ogni singolo paziente, ma anche di avere sempre a disposizione la situazione
           complessiva.
         </p>
-        <h4 className="subtitles mt-4 mb-2 ms-sm-3 ms-md-5 fw-semibold">Cosa fare in caso di ritrovamento di un animale</h4>
+        <h4 className="subtitles mt-4 mb-2 ms-sm-3 ms-md-5">Cosa fare in caso di ritrovamento di un animale</h4>
         <p className="ms-sm-3 ms-md-5">
           Leggi i nostri{" "}
           <Link className="cras-links" to={"/cosa-fare"}>
@@ -58,4 +58,4 @@ const Cras = () => {
   );
 };
 
-export default Cras;
+export default CrasPage;

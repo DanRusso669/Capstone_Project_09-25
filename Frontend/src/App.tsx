@@ -4,7 +4,8 @@ import Footer from "./components/Footer";
 import Homepage from "./components/Homepage";
 import ShelterPage from "./components/ShelterPage";
 import MyNavbar from "./components/MyNavbar";
-import Cras from "./components/Cras";
+import CrasPage from "./components/CrasPage";
+import VolunteeringPage from "./components/VolunteeringPage";
 
 function App() {
   return (
@@ -14,7 +15,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/il-rifugio" element={<ShelterPage />} />
-          <Route path="/cras" element={<Cras />} />
+          <Route path="/cras" element={<CrasPage />} />
+          <Route path="/volontariato" element={<VolunteeringPage />} />
         </Routes>
         <Footer />
       </BrowserRouter>

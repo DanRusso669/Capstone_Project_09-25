@@ -36,6 +36,7 @@ p {
 .subtitles {
   color: #3a6b2f;
   font-style: italic;
+  font-weight: 600;
 }
 
 .navbar-height {
@@ -280,7 +281,7 @@ p {
 
 /* SHELTER PAGE */
 
-.shelter-intro {
+.shelter-section {
   min-height: calc(100vh - 160px - 110px);
   background-image: url("https://images.pexels.com/photos/13601506/pexels-photo-13601506.jpeg");
   background-size: cover;
@@ -318,4 +319,15 @@ p {
 
 .cras-links:hover {
   font-weight: bold;
+}
+
+/* VOLUNTEERING PAGE */
+
+.volunteering-section {
+  min-height: calc(100vh - 160px - 110px);
+}
+
+.time-value {
+  background-color: rgb(255, 115, 0, 0.8);
+  border-radius: 40px;
 }
