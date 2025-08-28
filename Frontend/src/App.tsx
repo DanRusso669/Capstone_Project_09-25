@@ -4,6 +4,7 @@ import Footer from "./components/Footer";
 import Homepage from "./components/Homepage";
 import ShelterPage from "./components/ShelterPage";
 import MyNavbar from "./components/MyNavbar";
+import Cras from "./components/Cras";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/il-rifugio" element={<ShelterPage />} />
+          <Route path="/cras" element={<Cras />} />
         </Routes>
         <Footer />
       </BrowserRouter>

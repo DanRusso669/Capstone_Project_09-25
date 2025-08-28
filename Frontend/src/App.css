@@ -26,6 +26,22 @@ p {
   margin: 0;
 }
 
+/* TITLE AND SUBTITLE */
+
+.titles {
+  color: #3a6b2f;
+  font-weight: 600;
+}
+
+.subtitles {
+  color: #3a6b2f;
+  font-style: italic;
+}
+
+.navbar-height {
+  margin-top: 110px;
+}
+
 /* NAVBAR & HERO*/
 
 .logo {
@@ -35,21 +51,30 @@ p {
 
 .my-nav {
   padding-block: 1rem;
-  transition: all 1s ease-in-out;
-  background-color: rgba(89, 141, 89, 0.5);
+  transition: all 1s linear;
+  background-color: rgb(83, 161, 65, 0.5);
 }
 
-.my-nav .nav-link {
+.my-secondary-nav {
+  position: fixed;
+  width: 100%;
+  padding-block: 1rem;
+  transition: all 1s linear;
+  background-color: rgb(83, 161, 65, 0.5);
+}
+
+.nav-link {
   color: white;
+  text-shadow: 5px 5px 4px black;
   font-size: 18px;
 }
 
-.my-nav .nav-link:hover {
+.nav-link:hover {
   color: rgb(136, 241, 136);
 }
 
 @media screen and (max-width: 992px) {
-  .my-nav .navbar-collapse .nav-link {
+  .nav-link {
     opacity: 0;
     transition: opacity 1s 1s linear;
   }
@@ -67,8 +92,10 @@ p {
   opacity: 1;
 }
 
-.navbar-collapse.collapse.show .nav-link:focus {
+.nav-link:active,
+.nav-link:focus {
   outline: none;
+  color: white;
 }
 
 .navbar-toggler:focus,
@@ -78,7 +105,7 @@ p {
 }
 
 .scrolled-navbar {
-  background-color: rgba(89, 141, 89, 0.8);
+  background-color: rgb(83, 161, 65, 0.8);
   padding-block: 0.25rem;
 }
 
@@ -136,7 +163,7 @@ p {
 .information {
   font-family: "Yrsa", serif;
   font-weight: 400;
-  font-size: 18px;
+  font-size: 19px;
 }
 
 #middle-img {
@@ -222,7 +249,7 @@ p {
 
 .footer {
   min-height: 160px;
-  background-color: #53a141;
+  background-color: rgb(83, 161, 65);
 }
 .footer-logo {
   max-width: 100px;
@@ -249,4 +276,46 @@ p {
 
 .footer-links:hover::after {
   width: 100%;
+}
+
+/* SHELTER PAGE */
+
+.shelter-intro {
+  min-height: calc(100vh - 160px - 110px);
+  background-image: url("https://images.pexels.com/photos/13601506/pexels-photo-13601506.jpeg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.shelter-paragraph {
+  background-color: rgb(245, 245, 245, 0.7);
+  border-radius: 50px;
+}
+
+/* CRAS PAGE */
+
+.cras-links {
+  color: #3a6b2f;
+  text-decoration: none;
+  position: relative;
+}
+
+.cras-links::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #3a6b2f;
+  transition: width 0.7s linear;
+}
+
+.cras-links:hover::after {
+  width: 100%;
+}
+
+.cras-links:hover {
+  font-weight: bold;
 }
