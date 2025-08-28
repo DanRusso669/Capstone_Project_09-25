@@ -23,9 +23,11 @@ const MyNavbar = () => {
   return (
     // TODO - Collegare i link alle rispettive pagine una volta create.
     <>
-      <Navbar expand="lg" className={`my-nav ${isHomepage ? "fixed-top" : "sticky-top"} ${scrolling ? "scrolled-navbar" : ""}`}>
+      <Navbar expand="lg" className={` ${isHomepage ? "fixed-top my-nav" : "sticky-top my-secondary-nav"} ${scrolling ? "scrolled-navbar" : ""}`}>
         <Container>
-          <Image src={logo} className="logo d-lg-none m-auto" />
+          <Link to={"/"} className="m-auto">
+            <Image src={logo} className="logo d-lg-none" />
+          </Link>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
