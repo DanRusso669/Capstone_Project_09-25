@@ -15,7 +15,7 @@ const VolunteeringPage = () => {
           vissuta, liberi di impegnare il proprio tempo come meglio credono, ma sicuri di mantenere l'impegno nonostante la stanchezza e momenti di difficoltà
           emotiva e/o fisica.
         </p>
-        <h4 className="subtitles mt-2 mb-2 ms-sm-3 ms-md-5">Il volontariato è consapevolezza e responsabilità</h4>
+        <h4 className="subtitles my-2 ms-sm-3 ms-md-5">Il volontariato è consapevolezza e responsabilità</h4>
         <p className="ms-sm-3 ms-md-5">
           L’emozione, l’amore, la buona volontà… servono tutti, ma non basta:{" "}
           <span className="fw-bold">il volontariato è un dono che si basa sulla consapevolezza, sulla serietà e sulla preparazione.</span>

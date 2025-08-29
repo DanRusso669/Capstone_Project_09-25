@@ -328,7 +328,8 @@ p {
   max-width: 680px;
 }
 
-.month-donation-btn {
+.month-donation-btn,
+.monthly-form-btn {
   text-decoration: none;
   color: white;
   background-color: #3a6b2f;
@@ -337,7 +338,12 @@ p {
   border-radius: 20px;
 }
 
-.month-donation-btn:hover {
+.monthly-form-btn {
+  font-size: 20px;
+}
+
+.month-donation-btn:hover,
+.monthly-form-btn:hover {
   background-color: white;
   color: #3a6b2f;
   font-weight: bold;
