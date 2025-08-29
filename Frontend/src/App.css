@@ -321,6 +321,36 @@ p {
   font-weight: bold;
 }
 
+/* DONATION PAGE */
+
+.donation-section {
+  /* min-height: calc(100vh - 160px - 110px); */
+  max-width: 680px;
+}
+
+.month-donation-btn {
+  text-decoration: none;
+  color: white;
+  background-color: #3a6b2f;
+  padding-inline: 1rem;
+  padding-block: 0.7rem;
+  border-radius: 20px;
+}
+
+.iban {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-size: 19px;
+}
+
+.donation-methods {
+  background-color: #ccf3a4;
+  padding-inline: 1rem;
+  padding-block: 1rem;
+  max-width: 750px;
+  border-radius: 20px;
+}
+
 /* VOLUNTEERING PAGE */
 
 .volunteering-section {
