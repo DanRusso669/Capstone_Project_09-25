@@ -39,11 +39,16 @@ const DonationPage = () => {
           <span className="fw-bold">una donazione mensile</span> secondo le tue possibilità. In questo modo contribuisci a garantire un futuro certo a tutti gli
           animali che vivono al rifugio.
         </p>
-        <div className="w-100 d-flex justify-content-center align-items-start">
+        <div className="w-100 d-flex justify-content-center align-items-start mb-4">
           <Link to={"/donazione-mensile"} className="month-donation-btn">
             Sostieni il rifugio
           </Link>
         </div>
+        <p>
+          <span className="fw-bold">* Per alcune persone potrebbe essere importante sapere che</span> attualmente le donazioni effettuate attraverso{" "}
+          <span className="fw-bold">Satispay</span> non possono essere inserite nella dichiarazione dei redditi perché ci arrivano in modo “anonimo”, non
+          possiamo quindi associarle ad una persona.
+        </p>
       </Container>
     </>
   );

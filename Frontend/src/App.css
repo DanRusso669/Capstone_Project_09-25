@@ -333,8 +333,15 @@ p {
   color: white;
   background-color: #3a6b2f;
   padding-inline: 1rem;
-  padding-block: 0.7rem;
+  padding-block: 0.8rem;
   border-radius: 20px;
+}
+
+.month-donation-btn:hover {
+  background-color: white;
+  color: #3a6b2f;
+  font-weight: bold;
+  border: 2px solid #3a6b2f;
 }
 
 .iban {
