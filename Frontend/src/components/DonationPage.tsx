@@ -1,5 +1,6 @@
 import { Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import ImageSlide from "./ImageSlide";
 
 const DonationPage = () => {
   return (
@@ -17,11 +18,17 @@ const DonationPage = () => {
           <span className="fw-bold">Senza donazioni, Rifugio Mamo non potrebbe esistere.</span>
         </p>
       </Container>
-      <div className="donation-methods text-center mx-2 mx-md-auto mb-3">
+      <div className="donation-methods text-center mx-2 mx-md-auto mb-5">
         <p>
-          Puoi donare con <Link to={"https://www.paypal.com/paypalme/rifugiomiletta"}>PayPal</Link>,{" "}
-          <Link to={"https://web.satispay.com/download/qrcode/S6Y-SHP--8A154D79-0A86-4C4B-896B-FEF685293982"}>Satispay</Link> o con bonifico{" "}
-          <span className="fw-bold">IBAN</span> :
+          Puoi donare con{" "}
+          <Link to={"https://www.paypal.com/paypalme/rifugiomiletta"} target="_blank">
+            PayPal
+          </Link>
+          ,{" "}
+          <Link to={"https://web.satispay.com/download/qrcode/S6Y-SHP--8A154D79-0A86-4C4B-896B-FEF685293982"} target="_blank">
+            Satispay
+          </Link>{" "}
+          o con bonifico <span className="fw-bold">IBAN</span> :
         </p>
         <p className="iban my-2">IT22R1234567800000067898765</p>
         <p>
@@ -30,6 +37,11 @@ const DonationPage = () => {
           Le donazioni possono essere detratte nella dichiarazione dei redditi (ad esclusione di quelle effettuate con Satispay*)
         </p>
       </div>
+      <ImageSlide
+        firstImg="https://www.rifugiomiletta.org/wp-content/uploads/2017/09/rifugio-miletta-20170128-173956-_K2A0284.jpg"
+        secondImg="https://www.rifugiomiletta.org/wp-content/uploads/2017/09/rifugio-miletta-20160605-134141-_K2A6074.jpg"
+        thirdImg="https://images.pexels.com/photos/19080424/pexels-photo-19080424.jpeg"
+      />
       <Container className="donation-section information d-flex flex-column justify-content-start align-items-start mb-4">
         <h4 className="subtitles my-2">Diventa sostenitore</h4>
         <p className="mb-4">
