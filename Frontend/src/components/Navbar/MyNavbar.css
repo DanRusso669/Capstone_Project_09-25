@@ -21,30 +21,12 @@
   color: white;
   text-shadow: 5px 5px 4px black;
   font-size: 18px;
+  font-weight: 500;
 }
 
 .nav-link:hover {
   color: rgb(136, 241, 136);
 }
-
-/* @media screen and (max-width: 992px) {
-  .nav-link {
-    opacity: 0;
-    transition: opacity 1s 1s linear;
-  }
-} */
-
-/* .navbar-collapse {
-  transition: height 0.8s linear;
-}
-
-.navbar-collapse.collapse.show {
-  height: 340px;
-}
-
-.navbar-collapse.collapse.show .nav-link {
-  opacity: 1;
-} */
 
 .nav-link:active,
 .nav-link:focus {
@@ -61,4 +43,19 @@
 .scrolled-navbar {
   background-color: rgb(83, 161, 65, 0.8);
   padding-block: 0.25rem;
+}
+
+.offcanvas.offcanvas-end {
+  background-color: #faf3dd;
+  width: 280px;
+}
+
+.offcanvas .nav-link {
+  color: #333;
+  font-weight: 500;
+  text-shadow: none;
+}
+
+.offcanvas .nav-link:hover {
+  color: #3a6b2f;
 }

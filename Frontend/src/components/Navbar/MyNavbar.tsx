@@ -70,10 +70,10 @@ const MyNavbar = () => {
         </Container>
       </Navbar>
 
-      <Offcanvas show={showOffcanvas} onHide={handleClose} placement="end">
+      <Offcanvas show={showOffcanvas} onHide={handleClose} scroll={true} placement="end">
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>
-            <Image src={logo} alt="logo" height="40" />
+            <Image src={logo} alt="logo" className="logo" />
           </Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
