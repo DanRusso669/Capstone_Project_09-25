@@ -1,15 +1,15 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Footer from "./components/Footer/Footer";
-import Homepage from "./components/Homepage";
-import ShelterPage from "./components/ShelterPage";
+import Homepage from "./components/Homepage/Homepage";
+import ShelterPage from "./components/Shelter/ShelterPage";
 import MyNavbar from "./components/Navbar/MyNavbar";
-import CrasPage from "./components/CrasPage";
-import VolunteeringPage from "./components/VolunteeringPage";
-import DonationPage from "./components/DonationPage";
-import MonthlyDonationPage from "./components/MonthlyDonationPage";
+import CrasPage from "./components/CRAS/CrasPage";
+import VolunteeringPage from "./components/Volunteering/VolunteeringPage";
+import DonationPage from "./components/Donation/DonationPage";
+import MonthlyDonationPage from "./components/Donation/MonthlyDonationPage";
 import ScrollToTop from "./components/ScrollToTop";
-import VisitPage from "./components/VisitPage";
+import VisitPage from "./components/Visit/VisitPage";
 
 function App() {
   return (

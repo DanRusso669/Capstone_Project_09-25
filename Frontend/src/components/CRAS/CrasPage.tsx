@@ -1,5 +1,6 @@
 import { Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import "./Cras.css";
 
 const CrasPage = () => {
   return (

@@ -1,4 +1,5 @@
 import { Container } from "react-bootstrap";
+import "./Volunteering.css";
 
 const VolunteeringPage = () => {
   return (

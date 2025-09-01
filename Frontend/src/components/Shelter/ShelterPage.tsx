@@ -1,4 +1,5 @@
 import { Col, Container, Row } from "react-bootstrap";
+import "./Shelter.css";
 
 const ShelterPage = () => {
   return (

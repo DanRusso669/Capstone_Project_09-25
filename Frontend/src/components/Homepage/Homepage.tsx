@@ -1,5 +1,5 @@
-import Hero from "./Homepage/Hero";
-import MainSection from "./Homepage/MainSection";
+import Hero from "./Hero";
+import MainSection from "./MainSection";
 
 const Homepage = () => {
   return (

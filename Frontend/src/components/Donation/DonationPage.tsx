@@ -1,6 +1,7 @@
 import { Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import ImageSlide from "./ImageSlide";
+import ImageSlide from "../ImageSlide";
+import "./Donation.css";
 
 const DonationPage = () => {
   return (
