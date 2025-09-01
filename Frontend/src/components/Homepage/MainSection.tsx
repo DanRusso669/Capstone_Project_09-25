@@ -1,6 +1,6 @@
 import { Col, Container, Image, Row } from "react-bootstrap";
 import Articles from "./Articles";
-import "./Homepage.css";
+import "./homepage.css";
 
 const MainSection = () => {
   return (

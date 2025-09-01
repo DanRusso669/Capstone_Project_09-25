@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Hero from "./Hero";
 import MainSection from "./MainSection";
+import "./homepage.css";
 
 const Homepage = () => {
   const [scrolling, setScrolling] = useState(false);

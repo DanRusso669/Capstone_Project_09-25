@@ -1,6 +1,7 @@
 .footer {
   min-height: 160px;
-  background-color: rgb(83, 161, 65);
+  background-color: rgb(83, 161, 65, 0.8);
+  color: #212529;
 }
 .footer-logo {
   max-width: 100px;
@@ -21,7 +22,7 @@
   left: 0;
   width: 0;
   height: 2px;
-  background-color: #3a6b2f;
+  background-color: #212529;
   transition: width 0.7s linear;
 }
 
