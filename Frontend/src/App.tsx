@@ -9,6 +9,7 @@ import VolunteeringPage from "./components/VolunteeringPage";
 import DonationPage from "./components/DonationPage";
 import MonthlyDonationPage from "./components/MonthlyDonationPage";
 import ScrollToTop from "./components/ScrollToTop";
+import VisitPage from "./components/VisitPage";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/donazioni" element={<DonationPage />} />
           <Route path="/donazione-mensile" element={<MonthlyDonationPage />} />
           <Route path="/volontariato" element={<VolunteeringPage />} />
+          <Route path="/visite" element={<VisitPage />} />
         </Routes>
         <Footer />
       </BrowserRouter>

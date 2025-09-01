@@ -7,6 +7,7 @@
 }
 
 body {
+  background-color: #faf3dd;
   box-sizing: border-box;
   font-family: "Roboto", sans-serif;
   font-optical-sizing: auto;
@@ -126,6 +127,7 @@ p {
 
 .bottom-title {
   color: rgb(255, 115, 0);
+  /* color: #ff634b; */
   text-shadow: 4px 4px 3px rgba(0, 0, 0, 0.6);
   font-size: 2.5rem;
   font-weight: bold;
@@ -296,13 +298,16 @@ p {
 
 /* CRAS PAGE */
 
-.cras-links {
+.cras-links,
+.calendar {
   color: #3a6b2f;
   text-decoration: none;
   position: relative;
+  font-weight: bold;
 }
 
-.cras-links::after {
+.cras-links::after,
+.calendar::after {
   content: "";
   position: absolute;
   bottom: 0;
@@ -313,7 +318,8 @@ p {
   transition: width 0.7s linear;
 }
 
-.cras-links:hover::after {
+.cras-links:hover::after,
+.calendar:hover::after {
   width: 100%;
 }
 
@@ -332,7 +338,7 @@ p {
 .monthly-form-btn {
   text-decoration: none;
   color: white;
-  background-color: #3a6b2f;
+  background-color: rgb(58, 107, 47);
   padding-inline: 1rem;
   padding-block: 0.8rem;
   border-radius: 20px;
