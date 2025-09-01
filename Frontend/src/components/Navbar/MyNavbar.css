@@ -59,3 +59,7 @@
 .offcanvas .nav-link:hover {
   color: #3a6b2f;
 }
+
+.offcanvas-end {
+  transition: all 1s linear;
+}

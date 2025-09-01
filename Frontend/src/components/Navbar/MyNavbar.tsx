@@ -14,6 +14,16 @@ const MyNavbar = () => {
     window.addEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 992 && showOffcanvas) {
+        setShowOffcanvas(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+  }, [showOffcanvas]);
+
   const handleScroll = () => {
     if (window.scrollY > 50) {
       setScrolling(true);
@@ -66,6 +76,9 @@ const MyNavbar = () => {
             <Link to={"/visite"} className="nav-link">
               Visite
             </Link>
+            <Link to={"/sign-in"} className="nav-link" onClick={handleClose}>
+              Accedi
+            </Link>
           </Nav>
         </Container>
       </Navbar>
@@ -78,31 +91,31 @@ const MyNavbar = () => {
         </Offcanvas.Header>
         <Offcanvas.Body>
           <Nav className="flex-column">
-            <Link to="/il-rifugio" className="nav-link" onClick={handleClose}>
+            <Link to={"/il-rifugio"} className="nav-link" onClick={handleClose}>
               Il Rifugio
             </Link>
-            <Link to="/cras" className="nav-link" onClick={handleClose}>
+            <Link to={"/cras"} className="nav-link" onClick={handleClose}>
               Il C.R.A.S.
             </Link>
-            <Link to="/news" className="nav-link" onClick={handleClose}>
+            <Link to={"/news"} className="nav-link" onClick={handleClose}>
               News
             </Link>
-            <Link to="/blog" className="nav-link" onClick={handleClose}>
+            <Link to={"/blog"} className="nav-link" onClick={handleClose}>
               Blog
             </Link>
-            <Link to="/faq" className="nav-link" onClick={handleClose}>
+            <Link to={"/faq"} className="nav-link" onClick={handleClose}>
               FAQ
             </Link>
-            <Link to="/donazioni" className="nav-link" onClick={handleClose}>
+            <Link to={"/donazioni"} className="nav-link" onClick={handleClose}>
               Donazioni
             </Link>
-            <Link to="/volontariato" className="nav-link" onClick={handleClose}>
+            <Link to={"/volontariato"} className="nav-link" onClick={handleClose}>
               Volontariato
             </Link>
-            <Link to="/visite" className="nav-link" onClick={handleClose}>
+            <Link to={"/visite"} className="nav-link" onClick={handleClose}>
               Visite
             </Link>
-            <Link to="/sign-in" className="nav-link" onClick={handleClose}>
+            <Link to={"/sign-in"} className="nav-link" onClick={handleClose}>
               Accedi
             </Link>
           </Nav>
