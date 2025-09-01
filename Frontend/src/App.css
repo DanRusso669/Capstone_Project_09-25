@@ -321,6 +321,59 @@ p {
   font-weight: bold;
 }
 
+/* DONATION PAGE */
+
+.donation-section {
+  /* min-height: calc(100vh - 160px - 110px); */
+  max-width: 680px;
+}
+
+.month-donation-btn,
+.monthly-form-btn {
+  text-decoration: none;
+  color: white;
+  background-color: #3a6b2f;
+  padding-inline: 1rem;
+  padding-block: 0.8rem;
+  border-radius: 20px;
+}
+
+.monthly-form-btn {
+  font-size: 20px;
+}
+
+.month-donation-btn:hover,
+.monthly-form-btn:hover {
+  background-color: white;
+  color: #3a6b2f;
+  font-weight: bold;
+  border: 2px solid #3a6b2f;
+}
+
+.iban {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-size: 19px;
+}
+
+.donation-methods {
+  background-color: #ccf3a4;
+  padding-inline: 1rem;
+  padding-block: 1rem;
+  max-width: 750px;
+  border-radius: 20px;
+}
+
+/* MONTHLY DONATION PAGE */
+
+.monthly-donation-incipit {
+  background-color: #ccf3a4;
+  padding-inline: 1rem;
+  padding-block: 1rem;
+  max-width: 1000px;
+  border-radius: 20px;
+}
+
 /* VOLUNTEERING PAGE */
 
 .volunteering-section {
@@ -328,6 +381,7 @@ p {
 }
 
 .time-value {
-  background-color: rgb(255, 115, 0, 0.8);
+  /* background-color: rgb(255, 115, 0, 0.8); */
+  background-color: rgb(204, 243, 164);
   border-radius: 40px;
 }

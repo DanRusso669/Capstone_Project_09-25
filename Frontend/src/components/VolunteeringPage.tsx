@@ -4,9 +4,9 @@ const VolunteeringPage = () => {
   return (
     <>
       <Container className="volunteering-section navbar-height d-flex flex-column justify-content-center align-items-start information mb-4">
-        <h1 className="titles mx-auto mb-2 mt-4 text-center">Volontariato</h1>
+        <h1 className="titles mx-auto mb-2 mt-4">Volontariato</h1>
         <p className="fw-bold mx-auto text-center">Il tempo è il dono più prezioso che puoi donare agli animali e più siamo, più animali possiamo aiutare.</p>
-        <p className="time-value ms-sm-3 ms-md-5 my-4 px-4 py-3">
+        <p className="time-value ms-sm-3 ms-md-5 my-4 ps-4 pe-3 py-3">
           Prima di tutto grazie di aver anche solo provato interesse nell'informati come funziona il volontariato. <br />
           <span className="fw-bold">Il Rifugio non si ferma mai</span>: per noi non esistono ferie, vacanze, pioggia, caldo o freddo. La vita al rifugio è 365
           giorni su 365 all'anno, soprattutto a causa delle continue emergenze ed eventi straordinari. Siamo qui per regalare una nuova vita serena agli animali
@@ -15,10 +15,10 @@ const VolunteeringPage = () => {
           vissuta, liberi di impegnare il proprio tempo come meglio credono, ma sicuri di mantenere l'impegno nonostante la stanchezza e momenti di difficoltà
           emotiva e/o fisica.
         </p>
-        <h4 className="subtitles mt-2 mb-2 ms-sm-3 ms-md-5">Il volontariato è consapevolezza e responsabilità</h4>
+        <h4 className="subtitles my-2 ms-sm-3 ms-md-5">Il volontariato è consapevolezza e responsabilità</h4>
         <p className="ms-sm-3 ms-md-5">
-          L’emozione, l’amore, la buona volontà… servono tutti, ma non basta: il volontariato è un dono che si basa sulla consapevolezza, sulla serietà e sulla
-          preparazione.
+          L’emozione, l’amore, la buona volontà… servono tutti, ma non basta:{" "}
+          <span className="fw-bold">il volontariato è un dono che si basa sulla consapevolezza, sulla serietà e sulla preparazione.</span>
           <br />
           Il fatto che sia privo di compenso non lo rende automaticamente un impegno da prendere alla leggera; significa rendersi disponibili ad imparare da chi
           ha più esperienza e darsi da fare per qualcuno che ha bisogno di noi seguendo sempre i loro tempi.
@@ -36,6 +36,10 @@ const VolunteeringPage = () => {
           <li>Breve spiegazione di come potresti migliorare l'esperienza al rifugio;</li>
           <li>Residenza - per capire la tua tempistica per raggiungere il rifugio;</li>
         </ul>
+        <p className="ms-sm-3 ms-md-5">
+          Se questa prima parte dovesse avere esito positivo, ti contatteremo per organizzare un incontro direttamente qui al rifugio, per conoscere meglio te e
+          per farti conoscere meglio l'ambiente con cui avrai a che fare.
+        </p>
       </Container>
     </>
   );

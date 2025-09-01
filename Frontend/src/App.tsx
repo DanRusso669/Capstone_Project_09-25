@@ -6,6 +6,8 @@ import ShelterPage from "./components/ShelterPage";
 import MyNavbar from "./components/MyNavbar";
 import CrasPage from "./components/CrasPage";
 import VolunteeringPage from "./components/VolunteeringPage";
+import DonationPage from "./components/DonationPage";
+import MonthlyDonationPage from "./components/MonthlyDonationPage";
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
           <Route path="/" element={<Homepage />} />
           <Route path="/il-rifugio" element={<ShelterPage />} />
           <Route path="/cras" element={<CrasPage />} />
+          <Route path="/donazioni" element={<DonationPage />} />
+          <Route path="/donazione-mensile" element={<MonthlyDonationPage />} />
           <Route path="/volontariato" element={<VolunteeringPage />} />
         </Routes>
         <Footer />
