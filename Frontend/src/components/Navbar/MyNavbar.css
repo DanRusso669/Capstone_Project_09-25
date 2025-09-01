@@ -27,14 +27,14 @@
   color: rgb(136, 241, 136);
 }
 
-@media screen and (max-width: 992px) {
+/* @media screen and (max-width: 992px) {
   .nav-link {
     opacity: 0;
     transition: opacity 1s 1s linear;
   }
-}
+} */
 
-.navbar-collapse {
+/* .navbar-collapse {
   transition: height 0.8s linear;
 }
 
@@ -44,7 +44,7 @@
 
 .navbar-collapse.collapse.show .nav-link {
   opacity: 1;
-}
+} */
 
 .nav-link:active,
 .nav-link:focus {
