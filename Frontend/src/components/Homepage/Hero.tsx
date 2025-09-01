@@ -1,4 +1,4 @@
-import "./Homepage.css";
+import "./homepage.css";
 
 const Hero = () => {
   return (

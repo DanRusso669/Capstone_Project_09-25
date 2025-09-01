@@ -6,7 +6,7 @@
 .my-nav {
   padding-block: 1rem;
   transition: all 1s linear;
-  background-color: rgb(83, 161, 65, 0.5);
+  background-color: rgb(83, 161, 65, 0.7);
 }
 
 .my-secondary-nav {
@@ -14,7 +14,7 @@
   width: 100%;
   padding-block: 1rem;
   transition: all 1s linear;
-  background-color: rgb(83, 161, 65, 0.5);
+  background-color: rgb(83, 161, 65, 0.8);
 }
 
 .nav-link {
@@ -41,7 +41,6 @@
 }
 
 .scrolled-navbar {
-  background-color: rgb(83, 161, 65, 0.8);
   padding-block: 0.25rem;
 }
 

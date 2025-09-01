@@ -1,5 +1,6 @@
 import { Container } from "react-bootstrap";
-import DonationForm from "./DonationForm";
+import RegisterForm from "../LoginAndRegister/RegisterForm";
+import "./donation.css";
 
 const MonthlyDonationPage = () => {
   return (
@@ -20,10 +21,11 @@ const MonthlyDonationPage = () => {
         </div>
         <h2 className="subtitles mx-auto mb-2">Unisciti ad altri sostenitori</h2>
         <p className="mb-3">
-          Compila il seguente form per essere inserito tra i nostri sostenitori e ricordati che <span className="fw-bold">è obbligatorio essere iscritti</span>{" "}
-          prima di poter continuare con la donazione mensile.
+          Compila il seguente form per essere inserito tra i nostri sostenitori e ricordati che{" "}
+          <span className="fw-bold">è obbligatorio essere registrati</span> prima di poter continuare con la donazione mensile.
         </p>
-        <DonationForm />
+        {/* TODO - Form da cambiare, i dati vengono presi direttamente quando l'utente effettua il login */}
+        <RegisterForm />
       </Container>
     </>
   );

@@ -2,7 +2,7 @@ import { Button, Container, Image, Nav, Navbar, Offcanvas } from "react-bootstra
 import logo from "../../assets/Logo-Rifugio-Mamo.jpg";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import "./MyNavbar.css";
+import "./myNavbar.css";
 
 const MyNavbar = () => {
   const [scrolling, setScrolling] = useState(false);
@@ -76,7 +76,7 @@ const MyNavbar = () => {
             <Link to={"/visite"} className="nav-link">
               Visite
             </Link>
-            <Link to={"/sign-in"} className="nav-link" onClick={handleClose}>
+            <Link to={"/accedi"} className="nav-link" onClick={handleClose}>
               Accedi
             </Link>
           </Nav>
@@ -115,7 +115,7 @@ const MyNavbar = () => {
             <Link to={"/visite"} className="nav-link" onClick={handleClose}>
               Visite
             </Link>
-            <Link to={"/sign-in"} className="nav-link" onClick={handleClose}>
+            <Link to={"/accedi"} className="nav-link" onClick={handleClose}>
               Accedi
             </Link>
           </Nav>
