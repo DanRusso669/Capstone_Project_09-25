@@ -8,11 +8,13 @@ import CrasPage from "./components/CrasPage";
 import VolunteeringPage from "./components/VolunteeringPage";
 import DonationPage from "./components/DonationPage";
 import MonthlyDonationPage from "./components/MonthlyDonationPage";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   return (
     <>
       <BrowserRouter>
+        <ScrollToTop />
         <MyNavbar />
         <Routes>
           <Route path="/" element={<Homepage />} />
