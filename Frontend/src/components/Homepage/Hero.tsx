@@ -1,3 +1,5 @@
+import "./Homepage.css";
+
 const Hero = () => {
   return (
     <>

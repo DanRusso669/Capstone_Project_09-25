@@ -1,4 +1,5 @@
 import { Button, Card, Col, Row } from "react-bootstrap";
+import "./Homepage.css";
 
 interface TitleProps {
   subtitle: string;

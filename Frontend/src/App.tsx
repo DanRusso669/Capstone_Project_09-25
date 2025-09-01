@@ -1,9 +1,9 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import Footer from "./components/Footer";
+import Footer from "./components/Footer/Footer";
 import Homepage from "./components/Homepage";
 import ShelterPage from "./components/ShelterPage";
-import MyNavbar from "./components/MyNavbar";
+import MyNavbar from "./components/Navbar/MyNavbar";
 import CrasPage from "./components/CrasPage";
 import VolunteeringPage from "./components/VolunteeringPage";
 import DonationPage from "./components/DonationPage";

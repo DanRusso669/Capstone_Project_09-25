@@ -1,0 +1,64 @@
+.logo {
+  max-width: 120px;
+  max-height: 100px;
+}
+
+.my-nav {
+  padding-block: 1rem;
+  transition: all 1s linear;
+  background-color: rgb(83, 161, 65, 0.5);
+}
+
+.my-secondary-nav {
+  position: fixed;
+  width: 100%;
+  padding-block: 1rem;
+  transition: all 1s linear;
+  background-color: rgb(83, 161, 65, 0.5);
+}
+
+.nav-link {
+  color: white;
+  text-shadow: 5px 5px 4px black;
+  font-size: 18px;
+}
+
+.nav-link:hover {
+  color: rgb(136, 241, 136);
+}
+
+@media screen and (max-width: 992px) {
+  .nav-link {
+    opacity: 0;
+    transition: opacity 1s 1s linear;
+  }
+}
+
+.navbar-collapse {
+  transition: height 0.8s linear;
+}
+
+.navbar-collapse.collapse.show {
+  height: 340px;
+}
+
+.navbar-collapse.collapse.show .nav-link {
+  opacity: 1;
+}
+
+.nav-link:active,
+.nav-link:focus {
+  outline: none;
+  color: white;
+}
+
+.navbar-toggler:focus,
+.navbar-toggler:active {
+  outline: none;
+  box-shadow: none;
+}
+
+.scrolled-navbar {
+  background-color: rgb(83, 161, 65, 0.8);
+  padding-block: 0.25rem;
+}
