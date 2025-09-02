@@ -66,7 +66,7 @@ public class UserService {
         return this.userRepository.save(newUser);
     }
 
-    public User findByIdAndUpdate(NewUserDTO payload, Long userId){
+    public User findByIdAndUpdate(NewUserDTO payload, long userId){
         User found = this.findById(userId);
 
         if (!found.getEmail().equals(payload.email())){
@@ -77,8 +77,14 @@ public class UserService {
         found.setSurname(payload.surname());
         found.setEmail(payload.email());
         found.setPassword(bcrypt.encode(payload.password()));
+        found.setPhoneNumber(payload.phoneNumber());
 
         return this.userRepository.save(found);
+    }
+
+    public void findByIdAndDelete(long userId){
+        User found = this.findById(userId);
+        this.userRepository.delete(found);
     }
 
 }
