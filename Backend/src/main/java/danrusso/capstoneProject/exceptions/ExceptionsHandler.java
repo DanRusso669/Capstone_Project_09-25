@@ -3,6 +3,7 @@ package danrusso.capstoneProject.exceptions;
 import danrusso.capstoneProject.payloads.ErrorsDTO;
 import danrusso.capstoneProject.payloads.ErrorsWithListDTO;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -28,6 +29,12 @@ public class ExceptionsHandler {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ErrorsDTO handleUnauthorized(UnauthorizedException ex) {
         return new ErrorsDTO(ex.getMessage(), LocalDateTime.now());
+    }
+
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ErrorsDTO handleForbidden(AuthorizationDeniedException ex) {
+        return new ErrorsDTO("Non hai il permesso di eseguire questa azione.", LocalDateTime.now());
     }
 
     @ExceptionHandler(ValidationException.class)
