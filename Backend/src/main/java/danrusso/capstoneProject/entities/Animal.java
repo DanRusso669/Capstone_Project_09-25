@@ -27,10 +27,14 @@ public class Animal {
     private LocalDate releaseDate;
     @Column(name = "is_adoptable")
     private boolean isAdoptable;
+    @ManyToOne
     private City city;
+    @ManyToOne
     private Province province;
+    @ManyToOne
     private Region region;
-    @Column(name = "found_by")
+    @JoinColumn(name = "found_by")
+    @ManyToOne
     private User foundBy;
     @Column(name = "death_date")
     private LocalDate deathDate;

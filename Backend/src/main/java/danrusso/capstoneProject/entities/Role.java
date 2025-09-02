@@ -2,6 +2,8 @@ package danrusso.capstoneProject.entities;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "roles")
 public class Role {
@@ -10,6 +12,8 @@ public class Role {
     private long id;
     @Column(name = "role")
     private String roleDef;
+    @ManyToMany(mappedBy = "roles")
+    private List<User> users;
 
     public Role() {
     }
