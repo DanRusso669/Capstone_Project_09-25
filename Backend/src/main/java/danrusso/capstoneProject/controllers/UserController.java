@@ -2,6 +2,7 @@ package danrusso.capstoneProject.controllers;
 
 import danrusso.capstoneProject.entities.User;
 import danrusso.capstoneProject.payloads.NewUserDTO;
+import danrusso.capstoneProject.payloads.RoleAssignRespDTO;
 import danrusso.capstoneProject.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -38,6 +39,13 @@ public class UserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUserById (@PathVariable long userId){
         this.userService.findByIdAndDelete(userId);
+    }
+
+    @PatchMapping("/{userId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public RoleAssignRespDTO assignAdminRoleById(@PathVariable long userId, @AuthenticationPrincipal User currentAuthenticatedUser, @RequestParam(defaultValue = "add") String action){
+        String result = this.userService.assignOrRemoveRoleById(userId, currentAuthenticatedUser, action);
+        return new RoleAssignRespDTO(result);
     }
 
     @GetMapping("/me")

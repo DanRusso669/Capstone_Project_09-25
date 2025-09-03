@@ -3,6 +3,7 @@ package danrusso.capstoneProject.services;
 import danrusso.capstoneProject.entities.Role;
 import danrusso.capstoneProject.entities.User;
 import danrusso.capstoneProject.exceptions.BadRequestException;
+import danrusso.capstoneProject.exceptions.ForbiddenException;
 import danrusso.capstoneProject.exceptions.NotFoundException;
 import danrusso.capstoneProject.exceptions.ValidationException;
 import danrusso.capstoneProject.payloads.NewUserDTO;
@@ -85,6 +86,33 @@ public class UserService {
     public void findByIdAndDelete(long userId){
         User found = this.findById(userId);
         this.userRepository.delete(found);
+    }
+
+    public String assignOrRemoveRoleById(long userId, User currentUser, String action){
+        if (currentUser.getId() == userId) throw new ForbiddenException("Non puoi modificare i tuoi stessi ruoli.");
+        User found = this.findById(userId);
+
+        found.getRoles().forEach(role -> {
+            if (role.getRoleDef().equals("ADMIN") && action.equalsIgnoreCase("add")) throw new BadRequestException("Impossibile aggiungere il ruolo ADMIN: questo utente possiede già questo ruolo.");
+            else if (action.equalsIgnoreCase("remove")) {
+                boolean isAdmin = found.getRoles().stream().anyMatch(r -> r.getRoleDef().equalsIgnoreCase("ADMIN"));
+                if (!isAdmin) throw new BadRequestException("Impossibile rimuovere il ruolo ADMIN: l'utente non possiede questo ruolo.");
+            }
+        });
+        Role adminRole = this.roleRepository.findByRoleDef("ADMIN").orElseThrow(() -> new NotFoundException("Ruolo ADMIN non trovato."));
+        switch (action.toLowerCase()){
+            case "add" -> {
+                found.getRoles().add(adminRole);
+                this.userRepository.save(found);
+                return "Ruolo aggiunto con successo: " + found.getName() + " " + found.getSurname() + " è diventato un admin.";
+            }
+            case "remove" -> {
+                found.getRoles().remove(adminRole);
+                this.userRepository.save(found);
+                return "Ruolo rimosso con successo: " + found.getName() + " " + found.getSurname() + " non è più un admin.";
+            }
+            default -> throw new BadRequestException("Azione non valida.");
+        }
     }
 
 }

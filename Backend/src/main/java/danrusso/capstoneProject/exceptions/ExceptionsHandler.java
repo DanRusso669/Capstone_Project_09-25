@@ -26,6 +26,12 @@ public class ExceptionsHandler {
         return new ErrorsDTO("C'è qualche errore nella richiesta. Controlla eventuali errori.", LocalDateTime.now());
     }
 
+    @ExceptionHandler(ForbiddenException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErrorsDTO handleForbiddenException(ForbiddenException ex){
+        return new ErrorsDTO(ex.getMessage(), LocalDateTime.now());
+    }
+
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorsDTO handleNotFound(NotFoundException ex) {
