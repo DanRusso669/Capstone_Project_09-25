@@ -3,6 +3,7 @@ package danrusso.capstoneProject.exceptions;
 import danrusso.capstoneProject.payloads.ErrorsDTO;
 import danrusso.capstoneProject.payloads.ErrorsWithListDTO;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -17,6 +18,12 @@ public class ExceptionsHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorsDTO handleBadRequest(BadRequestException ex){
         return new ErrorsDTO(ex.getMessage(), LocalDateTime.now());
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorsDTO handleHttpMessageNotReadableException(HttpMessageNotReadableException ex){
+        return new ErrorsDTO("C'è qualche errore nella richiesta. Controlla eventuali errori.", LocalDateTime.now());
     }
 
     @ExceptionHandler(NotFoundException.class)

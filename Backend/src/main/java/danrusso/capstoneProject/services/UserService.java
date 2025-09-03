@@ -29,8 +29,8 @@ public class UserService {
     @Autowired
     private PasswordEncoder bcrypt;
 
-    public User findById (Long userId){
-        return this.userRepository.findById(userId).orElseThrow(() -> new NotFoundException(userId));
+    public User findById (long userId){
+        return this.userRepository.findById(userId).orElseThrow(() -> new NotFoundException(userId, "Utente"));
     }
 
     public void checkEmailAvailability(String email) {

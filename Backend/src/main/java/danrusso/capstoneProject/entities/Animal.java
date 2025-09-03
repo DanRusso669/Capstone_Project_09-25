@@ -12,27 +12,26 @@ public class Animal {
     private long id;
     private String name;
     private int age;
+    @Enumerated(EnumType.STRING)
     private Gender gender;
     private String species;
     private String breed;
     private String description;
     @Column(name = "clinical_condition")
     private String clinicalCondition;
+    @Enumerated(EnumType.STRING)
     private AnimalStatus status;
     @Column(name = "image_url")
     private String imageUrl;
     @Column(name = "entry_date")
     private LocalDate entryDate;
-    @Column(name = "releade_date")
+    @Column(name = "release_date")
     private LocalDate releaseDate;
     @Column(name = "is_adoptable")
     private boolean isAdoptable;
-    @ManyToOne
-    private City city;
-    @ManyToOne
-    private Province province;
-    @ManyToOne
-    private Region region;
+    private String city;
+    private String province;
+    private String region;
     @JoinColumn(name = "found_by")
     @ManyToOne
     private User foundBy;
@@ -44,7 +43,7 @@ public class Animal {
     public Animal() {
     }
 
-    public Animal(String name, int age, Gender gender, String species, String breed, String description, String clinicalCondition, AnimalStatus status, LocalDate entryDate, City city, Province province, Region region, User foundBy) {
+    public Animal(String name, int age, Gender gender, String species, String breed, String description, String clinicalCondition, AnimalStatus status, String imageUrl,LocalDate entryDate, String city, String province, String region, User foundBy) {
         this.name = name;
         this.age = age;
         this.gender = gender;
@@ -53,6 +52,7 @@ public class Animal {
         this.description = description;
         this.clinicalCondition = clinicalCondition;
         this.status = status;
+        this.imageUrl = imageUrl;
         this.entryDate = entryDate;
         this.city = city;
         this.province = province;
@@ -60,119 +60,151 @@ public class Animal {
         this.foundBy = foundBy;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setClinicalCondition(String clinicalCondition) {
-        this.clinicalCondition = clinicalCondition;
-    }
-
-    public void setStatus(AnimalStatus status) {
-        this.status = status;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public void setReleaseDate(LocalDate releaseDate) {
-        this.releaseDate = releaseDate;
-    }
-
-    public void setAdoptable(boolean adoptable) {
-        isAdoptable = adoptable;
-    }
-
-    public void setDeathDate(LocalDate deathDate) {
-        this.deathDate = deathDate;
-    }
-
-    public void setDeathCause(String deathCause) {
-        this.deathCause = deathCause;
-    }
-
     public long getId() {
         return id;
     }
-
+    
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getAge() {
         return age;
     }
 
+    public void setAge(int age) {
+        this.age = age;
+    }
+
     public Gender getGender() {
         return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 
     public String getSpecies() {
         return species;
     }
 
+    public void setSpecies(String species) {
+        this.species = species;
+    }
+
     public String getBreed() {
         return breed;
+    }
+
+    public void setBreed(String breed) {
+        this.breed = breed;
     }
 
     public String getDescription() {
         return description;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getClinicalCondition() {
         return clinicalCondition;
+    }
+
+    public void setClinicalCondition(String clinicalCondition) {
+        this.clinicalCondition = clinicalCondition;
     }
 
     public AnimalStatus getStatus() {
         return status;
     }
 
+    public void setStatus(AnimalStatus status) {
+        this.status = status;
+    }
+
     public String getImageUrl() {
         return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public LocalDate getEntryDate() {
         return entryDate;
     }
 
+    public void setEntryDate(LocalDate entryDate) {
+        this.entryDate = entryDate;
+    }
+
     public LocalDate getReleaseDate() {
         return releaseDate;
+    }
+
+    public void setReleaseDate(LocalDate releaseDate) {
+        this.releaseDate = releaseDate;
     }
 
     public boolean isAdoptable() {
         return isAdoptable;
     }
 
-    public City getCity() {
+    public void setAdoptable(boolean adoptable) {
+        isAdoptable = adoptable;
+    }
+
+    public String getCity() {
         return city;
     }
 
-    public Province getProvince() {
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getProvince() {
         return province;
     }
 
-    public Region getRegion() {
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getRegion() {
         return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
     }
 
     public User getFoundBy() {
         return foundBy;
     }
 
+    public void setFoundBy(User foundBy) {
+        this.foundBy = foundBy;
+    }
+
     public LocalDate getDeathDate() {
         return deathDate;
     }
 
+    public void setDeathDate(LocalDate deathDate) {
+        this.deathDate = deathDate;
+    }
+
     public String getDeathCause() {
         return deathCause;
+    }
+
+    public void setDeathCause(String deathCause) {
+        this.deathCause = deathCause;
     }
 }
