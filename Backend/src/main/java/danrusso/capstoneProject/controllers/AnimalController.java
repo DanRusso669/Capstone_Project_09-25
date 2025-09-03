@@ -34,4 +34,11 @@ public class AnimalController {
         Animal updatedAnimal = this.animalService.findByIdAndUpdate(payload, animalId);
         return new AnimalRespDTO(updatedAnimal.getId());
     }
+
+    @DeleteMapping("/{animalId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete (@PathVariable long animalId){
+        this.animalService.findByIdAndDelete(animalId);
+    }
 }

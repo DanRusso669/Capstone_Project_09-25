@@ -114,6 +114,10 @@ public class AnimalService {
         return this.animalRepository.save(foundAnimal);
     }
 
+    public void findByIdAndDelete(long animalId){
+        Animal found = this.findById(animalId);
+        this.animalRepository.delete(found);
+    }
 
 
 
