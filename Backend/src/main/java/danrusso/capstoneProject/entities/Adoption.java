@@ -28,13 +28,11 @@ public class Adoption {
     public Adoption() {
     }
 
-    public Adoption(User user, Animal animal, LocalDate requestDate, AdoptionStatus status, LocalDate startDate, LocalDate endDate) {
+    public Adoption(User user, Animal animal, LocalDate requestDate, AdoptionStatus status) {
         this.user = user;
         this.animal = animal;
         this.requestDate = requestDate;
         this.status = status;
-        this.startDate = startDate;
-        this.endDate = endDate;
     }
 
     public long getId() {

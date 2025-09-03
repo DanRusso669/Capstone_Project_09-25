@@ -85,7 +85,7 @@ public class AnimalService {
         String imageUrl = "https://www.stfrancisanimalwelfare.co.uk/wp-content/uploads/placeholder-logo-3-300x300.png";
         if (!(payload.imageUrl() == null)) imageUrl = payload.imageUrl();
 
-        Animal newAnimal = new Animal(payload.name(), payload.age(), gender, payload.species(), payload.breed(), payload.description(), payload.clinicalCondition(), status, imageUrl, LocalDate.now(), payload.city(), payload.province(), payload.region(), userFound);
+        Animal newAnimal = new Animal(payload.name(), payload.age(), gender, payload.species(), payload.breed(), payload.description(), payload.clinicalCondition(), status, imageUrl, LocalDate.now(), true, payload.city(), payload.province(), payload.region(), userFound);
         return this.animalRepository.save(newAnimal);
     }
 
