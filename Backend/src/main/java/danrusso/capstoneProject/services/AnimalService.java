@@ -13,6 +13,10 @@ import danrusso.capstoneProject.repositories.AnimalRepository;
 import danrusso.capstoneProject.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
@@ -59,6 +63,12 @@ public class AnimalService {
             case "DEAD" -> AnimalStatus.DEAD;
             default -> throw new BadRequestException("Status " + payloadStatus + " non valido.");
         };
+    }
+
+    public Page<Animal> findAll (int pageNum, int pageSize, String sortBy){
+        if (pageSize > 10 ) pageSize = 10;
+        Pageable pageable = PageRequest.of(pageNum, pageSize, Sort.by(sortBy));
+        return this.animalRepository.findAll(pageable);
     }
 
     public Animal save (NewAnimalDTO payload){

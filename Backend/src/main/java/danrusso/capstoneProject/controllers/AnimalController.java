@@ -1,10 +1,12 @@
 package danrusso.capstoneProject.controllers;
 
 import danrusso.capstoneProject.entities.Animal;
+import danrusso.capstoneProject.entities.User;
 import danrusso.capstoneProject.payloads.AnimalRespDTO;
 import danrusso.capstoneProject.payloads.NewAnimalDTO;
 import danrusso.capstoneProject.services.AnimalService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
@@ -17,6 +19,20 @@ public class AnimalController {
 
     @Autowired
     private AnimalService animalService;
+
+    @GetMapping
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
+    public Page<Animal> findAll (@RequestParam(defaultValue = "0") int page,
+                               @RequestParam(defaultValue = "10") int size,
+                               @RequestParam(defaultValue = "id") String sortBy) {
+        return this.animalService.findAll(page, size, sortBy);
+    }
+
+    @GetMapping("/{animalId}")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
+    public Animal findById(@PathVariable long animalId){
+        return this.animalService.findById(animalId);
+    }
 
     @PostMapping
     @PreAuthorize("hasAuthority('ADMIN')")
