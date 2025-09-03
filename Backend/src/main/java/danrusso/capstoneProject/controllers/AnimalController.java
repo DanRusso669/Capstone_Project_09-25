@@ -26,4 +26,12 @@ public class AnimalController {
         Animal newAnimal = this.animalService.save(payload);
         return new AnimalRespDTO(newAnimal.getId());
     }
+
+    @PutMapping("/{animalId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public AnimalRespDTO update(@RequestBody @Validated NewAnimalDTO payload, BindingResult validation, @PathVariable long animalId){
+        this.animalService.checkValidationErrors(validation);
+        Animal updatedAnimal = this.animalService.findByIdAndUpdate(payload, animalId);
+        return new AnimalRespDTO(updatedAnimal.getId());
+    }
 }
