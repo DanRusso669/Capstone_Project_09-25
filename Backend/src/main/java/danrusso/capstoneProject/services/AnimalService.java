@@ -78,7 +78,7 @@ public class AnimalService {
 
         // TODO - Se l'utente viene creato con una password temporanea, mandare email per fargliela modificare.
         User userFound = this.userRepository.findByEmail(payload.userEmail()).orElseGet(() -> {
-            NewUserDTO newUser = new NewUserDTO(payload.userName(), payload.userSurname(), payload.userEmail(), bcrypt.encode("1234?Ciao"), payload.userPhoneNumber());
+            NewUserDTO newUser = new NewUserDTO(payload.userName(), payload.userSurname(), payload.userEmail(), "1234?Ciao", payload.userPhoneNumber());
             return this.userService.save(newUser);
         });
 
@@ -98,7 +98,7 @@ public class AnimalService {
         User foundUser = null;
         if (!payload.userEmail().equals(foundAnimal.getFoundBy().getEmail())) {
            foundUser = this.userRepository.findByEmail(payload.userEmail()).orElseGet(() -> {
-               NewUserDTO newUser = new NewUserDTO(payload.userName(), payload.userSurname(), payload.userEmail(), bcrypt.encode("1234?Ciao"), payload.userPhoneNumber());
+               NewUserDTO newUser = new NewUserDTO(payload.userName(), payload.userSurname(), payload.userEmail(),"1234?Ciao", payload.userPhoneNumber());
                return this.userService.save(newUser);
            });
         }
