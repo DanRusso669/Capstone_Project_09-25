@@ -43,7 +43,7 @@ public class Animal {
     public Animal() {
     }
 
-    public Animal(String name, int age, Gender gender, String species, String breed, String description, String clinicalCondition, AnimalStatus status, String imageUrl,LocalDate entryDate, String city, String province, String region, User foundBy) {
+    public Animal(String name, int age, Gender gender, String species, String breed, String description, String clinicalCondition, AnimalStatus status, String imageUrl,LocalDate entryDate, boolean isAdoptable, String city, String province, String region, User foundBy) {
         this.name = name;
         this.age = age;
         this.gender = gender;
@@ -54,6 +54,7 @@ public class Animal {
         this.status = status;
         this.imageUrl = imageUrl;
         this.entryDate = entryDate;
+        this.isAdoptable = isAdoptable;
         this.city = city;
         this.province = province;
         this.region = region;
