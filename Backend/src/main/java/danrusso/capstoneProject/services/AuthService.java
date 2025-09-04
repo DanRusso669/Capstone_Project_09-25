@@ -22,9 +22,11 @@ public class AuthService {
 
     public String generateAccessToken (UserLoginDTO payload){
         User user = this.userService.findByEmail(payload.email());
+        System.out.println(user);
         if (bcrypt.matches(payload.password(), user.getPassword())){
             return jwtTools.createToken(user);
         } else {
+            System.out.println(user);
             throw new UnauthorizedException("Credenziali errate.");
         }
     }

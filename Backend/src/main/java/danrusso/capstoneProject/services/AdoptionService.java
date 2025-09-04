@@ -65,6 +65,8 @@ public class AdoptionService {
         found.setStatus(payload.status());
         found.setStartDate(payload.startDate());
 
+        if (payload.status().equals(AdoptionStatus.DENIED)) found.getAnimal().setAdoptable(true);
+
         return this.adoptionRepository.save(found);
     }
 
@@ -76,6 +78,7 @@ public class AdoptionService {
         else if (found.getStatus().equals(AdoptionStatus.ENDED)) throw new BadRequestException("Questa adozione è già stata terminata.");
         found.setEndDate(LocalDate.now());
         found.setStatus(AdoptionStatus.ENDED);
+        found.getAnimal().setAdoptable(true);
         return this.adoptionRepository.save(found);
     }
 
@@ -88,7 +91,8 @@ public class AdoptionService {
         else if (found.getStatus().equals(AdoptionStatus.ENDED)) throw new BadRequestException("Questa adozione è già stata terminata.");
 
         found.setEndDate(LocalDate.now());
-        found.setStatus(AdoptionStatus.ENDED);;
+        found.setStatus(AdoptionStatus.ENDED);
+        found.getAnimal().setAdoptable(true);
         return this.adoptionRepository.save(found);
     }
 
