@@ -8,6 +8,7 @@ import danrusso.capstoneProject.exceptions.BadRequestException;
 import danrusso.capstoneProject.exceptions.ForbiddenException;
 import danrusso.capstoneProject.exceptions.NotFoundException;
 import danrusso.capstoneProject.exceptions.ValidationException;
+import danrusso.capstoneProject.payloads.UpdatedAdoptionDTO;
 import danrusso.capstoneProject.repositories.AdoptionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class AdoptionService {
@@ -52,10 +54,33 @@ public class AdoptionService {
         Animal foundAnimal = this.animalService.findById(animalId);
         if (!foundAnimal.isAdoptable()) throw new BadRequestException("L'animale selezionato non può essere adottato.");
         foundAnimal.setAdoptable(false);
+        List<Adoption>  activeAdoption = this.adoptionRepository.findActiveAdoptionsByUserId(userId);
+        if (activeAdoption.size() > 5) throw new BadRequestException("Un utente può avere massimo 5 adozioni in corso.");
         User foundUser = this.userService.findById(userId);
 
         Adoption newAdoption = new Adoption(foundUser, foundAnimal, LocalDate.now(), AdoptionStatus.PENDING);
         return this.adoptionRepository.save(newAdoption);
+    }
+
+    public Adoption findByIdAndUpdate (long adoptionId, UpdatedAdoptionDTO payload){
+        Adoption found = this.findById(adoptionId);
+
+        found.setStatus(payload.status());
+        found.setStartDate(payload.startDate());
+
+        return this.adoptionRepository.save(found);
+    }
+
+    public Adoption findByIdAndCloseIt (long adoptionId){
+        Adoption found = this.findById(adoptionId);
+
+        found.setEndDate(LocalDate.now());
+        return this.adoptionRepository.save(found);
+    }
+
+    public void findByIdAndDelete(long adoptionId){
+        Adoption found = this.findById(adoptionId);
+        this.adoptionRepository.delete(found);
     }
 
 }
