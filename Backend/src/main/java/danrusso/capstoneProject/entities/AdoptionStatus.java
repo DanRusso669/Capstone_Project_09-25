@@ -1,5 +1,5 @@
 package danrusso.capstoneProject.entities;
 
 public enum AdoptionStatus {
-    ACCEPTED, PENDING, DENIED
+    ACCEPTED, PENDING, DENIED, ENDED
 }

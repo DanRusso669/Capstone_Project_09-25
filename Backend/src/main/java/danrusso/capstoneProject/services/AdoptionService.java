@@ -4,10 +4,7 @@ import danrusso.capstoneProject.entities.Adoption;
 import danrusso.capstoneProject.entities.AdoptionStatus;
 import danrusso.capstoneProject.entities.Animal;
 import danrusso.capstoneProject.entities.User;
-import danrusso.capstoneProject.exceptions.BadRequestException;
-import danrusso.capstoneProject.exceptions.ForbiddenException;
-import danrusso.capstoneProject.exceptions.NotFoundException;
-import danrusso.capstoneProject.exceptions.ValidationException;
+import danrusso.capstoneProject.exceptions.*;
 import danrusso.capstoneProject.payloads.UpdatedAdoptionDTO;
 import danrusso.capstoneProject.repositories.AdoptionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,10 +68,27 @@ public class AdoptionService {
         return this.adoptionRepository.save(found);
     }
 
-    public Adoption findByIdAndCloseIt (long adoptionId){
+    public Adoption findByIdAndEndIt (long adoptionId){
         Adoption found = this.findById(adoptionId);
 
+        if (found.getStatus().equals(AdoptionStatus.PENDING)) throw new BadRequestException("Non puoi terminare un'adozione non accettata.");
+        else if (found.getStatus().equals(AdoptionStatus.DENIED)) throw new BadRequestException("Non puoi terminare un'adozione rifiutata.");
+        else if (found.getStatus().equals(AdoptionStatus.ENDED)) throw new BadRequestException("Questa adozione è già stata terminata.");
         found.setEndDate(LocalDate.now());
+        found.setStatus(AdoptionStatus.ENDED);
+        return this.adoptionRepository.save(found);
+    }
+
+    public Adoption endOwnAdoption (long adoptionId, long userId){
+        Adoption found = this.findById(adoptionId);
+        if (found.getUser().getId() != userId) throw new UnauthorizedException("Non puoi terminare le adozioni degli altri utenti.");
+
+        if (found.getStatus().equals(AdoptionStatus.PENDING)) throw new BadRequestException("Non puoi terminare un'adozione non accettata.");
+        else if (found.getStatus().equals(AdoptionStatus.DENIED)) throw new BadRequestException("Non puoi terminare un'adozione rifiutata.");
+        else if (found.getStatus().equals(AdoptionStatus.ENDED)) throw new BadRequestException("Questa adozione è già stata terminata.");
+
+        found.setEndDate(LocalDate.now());
+        found.setStatus(AdoptionStatus.ENDED);;
         return this.adoptionRepository.save(found);
     }
 
