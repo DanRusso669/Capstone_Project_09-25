@@ -113,7 +113,8 @@ public class AnimalService {
         foundAnimal.setStatus(status);
         foundAnimal.setImageUrl(payload.imageUrl());
         foundAnimal.setReleaseDate(payload.releaseDate());
-        foundAnimal.setAdoptable(payload.isAdoptable());
+        if (status.equals(AnimalStatus.DEAD) || status.equals(AnimalStatus.RELEASED)) foundAnimal.setAdoptable(false);
+        else foundAnimal.setAdoptable(payload.isAdoptable());
         foundAnimal.setCity(payload.city());
         foundAnimal.setProvince(payload.province());
         foundAnimal.setRegion(payload.region());
