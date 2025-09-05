@@ -8,60 +8,33 @@ const RegisterForm = () => {
         <Row className="mb-3">
           <Form.Group as={Col} xs={12} sm={6} controlId="formGridName">
             <Form.Label>Nome</Form.Label>
-            <Form.Control required className="form-inputs" type="text" placeholder="Inserisci il nome" />
+            <Form.Control autoComplete="off" required className="form-inputs" type="text" placeholder="Inserisci il nome" />
           </Form.Group>
 
           <Form.Group as={Col} xs={12} sm={6} controlId="formGridSurname" className="mt-3 mt-sm-0">
             <Form.Label>Cognome</Form.Label>
-            <Form.Control required className="form-inputs" type="text" placeholder="Inserisci il cognome" />
+            <Form.Control autoComplete="off" required className="form-inputs" type="text" placeholder="Inserisci il cognome" />
           </Form.Group>
         </Row>
 
         <Form.Group className="mb-3" controlId="formGridEmail">
           <Form.Label>Email</Form.Label>
-          <Form.Control required className="form-inputs" type="email" placeholder="Inserisci email" />
+          <Form.Control autoComplete="off" required className="form-inputs" type="email" placeholder="Inserisci email" />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formGridPassword">
           <Form.Label>Scegli una password</Form.Label>
-          <Form.Control required className="form-inputs" type="password" placeholder="Scegli una password" />
-        </Form.Group>
-
-        <Form.Group className="mb-3" controlId="formGridAddress">
-          <Form.Label>Indirizzo di residenza</Form.Label>
-          <Form.Control required className="form-inputs" placeholder="Inserisci indirizzo" />
+          <Form.Control autoComplete="off" required className="form-inputs" type="password" placeholder="Scegli una password" />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formGridPhone">
           <Form.Label>Numero di Telefono</Form.Label>
-          <Form.Control required className="form-inputs" placeholder="348123456" type="number" />
+          <Form.Control autoComplete="off" required className="form-inputs" placeholder="348123456" type="number" />
         </Form.Group>
-
-        <Row className="mb-3">
-          <Form.Group as={Col} controlId="formGridProvince">
-            <Form.Label>Provincia</Form.Label>
-            <Form.Select required className="form-inputs" defaultValue="Seleziona provincia">
-              <option value={5}>Città 1</option>
-              <option value={10}>Città 2</option>
-            </Form.Select>
-          </Form.Group>
-
-          <Form.Group as={Col} controlId="formGridCity">
-            <Form.Label>Città</Form.Label>
-            <Form.Select required className="form-inputs" defaultValue="Seleziona provincia">
-              <option value={5}>Città 1</option>
-              <option value={10}>Città 2</option>
-            </Form.Select>
-          </Form.Group>
-
-          <Form.Group as={Col} controlId="formGridCap">
-            <Form.Label>CAP</Form.Label>
-            <Form.Control required className="form-inputs" />
-          </Form.Group>
-        </Row>
 
         <Form.Group className="mb-3" id="formGridCheckbox">
           <Form.Check
+            required
             type="checkbox"
             label=" * Autorizzo il trattamento dei miei dati personali, ai sensi delle vigenti normative privacy (Regolamento Europeo n.679/16), secondo le finalità e le modalità indicate nella Vostra informativa."
           />

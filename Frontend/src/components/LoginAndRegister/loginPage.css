@@ -1,5 +1,6 @@
 .login-section {
   min-height: calc(100vh - 160px - 110px);
+  padding-top: 50px;
 }
 
 .login-form-wrapper {

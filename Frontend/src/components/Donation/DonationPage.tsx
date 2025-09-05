@@ -7,7 +7,7 @@ const DonationPage = () => {
   return (
     <>
       <Container className="donation-section navbar-height information d-flex flex-column justify-content-start align-items-start">
-        <h1 className="titles mx-auto mb-2 mt-3">Donazioni</h1>
+        <h1 className="titles mx-auto mb-2 mt-4">Donazioni</h1>
         <p className="mb-4">
           Rifugio Mamo è un'organizzazione di volontariato che salva oltre 2000 animali selvatici ogni anno e oltre 200 animali domestici vivono all'interno del
           rifugio stesso.
