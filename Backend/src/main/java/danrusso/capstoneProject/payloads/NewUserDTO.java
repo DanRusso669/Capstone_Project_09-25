@@ -1,6 +1,9 @@
 package danrusso.capstoneProject.payloads;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 public record NewUserDTO(
         @NotEmpty(message = "Il nome è obbligatorio.")
@@ -12,8 +15,8 @@ public record NewUserDTO(
         @Email(message = "Formato email non valido.")
         @NotEmpty(message = "L'email è obbligatoria.")
         String email,
-        @NotEmpty(message = "Password is mandatory.")
-        @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{4,}$", message = "La password deve contenere: almeno 8 caratteri, almeno un carattere maiuscolo e uno minuscolo, un numero e un carattere speciale.")
+        @NotEmpty(message = "Password è obbligatoria.")
+        @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", message = "La password deve contenere: almeno 8 caratteri, almeno un carattere maiuscolo e uno minuscolo, un numero e un carattere speciale (#?!@$%^&*-).")
         String password,
         @NotEmpty(message = "Il numero di telefono è obbligatorio.")
         String phoneNumber

@@ -1,12 +1,20 @@
 import { createAsyncThunk, createSlice, type PayloadAction } from "@reduxjs/toolkit";
-
-interface RegisterState {
+import type { ErrorsData } from "../../interfaces/ErrorsData";
+interface RegisterData {
   name: string;
   surname: string;
   email: string;
   password: string;
   phoneNumber: string;
+}
+
+interface RegisterState extends RegisterData {
   status: "succeeded" | "failed" | "pending";
+  errorMessage: string;
+}
+
+interface RegisterResp {
+  id: number;
 }
 
 const initialState: RegisterState = {
@@ -14,8 +22,9 @@ const initialState: RegisterState = {
   surname: "",
   email: "",
   password: "",
-  status: "pending",
   phoneNumber: "",
+  status: "pending",
+  errorMessage: "",
 };
 
 const registerSlice = createSlice({
@@ -37,6 +46,10 @@ const registerSlice = createSlice({
     setPhoneNumber: (state, action: PayloadAction<string>) => {
       state.phoneNumber = action.payload;
     },
+    setErrorMessage: (state, action: PayloadAction<string>) => {
+      state.errorMessage = action.payload;
+    },
+    resetForm: () => initialState,
   },
   extraReducers: builder => {
     builder
@@ -46,13 +59,14 @@ const registerSlice = createSlice({
       .addCase(registerFetch.fulfilled, state => {
         state.status = "succeeded";
       })
-      .addCase(registerFetch.rejected, state => {
+      .addCase(registerFetch.rejected, (state, action) => {
         state.status = "failed";
+        state.errorMessage = action.payload as string;
       });
   },
 });
 
-export const registerFetch = createAsyncThunk("register/registration", async (formData: RegisterState) => {
+export const registerFetch = createAsyncThunk("register/registration", async (formData: RegisterData, { rejectWithValue }) => {
   try {
     const resp = await fetch("http://localhost:3001/auth/register", {
       method: "POST",
@@ -62,18 +76,19 @@ export const registerFetch = createAsyncThunk("register/registration", async (fo
       body: JSON.stringify(formData),
     });
 
-    if (resp.ok) {
-      const newUserId: number = await resp.json();
-      console.log("Utente salvato con ID " + newUserId);
-      return newUserId;
-    } else {
-      throw new Error();
+    if (!resp.ok) {
+      const errorData: ErrorsData = await resp.json();
+      return rejectWithValue(errorData.message);
     }
+    const data: RegisterResp = await resp.json();
+    console.log("Utente salvato con ID " + data.id);
+    return data;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
-    console.log(error);
+    return rejectWithValue("Errore durante la registrazione.");
   }
 });
 
-export const { setName, setSurname, setEmail, setPassword, setPhoneNumber } = registerSlice.actions;
+export const { setName, setSurname, setEmail, setPassword, setPhoneNumber, setErrorMessage, resetForm } = registerSlice.actions;
 
 export default registerSlice.reducer;
