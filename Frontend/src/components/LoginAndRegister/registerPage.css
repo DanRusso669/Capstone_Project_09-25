@@ -15,3 +15,7 @@
 #formGridCheckbox .form-check-input:checked {
   background-color: #3a6b2f;
 }
+
+.register-section {
+  min-height: calc(100vh - 160px - 110px);
+}

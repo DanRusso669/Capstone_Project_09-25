@@ -61,6 +61,9 @@ const MyNavbar = () => {
           <Link to={"/blog"} className="nav-link">
             Blog
           </Link>
+          <Link to={"/faq"} className="nav-link">
+            FAQ
+          </Link>
         </Nav>
         <Nav as={Col} lg={2} className="d-flex justify-content-center">
           <Link to={"/"}>
@@ -68,9 +71,6 @@ const MyNavbar = () => {
           </Link>
         </Nav>
         <Nav as={Col} lg={5} className="d-none d-lg-flex">
-          <Link to={"/faq"} className="nav-link">
-            FAQ
-          </Link>
           <Link to={"/donazioni"} className="nav-link">
             Donazioni
           </Link>

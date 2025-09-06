@@ -6,7 +6,7 @@ const LoginPage = () => {
   return (
     <>
       <Container className="login-section navbar-height d-flex flex-column justify-content-start align-items-center information">
-        <h1 className="mb-4 mt-4">Accedi al tuo account</h1>
+        <h1 className="titles mb-4 mt-4">Accedi al tuo account</h1>
         <div className="login-form-wrapper d-flex justify-content-center align-items-center">
           <Form className="login-form">
             <Form.Group className="mb-3" controlId="formBasicEmail">
