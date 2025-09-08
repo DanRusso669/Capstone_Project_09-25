@@ -13,6 +13,7 @@ import VisitPage from "./components/Visit/VisitPage";
 import LoginPage from "./components/LoginAndRegister/LoginPage";
 import RegisterPage from "./components/LoginAndRegister/RegisterPage";
 import { ToastContainer } from "react-toastify";
+import Profile from "./components/Profile/Profile";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route path="/visite" element={<VisitPage />} />
           <Route path="/accedi" element={<LoginPage />} />
           <Route path="/registrati" element={<RegisterPage />} />
+          <Route path="/profilo" element={<Profile />} />
         </Routes>
         <Footer />
       </BrowserRouter>

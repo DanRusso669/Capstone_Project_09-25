@@ -1,7 +1,7 @@
 import { Button, Col, Dropdown, Image, Nav, Navbar, Offcanvas } from "react-bootstrap";
 import logo from "../../assets/Logo-Rifugio-Mamo.jpg";
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./navbar.css";
 import { ArrowRightShort } from "react-bootstrap-icons";
 
@@ -10,6 +10,7 @@ const MyNavbar = () => {
   const [showOffcanvas, setShowOffcanvas] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const isHomepage = location.pathname === "/";
 
   const handleShowOffcanvas = () => {
@@ -98,13 +99,15 @@ const MyNavbar = () => {
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
-                <Dropdown.Item href="/profilo">I tuoi dati</Dropdown.Item>
-                <Dropdown.Item href="/profilo/adozioni">Le tue adozioni</Dropdown.Item>
-                <Dropdown.Item href="/">Logout</Dropdown.Item>
+                <Dropdown.Item onClick={() => navigate("/profilo")}>I tuoi dati</Dropdown.Item>
+                <Dropdown.Item onClick={() => navigate("/profilo/adozioni")}>Le tue adozioni</Dropdown.Item>
+                <Dropdown.Item href="/" onClick={handleLogout}>
+                  Logout
+                </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           ) : (
-            <Link to={"/accedi"} className="nav-link" onClick={handleShowOffcanvas}>
+            <Link to={"/accedi"} className="nav-link">
               Accedi
             </Link>
           )}
