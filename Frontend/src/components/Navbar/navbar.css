@@ -22,16 +22,33 @@
   text-shadow: 5px 5px 4px black;
   font-size: 18px;
   font-weight: 500;
-}
-
-.nav-link:hover {
-  color: rgb(136, 241, 136);
+  cursor: pointer;
 }
 
 .nav-link:active,
 .nav-link:focus {
   outline: none;
   color: white;
+}
+
+.nav-link:hover {
+  color: rgb(136, 241, 136);
+}
+
+.dropdown-toggle:hover {
+  background-color: transparent;
+}
+
+.dropdown-toggle:focus,
+.dropdown-toggle:active,
+.dropdown-toggle.show {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  color: white !important;
+}
+
+.dropdown-menu {
+  background-color: #faf3dd;
 }
 
 .navbar-toggler:focus,
@@ -49,16 +66,33 @@
   width: 280px;
 }
 
-.offcanvas .nav-link {
+.offcanvas .nav-link,
+.dropdown-item {
   color: #333;
   font-weight: 500;
+  font-size: 18px;
   text-shadow: none;
 }
 
-.offcanvas .nav-link:hover {
+.offcanvas .nav-link:hover,
+.dropdown-item:hover {
   color: #3a6b2f;
+  background-color: transparent;
 }
 
 .offcanvas-end {
   transition: all 1s linear;
+}
+
+.profile-links-wrapper {
+  opacity: 0;
+  transform: translateY(-10px);
+  animation: slide 1s ease forwards;
+}
+
+@keyframes slide {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
