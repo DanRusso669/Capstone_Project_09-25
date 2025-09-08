@@ -1,9 +1,15 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { useDispatch, useSelector, type TypedUseSelectorHook } from "react-redux";
 import registerReducer from "../actions/registerSlice";
+import loginReducer from "../actions/loginSlice";
+
+const rootReducer = combineReducers({
+  register: registerReducer,
+  login: loginReducer,
+});
 
 const store = configureStore({
-  reducer: { register: registerReducer },
+  reducer: rootReducer,
 });
 
 export default store;

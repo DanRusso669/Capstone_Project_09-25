@@ -35,11 +35,11 @@ const Homepage = () => {
           xmlSpace="preserve"
           stroke="black"
           transform="matrix(1, 0, 0, 1, 0, 0)rotate(0)"
-          stroke-width="1"
+          strokeWidth="1"
           strokeOpacity={0.5}
         >
-          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="0.49163199999999996"></g>
+          <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+          <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" stroke="#CCCCCC" strokeWidth="0.49163199999999996"></g>
           <g id="SVGRepo_iconCarrier">
             {" "}
             <g>

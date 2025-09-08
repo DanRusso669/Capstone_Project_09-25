@@ -2,7 +2,7 @@ import { Button, Col, Image, Nav, Navbar, Offcanvas } from "react-bootstrap";
 import logo from "../../assets/Logo-Rifugio-Mamo.jpg";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import "./myNavbar.css";
+import "./navbar.css";
 
 const MyNavbar = () => {
   const [scrolling, setScrolling] = useState(false);

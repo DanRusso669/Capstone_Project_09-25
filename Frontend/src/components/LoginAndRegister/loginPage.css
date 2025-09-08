@@ -5,14 +5,14 @@
 
 .login-form-wrapper {
   width: 100%;
-  max-width: 420px;
+  max-width: 500px;
 }
 
 .login-form {
   background-color: #ccf3a4;
   padding-block: 1.3rem;
   padding-inline: 1rem;
-  max-width: 100%;
+  width: 100%;
   border-radius: 20px;
 }
 

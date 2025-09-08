@@ -28,22 +28,14 @@ const RegisterForm = () => {
   const navigate = useNavigate();
   const { name, surname, email, password, phoneNumber, status } = useAppSelector(state => state.register);
 
-  useEffect(() => {
-    if (status === "succeeded") {
-      dispatch(resetForm());
-      navigate("/accedi");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status, dispatch]);
-
   const onSubmit: SubmitHandler<FormFields> = async data => {
     try {
       await toast.promise(
         dispatch(registerFetch(data)).unwrap(),
         {
           pending: "Registrazione in corso...",
-          success: "Registrazione completata con successo! ✔",
-          error: "Registrazione fallita! ❌",
+          success: "Registrazione completata con successo!",
+          error: "Registrazione fallita!",
         },
         {
           autoClose: 5000,
@@ -53,6 +45,14 @@ const RegisterForm = () => {
       if (typeof error === "string") setError("email", { message: error });
     }
   };
+
+  useEffect(() => {
+    if (status === "succeeded") {
+      dispatch(resetForm());
+      navigate("/accedi");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status, dispatch]);
 
   return (
     <>
