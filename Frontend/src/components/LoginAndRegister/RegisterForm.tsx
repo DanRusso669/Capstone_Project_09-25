@@ -5,6 +5,7 @@ import { registerFetch, resetForm, setEmail, setName, setPassword, setPhoneNumbe
 import { useEffect } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 type FormFields = {
   name: string;
@@ -25,7 +26,7 @@ const RegisterForm = () => {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { name, surname, email, password, phoneNumber, status, errorMessage } = useAppSelector(state => state.register);
+  const { name, surname, email, password, phoneNumber, status } = useAppSelector(state => state.register);
 
   useEffect(() => {
     if (status === "succeeded") {
@@ -36,11 +37,21 @@ const RegisterForm = () => {
   }, [status, dispatch]);
 
   const onSubmit: SubmitHandler<FormFields> = async data => {
-    await dispatch(registerFetch(data));
-    console.log(data);
-    console.log(errorMessage);
-
-    if (errorMessage) setError("email", { message: errorMessage });
+    try {
+      await toast.promise(
+        dispatch(registerFetch(data)).unwrap(),
+        {
+          pending: "Registrazione in corso...",
+          success: "Registrazione completata con successo! ✔",
+          error: "Registrazione fallita! ❌",
+        },
+        {
+          autoClose: 5000,
+        }
+      );
+    } catch (error) {
+      if (typeof error === "string") setError("email", { message: error });
+    }
   };
 
   return (
@@ -52,7 +63,10 @@ const RegisterForm = () => {
             <Form.Control
               {...register("name", {
                 required: "Il nome è obbligatorio.",
-                minLength: 3,
+                minLength: {
+                  message: "Il nome deve avere almeno 3 caratteri.",
+                  value: 3,
+                },
               })}
               value={name}
               autoComplete="off"
@@ -69,7 +83,10 @@ const RegisterForm = () => {
             <Form.Control
               {...register("surname", {
                 required: "Il cognome è obbligatorio.",
-                minLength: 3,
+                minLength: {
+                  message: "Il cognome deve avere almeno 3 caratteri.",
+                  value: 3,
+                },
               })}
               value={surname}
               autoComplete="off"

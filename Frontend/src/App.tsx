@@ -12,11 +12,13 @@ import ScrollToTop from "./components/ScrollToTop";
 import VisitPage from "./components/Visit/VisitPage";
 import LoginPage from "./components/LoginAndRegister/LoginPage";
 import RegisterPage from "./components/LoginAndRegister/RegisterPage";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
     <>
       <BrowserRouter>
+        <ToastContainer />
         <ScrollToTop />
         <MyNavbar />
         <Routes>
