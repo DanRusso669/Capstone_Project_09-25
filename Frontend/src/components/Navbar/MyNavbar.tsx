@@ -94,14 +94,20 @@ const MyNavbar = () => {
           </Link>
           {localStorage.getItem("accessToken") ? (
             <Dropdown>
-              <Dropdown.Toggle className="nav-link profile" id="dropdown-basic">
+              <Dropdown.Toggle className="nav-link" id="dropdown-basic">
                 Profilo
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
-                <Dropdown.Item onClick={() => navigate("/profilo")}>I tuoi dati</Dropdown.Item>
-                <Dropdown.Item onClick={() => navigate("/profilo/adozioni")}>Le tue adozioni</Dropdown.Item>
-                <Dropdown.Item href="/" onClick={handleLogout}>
+                <Dropdown.Item onClick={() => navigate("/profilo")} className="profile-links">
+                  <ArrowRightShort className="mb-1" />I tuoi dati
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => navigate("/profilo/adozioni")} className="profile-links">
+                  <ArrowRightShort className="mb-1" />
+                  Le tue adozioni
+                </Dropdown.Item>
+                <Dropdown.Item href="/" onClick={handleLogout} className="profile-links">
+                  <ArrowRightShort className="mb-1" />
                   Logout
                 </Dropdown.Item>
               </Dropdown.Menu>
