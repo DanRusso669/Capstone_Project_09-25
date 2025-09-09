@@ -2,7 +2,7 @@ import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import "./profile.css";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
-import { profileFetch } from "../../redux/actions/profileSlice";
+import { profileFetch, setEmail, setName, setPassword, setPhoneNumber, setSurname } from "../../redux/actions/profileSlice";
 import MyVerticalModal from "./MyVerticalModal";
 
 const Profile = () => {
@@ -11,9 +11,13 @@ const Profile = () => {
   const [modalShow, setModalShow] = useState(false);
   const dispatch = useAppDispatch();
   const {
-    data: { name, surname, email, phoneNumber },
+    data: { name, surname, email, phoneNumber, password },
     passwordCheckResult,
   } = useAppSelector(state => state.profile);
+
+  const handleUpdate = () => {
+    console.log("Aggiornamento completato.");
+  };
 
   useEffect(() => {
     dispatch(profileFetch());
@@ -32,34 +36,99 @@ const Profile = () => {
           <Row className="mb-3">
             <Form.Group as={Col} xs={12} md={6} className="mb-3" controlId="formGridName">
               <Form.Label>Nome</Form.Label>
-              <Form.Control value={name} autoComplete="off" className="form-inputs" type="text" placeholder="Inserisci il nome" readOnly />
+              <Form.Control
+                value={name}
+                autoComplete="off"
+                className="form-inputs"
+                type="text"
+                placeholder="Inserisci il nome"
+                readOnly={!passwordCheckResult}
+                {...(passwordCheckResult && {
+                  onChange: e => {
+                    dispatch(setName(e.target.value));
+                  },
+                })}
+              />
             </Form.Group>
 
             <Form.Group as={Col} xs={12} md={6} controlId="formGridSurname">
               <Form.Label>Cognome</Form.Label>
-              <Form.Control value={surname} autoComplete="off" className="form-inputs" type="text" placeholder="Inserisci il cognome" readOnly />
+              <Form.Control
+                value={surname}
+                autoComplete="off"
+                className="form-inputs"
+                type="text"
+                placeholder="Inserisci il cognome"
+                readOnly={!passwordCheckResult}
+                {...(passwordCheckResult && {
+                  onChange: e => {
+                    dispatch(setSurname(e.target.value));
+                  },
+                })}
+              />
             </Form.Group>
           </Row>
 
           <Row className="mb-3">
             <Form.Group as={Col} md={6} className="mb-3" controlId="formGridEmail">
               <Form.Label>La tua email</Form.Label>
-              <Form.Control value={email} autoComplete="off" className="form-inputs" type="email" placeholder="Inserisci email" readOnly />
+              <Form.Control
+                value={email}
+                autoComplete="off"
+                className="form-inputs"
+                type="email"
+                placeholder="Inserisci email"
+                readOnly={!passwordCheckResult}
+                {...(passwordCheckResult && {
+                  onChange: e => {
+                    dispatch(setEmail(e.target.value));
+                  },
+                })}
+              />
             </Form.Group>
 
             <Form.Group as={Col} md={6} className="mb-3 mx-auto" controlId="formGridPhone">
               <Form.Label>Il tuo numero di telefono</Form.Label>
-              <Form.Control value={phoneNumber} autoComplete="off" className="form-inputs" placeholder="348123456" type="number" readOnly />
+              <Form.Control
+                value={phoneNumber}
+                autoComplete="off"
+                className="form-inputs"
+                placeholder="348123456"
+                type="number"
+                readOnly={!passwordCheckResult}
+                {...(passwordCheckResult && {
+                  onChange: e => {
+                    dispatch(setPhoneNumber(e.target.value));
+                  },
+                })}
+              />
             </Form.Group>
 
-            <Form.Group as={Col} md={6} className="mb-3 d-none" controlId="formGridPassword">
-              <Form.Label>La tua password</Form.Label>
-              <Form.Control value={"password"} autoComplete="off" className="form-inputs" type="password" placeholder="Scegli una password" readOnly />
-            </Form.Group>
+            {passwordCheckResult && (
+              <>
+                <Form.Group as={Col} md={6} className="mb-3" controlId="formGridPassword">
+                  <Form.Label>La tua password</Form.Label>
+                  <Form.Control
+                    value={password}
+                    autoComplete="off"
+                    className="form-inputs"
+                    type="password"
+                    placeholder="Scegli una password"
+                    onChange={e => {
+                      dispatch(setPassword(e.target.value));
+                    }}
+                  />
+                </Form.Group>
+              </>
+            )}
           </Row>
           <div className="d-flex justify-content-center">
-            <Button variant="outline-none" className="monthly-form-btn mb-4" onClick={() => setModalShow(true)}>
-              Modifica i tuoi dati
+            <Button
+              variant="outline-none"
+              className="monthly-form-btn mb-4"
+              {...(passwordCheckResult ? { onClick: () => handleUpdate() } : { onClick: () => setModalShow(true) })}
+            >
+              {passwordCheckResult ? "Salva i nuovi dati" : "Modifica i tuoi dati"}
             </Button>
           </div>
         </Form>
