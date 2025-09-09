@@ -21,7 +21,10 @@ const LoginPage = () => {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { email, password, status } = useAppSelector(state => state.login);
+  const {
+    data: { email, password },
+    status,
+  } = useAppSelector(state => state.login);
 
   const onSubmit: SubmitHandler<FormFields> = async data => {
     try {

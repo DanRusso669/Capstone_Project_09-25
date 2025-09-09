@@ -9,32 +9,32 @@ const Footer = () => {
         <Row className="footer flex-column justify-content-center align-items-center">
           <Col sm={12} className="information mt-3">
             <Row className="align-items-center justify-content-center ">
-              <Col xs={4} sm={4} md={4} lg={2} xl={1} className="text-center">
+              <Col xs={4} sm={4} md={4} lg={1} className="text-center footer-links-wrapper">
                 <Link to={"/cras"} className="footer-links">
                   Il C.R.A.S.
                 </Link>
               </Col>
-              <Col xs={4} sm={4} md={4} lg={2} xl={1} className="text-center">
+              <Col xs={4} sm={4} md={4} lg={1} className="text-center footer-links-wrapper">
                 <Link to={"/donazioni"} className="footer-links">
                   Donazioni
                 </Link>
               </Col>
-              <Col xs={4} sm={4} md={4} lg={2} xl={1} className="text-center">
+              <Col xs={4} sm={4} md={4} lg={1} className="text-center footer-links-wrapper">
                 <Link to={"/rifugio"} className="footer-links">
                   Chi siamo
                 </Link>
               </Col>
-              <Col xs={4} sm={4} md={4} lg={2} xl={1} className="text-center">
+              <Col xs={4} sm={4} md={4} lg={1} className="text-center footer-links-wrapper">
                 <Link to={"/volontariato"} className="footer-links">
                   Volontariato
                 </Link>
               </Col>
-              <Col xs={4} sm={4} md={4} lg={2} xl={1} className="text-center">
+              <Col xs={4} sm={4} md={4} lg={1} className="text-center footer-links-wrapper">
                 <Link to={"/privacy"} className="footer-links">
                   Privacy Policy
                 </Link>
               </Col>
-              <Col xs={4} sm={4} md={4} lg={2} xl={1} className="text-center">
+              <Col xs={4} sm={4} md={4} lg={1} className="text-center footer-links-wrapper">
                 <Link to={"/cookies"} className="footer-links">
                   Cookie Policy
                 </Link>

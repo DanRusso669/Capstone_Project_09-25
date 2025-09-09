@@ -29,3 +29,7 @@
 .footer-links:hover::after {
   width: 100%;
 }
+
+.footer-links-wrapper {
+  min-width: 130px;
+}

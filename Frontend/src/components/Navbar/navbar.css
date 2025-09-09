@@ -67,15 +67,16 @@
 }
 
 .offcanvas .nav-link,
-.dropdown-item {
+.profile-links {
   color: #333;
   font-weight: 500;
   font-size: 18px;
   text-shadow: none;
+  text-decoration: none;
 }
 
 .offcanvas .nav-link:hover,
-.dropdown-item:hover {
+.profile-links:hover {
   color: #3a6b2f;
   background-color: transparent;
 }
