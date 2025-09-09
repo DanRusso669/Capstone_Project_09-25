@@ -73,9 +73,8 @@ public class UserController {
     @PostMapping("/me/password-check")
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public CheckPasswordRespDTO checkPassword(@AuthenticationPrincipal User currentAuthenticatedUser, @RequestBody CheckPasswordDTO payload) {
-        boolean check = this.userService.checkIfPasswordIsCorrect(currentAuthenticatedUser.getId(), payload.password());
-        if (check) return new CheckPasswordRespDTO("Password corretta.");
-        else return new CheckPasswordRespDTO("Password errata.");
+        boolean result = this.userService.checkIfPasswordIsCorrect(currentAuthenticatedUser.getId(), payload.password());
+        return new CheckPasswordRespDTO(result);
     }
 
 }

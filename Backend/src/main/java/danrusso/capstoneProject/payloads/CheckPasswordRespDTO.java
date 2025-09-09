@@ -1,4 +1,4 @@
 package danrusso.capstoneProject.payloads;
 
-public record CheckPasswordRespDTO(String message) {
+public record CheckPasswordRespDTO(boolean result) {
 }
