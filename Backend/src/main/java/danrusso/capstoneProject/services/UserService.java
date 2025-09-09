@@ -30,7 +30,7 @@ public class UserService {
     @Autowired
     private PasswordEncoder bcrypt;
 
-    public User findById (long userId){
+    public User findById(long userId) {
         return this.userRepository.findById(userId).orElseThrow(() -> new NotFoundException(userId, "Utente"));
     }
 
@@ -40,23 +40,28 @@ public class UserService {
         });
     }
 
-    public void checkValidationErrors(BindingResult validation){
-        if (validation.hasErrors()){
+    public boolean checkIfPasswordIsCorrect(long userId, String password) {
+        User found = this.findById(userId);
+        return bcrypt.matches(password, found.getPassword());
+    }
+
+    public void checkValidationErrors(BindingResult validation) {
+        if (validation.hasErrors()) {
             throw new ValidationException(validation.getFieldErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).toList());
         }
     }
 
-    public User findByEmail(String email){
+    public User findByEmail(String email) {
         return this.userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Nessun utente con email " + email + " trovato."));
     }
 
-    public Page<User> findAll (int pageNumber, int pageSize, String sortBy){
+    public Page<User> findAll(int pageNumber, int pageSize, String sortBy) {
         if (pageSize > 20) pageSize = 20;
-        Pageable pageable = PageRequest.of(pageNumber,pageSize, Sort.by(sortBy));
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
         return this.userRepository.findAll(pageable);
     }
 
-    public User save(NewUserDTO payload){
+    public User save(NewUserDTO payload) {
         this.checkEmailAvailability(payload.email());
 
         User newUser = new User(payload.name(), payload.surname(), payload.email(), bcrypt.encode(payload.password()), payload.phoneNumber());
@@ -67,10 +72,10 @@ public class UserService {
         return this.userRepository.save(newUser);
     }
 
-    public User findByIdAndUpdate(NewUserDTO payload, long userId){
+    public User findByIdAndUpdate(NewUserDTO payload, long userId) {
         User found = this.findById(userId);
 
-        if (!found.getEmail().equals(payload.email())){
+        if (!found.getEmail().equals(payload.email())) {
             this.checkEmailAvailability(payload.email());
         }
 
@@ -83,24 +88,26 @@ public class UserService {
         return this.userRepository.save(found);
     }
 
-    public void findByIdAndDelete(long userId){
+    public void findByIdAndDelete(long userId) {
         User found = this.findById(userId);
         this.userRepository.delete(found);
     }
 
-    public String assignOrRemoveRoleById(long userId, User currentUser, String action){
+    public String assignOrRemoveRoleById(long userId, User currentUser, String action) {
         if (currentUser.getId() == userId) throw new ForbiddenException("Non puoi modificare i tuoi stessi ruoli.");
         User found = this.findById(userId);
 
         found.getRoles().forEach(role -> {
-            if (role.getRoleDef().equals("ADMIN") && action.equalsIgnoreCase("add")) throw new BadRequestException("Impossibile aggiungere il ruolo ADMIN: questo utente possiede già questo ruolo.");
+            if (role.getRoleDef().equals("ADMIN") && action.equalsIgnoreCase("add"))
+                throw new BadRequestException("Impossibile aggiungere il ruolo ADMIN: questo utente possiede già questo ruolo.");
             else if (action.equalsIgnoreCase("remove")) {
                 boolean isAdmin = found.getRoles().stream().anyMatch(r -> r.getRoleDef().equalsIgnoreCase("ADMIN"));
-                if (!isAdmin) throw new BadRequestException("Impossibile rimuovere il ruolo ADMIN: l'utente non possiede questo ruolo.");
+                if (!isAdmin)
+                    throw new BadRequestException("Impossibile rimuovere il ruolo ADMIN: l'utente non possiede questo ruolo.");
             }
         });
         Role adminRole = this.roleRepository.findByRoleDef("ADMIN").orElseThrow(() -> new NotFoundException("Ruolo ADMIN non trovato."));
-        switch (action.toLowerCase()){
+        switch (action.toLowerCase()) {
             case "add" -> {
                 found.getRoles().add(adminRole);
                 this.userRepository.save(found);
