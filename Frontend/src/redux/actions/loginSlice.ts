@@ -1,23 +1,13 @@
 import { createAsyncThunk, createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { ErrorsData } from "../../interfaces/ErrorsData";
-
-interface LoginData {
-  email: string;
-  password: string;
-}
-
-interface LoginState extends LoginData {
-  status: "succeeded" | "failed" | "pending";
-  errorMessage: string;
-}
+import type { LoginData, UserState } from "../../interfaces/User";
 
 interface LoginResp {
   accessToken: string;
 }
 
-const initialState: LoginState = {
-  email: "",
-  password: "",
+const initialState: UserState<LoginData> = {
+  data: { email: "", password: "" },
   status: "pending",
   errorMessage: "",
 };
@@ -27,10 +17,10 @@ const loginSlice = createSlice({
   initialState,
   reducers: {
     setEmail: (state, action: PayloadAction<string>) => {
-      state.email = action.payload;
+      state.data.email = action.payload;
     },
     setPassword: (state, action: PayloadAction<string>) => {
-      state.password = action.payload;
+      state.data.password = action.payload;
     },
     setErrorMessage: (state, action: PayloadAction<string>) => {
       state.errorMessage = action.payload;

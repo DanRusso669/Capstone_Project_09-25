@@ -1,28 +1,18 @@
 import { createAsyncThunk, createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { ErrorsData } from "../../interfaces/ErrorsData";
-interface RegisterData {
-  name: string;
-  surname: string;
-  email: string;
-  password: string;
-  phoneNumber: string;
-}
-
-interface RegisterState extends RegisterData {
-  status: "succeeded" | "failed" | "pending";
-  errorMessage: string;
-}
-
+import type { UserData, UserState } from "../../interfaces/User";
 interface RegisterResp {
   id: number;
 }
 
-const initialState: RegisterState = {
-  name: "",
-  surname: "",
-  email: "",
-  password: "",
-  phoneNumber: "",
+const initialState: UserState<UserData> = {
+  data: {
+    name: "",
+    surname: "",
+    phoneNumber: "",
+    email: "",
+    password: "",
+  },
   status: "pending",
   errorMessage: "",
 };
@@ -32,19 +22,19 @@ const registerSlice = createSlice({
   initialState,
   reducers: {
     setName: (state, action: PayloadAction<string>) => {
-      state.name = action.payload;
+      state.data.name = action.payload;
     },
     setSurname: (state, action: PayloadAction<string>) => {
-      state.surname = action.payload;
+      state.data.surname = action.payload;
     },
     setEmail: (state, action: PayloadAction<string>) => {
-      state.email = action.payload;
+      state.data.email = action.payload;
     },
     setPassword: (state, action: PayloadAction<string>) => {
-      state.password = action.payload;
+      state.data.password = action.payload;
     },
     setPhoneNumber: (state, action: PayloadAction<string>) => {
-      state.phoneNumber = action.payload;
+      state.data.phoneNumber = action.payload;
     },
     setErrorMessage: (state, action: PayloadAction<string>) => {
       state.errorMessage = action.payload;
@@ -66,7 +56,7 @@ const registerSlice = createSlice({
   },
 });
 
-export const registerFetch = createAsyncThunk("register/registration", async (formData: RegisterData, { rejectWithValue }) => {
+export const registerFetch = createAsyncThunk("register/registration", async (formData: UserData, { rejectWithValue }) => {
   try {
     const resp = await fetch("http://localhost:3001/auth/register", {
       method: "POST",

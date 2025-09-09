@@ -26,7 +26,10 @@ const RegisterForm = () => {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { name, surname, email, password, phoneNumber, status } = useAppSelector(state => state.register);
+  const {
+    data: { name, surname, email, password, phoneNumber },
+    status,
+  } = useAppSelector(state => state.register);
 
   const onSubmit: SubmitHandler<FormFields> = async data => {
     try {
