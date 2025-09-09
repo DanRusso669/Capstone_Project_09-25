@@ -2,26 +2,77 @@ import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import "./profile.css";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
-import { profileFetch, setEmail, setName, setPassword, setPhoneNumber, setSurname } from "../../redux/actions/profileSlice";
+import {
+  profileFetch,
+  setEmail,
+  setName,
+  setPassword,
+  setPasswordCheckResult,
+  setPhoneNumber,
+  setSurname,
+  updateProfileFetch,
+} from "../../redux/actions/profileSlice";
 import MyVerticalModal from "./MyVerticalModal";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import { toast } from "react-toastify";
+
+type FormFields = {
+  name: string;
+  surname: string;
+  email: string;
+  password: string;
+  phoneNumber: string;
+};
 
 const Profile = () => {
-  // const [isVerifying, setIsVeryfing] = useState(false);
-  // const [authenticated, setAuthenticated] = useState(false);
   const [modalShow, setModalShow] = useState(false);
   const dispatch = useAppDispatch();
+
+  const {
+    register,
+    handleSubmit,
+    setError,
+    setValue,
+    formState: { errors, isSubmitting },
+  } = useForm<FormFields>();
+
   const {
     data: { name, surname, email, phoneNumber, password },
     passwordCheckResult,
   } = useAppSelector(state => state.profile);
 
-  const handleUpdate = () => {
-    console.log("Aggiornamento completato.");
+  const onSubmit: SubmitHandler<FormFields> = async data => {
+    try {
+      await toast.promise(
+        dispatch(updateProfileFetch(data)).unwrap(),
+        {
+          pending: "Aggiornamento dati in corso...",
+          success: "Aggiornamento dati completato con successo!",
+          error: "Aggiornamento dati fallito!",
+        },
+        {
+          autoClose: 5000,
+        }
+      );
+
+      dispatch(setPasswordCheckResult(false));
+    } catch (error) {
+      if (typeof error === "string") setError("email", { message: error });
+    }
   };
 
   useEffect(() => {
     dispatch(profileFetch());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (name) setValue("name", name);
+    if (surname) setValue("surname", surname);
+    if (email) setValue("email", email);
+    if (phoneNumber) setValue("phoneNumber", phoneNumber);
+    if (password) setValue("password", password);
+  }, [name, surname, email, phoneNumber, password, setValue]);
 
   useEffect(() => {
     if (passwordCheckResult) setModalShow(false);
@@ -32,12 +83,18 @@ const Profile = () => {
       <Container className="profile-container navbar-height d-flex flex-column justify-content-start align-items-start information">
         <h1 className="titles mx-auto mb-2 mt-4">Il tuo profilo</h1>
         <h4 className="subtitles mx-auto mt-3 mb-2">I tuoi dati</h4>
-        <Form className="mx-auto w-75">
+        <Form className="mx-auto w-75" onSubmit={passwordCheckResult ? handleSubmit(onSubmit) : undefined}>
           <Row className="mb-3">
             <Form.Group as={Col} xs={12} md={6} className="mb-3" controlId="formGridName">
               <Form.Label>Nome</Form.Label>
               <Form.Control
-                value={name}
+                {...register("name", {
+                  required: "Il nome è obbligatorio.",
+                  minLength: {
+                    message: "Il nome deve avere almeno 3 caratteri.",
+                    value: 3,
+                  },
+                })}
                 autoComplete="off"
                 className="form-inputs"
                 type="text"
@@ -49,12 +106,19 @@ const Profile = () => {
                   },
                 })}
               />
+              {errors.name && <Form.Text className="text-danger">{errors.name.message}</Form.Text>}
             </Form.Group>
 
             <Form.Group as={Col} xs={12} md={6} controlId="formGridSurname">
               <Form.Label>Cognome</Form.Label>
               <Form.Control
-                value={surname}
+                {...register("surname", {
+                  required: "Il cognome è obbligatorio.",
+                  minLength: {
+                    message: "Il cognome deve avere almeno 3 caratteri.",
+                    value: 3,
+                  },
+                })}
                 autoComplete="off"
                 className="form-inputs"
                 type="text"
@@ -66,6 +130,7 @@ const Profile = () => {
                   },
                 })}
               />
+              {errors.surname && <Form.Text className="text-danger">{errors.surname.message}</Form.Text>}
             </Form.Group>
           </Row>
 
@@ -73,7 +138,13 @@ const Profile = () => {
             <Form.Group as={Col} md={6} className="mb-3" controlId="formGridEmail">
               <Form.Label>La tua email</Form.Label>
               <Form.Control
-                value={email}
+                {...register("email", {
+                  required: "L'email è obbligatoria.",
+                  pattern: {
+                    value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+                    message: "Formato email non valido.",
+                  },
+                })}
                 autoComplete="off"
                 className="form-inputs"
                 type="email"
@@ -85,12 +156,21 @@ const Profile = () => {
                   },
                 })}
               />
+              {errors.email && <Form.Text className="text-danger">{errors.email.message}</Form.Text>}
             </Form.Group>
 
             <Form.Group as={Col} md={6} className="mb-3 mx-auto" controlId="formGridPhone">
               <Form.Label>Il tuo numero di telefono</Form.Label>
               <Form.Control
-                value={phoneNumber}
+                {...register("phoneNumber", {
+                  required: "Il numero di telefono è obbligatorio.",
+                  validate: value => {
+                    if (value.length !== 10) {
+                      return "Numero di telefono non valido.";
+                    }
+                    return true;
+                  },
+                })}
                 autoComplete="off"
                 className="form-inputs"
                 placeholder="348123456"
@@ -102,6 +182,7 @@ const Profile = () => {
                   },
                 })}
               />
+              {errors.phoneNumber && <Form.Text className="text-danger">{errors.phoneNumber.message}</Form.Text>}
             </Form.Group>
 
             {passwordCheckResult && (
@@ -109,7 +190,13 @@ const Profile = () => {
                 <Form.Group as={Col} md={6} className="mb-3" controlId="formGridPassword">
                   <Form.Label>La tua password</Form.Label>
                   <Form.Control
-                    value={password}
+                    {...register("password", {
+                      required: "La password è obbligatoria.",
+                      pattern: {
+                        value: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
+                        message: "La password deve contenere almeno 8 caratteri, una maiuscola, un numero e un carattere speciale.",
+                      },
+                    })}
                     autoComplete="off"
                     className="form-inputs"
                     type="password"
@@ -118,17 +205,20 @@ const Profile = () => {
                       dispatch(setPassword(e.target.value));
                     }}
                   />
+                  {errors.password && <Form.Text className="text-danger">{errors.password.message}</Form.Text>}
                 </Form.Group>
               </>
             )}
           </Row>
           <div className="d-flex justify-content-center">
             <Button
+              disabled={isSubmitting}
               variant="outline-none"
+              type={passwordCheckResult ? "submit" : "button"}
               className="monthly-form-btn mb-4"
-              {...(passwordCheckResult ? { onClick: () => handleUpdate() } : { onClick: () => setModalShow(true) })}
+              onClick={passwordCheckResult ? undefined : () => setModalShow(true)}
             >
-              {passwordCheckResult ? "Salva i nuovi dati" : "Modifica i tuoi dati"}
+              {isSubmitting ? "Salvataggio..." : passwordCheckResult ? "Salva i nuovi dati" : "Modifica i tuoi dati"}
             </Button>
           </div>
         </Form>

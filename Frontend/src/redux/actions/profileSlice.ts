@@ -65,6 +65,18 @@ const profileSlice = createSlice({
       .addCase(passwordCheck.rejected, (state, action) => {
         state.status = "failed";
         state.errorMessage = action.payload as string;
+      })
+
+      .addCase(updateProfileFetch.pending, state => {
+        state.status = "pending";
+      })
+      .addCase(updateProfileFetch.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.data = action.payload;
+      })
+      .addCase(updateProfileFetch.rejected, (state, action) => {
+        state.status = "failed";
+        state.errorMessage = action.payload as string;
       });
   },
 });
@@ -112,6 +124,29 @@ export const passwordCheck = createAsyncThunk("profile/password-check", async (d
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     return rejectWithValue("Qualcosa è andato storto.");
+  }
+});
+
+export const updateProfileFetch = createAsyncThunk("profile/update-profile", async (updatedData: UserData, { rejectWithValue }) => {
+  try {
+    const resp = await fetch("http://localhost:3001/users/me", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+      body: JSON.stringify(updatedData),
+    });
+
+    if (!resp.ok) {
+      const errorData: ErrorsData = await resp.json();
+      return rejectWithValue(errorData.message);
+    }
+
+    const data: ProfileResponse = await resp.json();
+    return data;
+  } catch (error) {
+    return rejectWithValue(error);
   }
 });
 
