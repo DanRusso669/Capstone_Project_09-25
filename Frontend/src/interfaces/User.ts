@@ -14,3 +14,13 @@ export interface UserState<Data> {
   status: "succeeded" | "failed" | "pending";
   errorMessage: string;
 }
+
+export interface ProfileResponse extends UserData {
+  id: number;
+  roles: Role[];
+}
+
+export interface Role {
+  id: number;
+  roleDef: string;
+}

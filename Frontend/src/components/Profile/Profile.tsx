@@ -1,9 +1,19 @@
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import "./profile.css";
-import { useState } from "react";
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
+import { profileFetch } from "../../redux/actions/profileSlice";
 
 const Profile = () => {
-  const [isModifying, setIsModifying] = useState(false);
+  const dispatch = useAppDispatch();
+  const {
+    data: { name, surname, email, phoneNumber },
+    status,
+  } = useAppSelector(state => state.profile);
+
+  useEffect(() => {
+    dispatch(profileFetch());
+  }, []);
 
   return (
     <>
@@ -14,43 +24,29 @@ const Profile = () => {
           <Row className="mb-3">
             <Form.Group as={Col} xs={12} md={6} className="mb-3" controlId="formGridName">
               <Form.Label>Nome</Form.Label>
-              <Form.Control value={"nome"} autoComplete="off" className="form-inputs" type="text" placeholder="Inserisci il nome" readOnly={!isModifying} />
+              <Form.Control value={name} autoComplete="off" className="form-inputs" type="text" placeholder="Inserisci il nome" readOnly />
             </Form.Group>
 
             <Form.Group as={Col} xs={12} md={6} controlId="formGridSurname">
               <Form.Label>Cognome</Form.Label>
-              <Form.Control
-                value={"surname"}
-                autoComplete="off"
-                className="form-inputs"
-                type="text"
-                placeholder="Inserisci il cognome"
-                readOnly={!isModifying}
-              />
+              <Form.Control value={surname} autoComplete="off" className="form-inputs" type="text" placeholder="Inserisci il cognome" readOnly />
             </Form.Group>
           </Row>
 
           <Row className="mb-3">
             <Form.Group as={Col} md={6} className="mb-3" controlId="formGridEmail">
               <Form.Label>La tua email</Form.Label>
-              <Form.Control value={"email"} autoComplete="off" className="form-inputs" type="email" placeholder="Inserisci email" readOnly={!isModifying} />
-            </Form.Group>
-
-            <Form.Group as={Col} md={6} className="mb-3" controlId="formGridPassword">
-              <Form.Label>La tua password</Form.Label>
-              <Form.Control
-                value={"password"}
-                autoComplete="off"
-                className="form-inputs"
-                type="password"
-                placeholder="Scegli una password"
-                readOnly={!isModifying}
-              />
+              <Form.Control value={email} autoComplete="off" className="form-inputs" type="email" placeholder="Inserisci email" readOnly />
             </Form.Group>
 
             <Form.Group as={Col} md={6} className="mb-3 mx-auto" controlId="formGridPhone">
               <Form.Label>Il tuo numero di telefono</Form.Label>
-              <Form.Control value={"phoneNumber"} autoComplete="off" className="form-inputs" placeholder="348123456" type="number" readOnly={!isModifying} />
+              <Form.Control value={phoneNumber} autoComplete="off" className="form-inputs" placeholder="348123456" type="number" readOnly />
+            </Form.Group>
+
+            <Form.Group as={Col} md={6} className="mb-3 d-none" controlId="formGridPassword">
+              <Form.Label>La tua password</Form.Label>
+              <Form.Control value={"password"} autoComplete="off" className="form-inputs" type="password" placeholder="Scegli una password" readOnly />
             </Form.Group>
           </Row>
           <div className="d-flex justify-content-center">

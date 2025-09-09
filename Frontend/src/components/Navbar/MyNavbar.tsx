@@ -44,7 +44,7 @@ const MyNavbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
-    handleShowOffcanvas();
+    setShowOffcanvas(false);
   };
 
   return (
