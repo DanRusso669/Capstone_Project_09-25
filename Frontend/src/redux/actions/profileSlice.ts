@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { ProfileResponse, UserData, UserState } from "../../interfaces/User";
+import type { PasswordCheckRequest, PasswordCheckResponse, ProfileResponse, UserData, UserState } from "../../interfaces/User";
 import type { ErrorsData } from "../../interfaces/ErrorsData";
 
 const initialState: UserState<UserData> = {
@@ -12,6 +12,7 @@ const initialState: UserState<UserData> = {
   },
   status: "pending",
   errorMessage: "",
+  passwordCheckResult: null,
 };
 
 const profileSlice = createSlice({
@@ -36,6 +37,9 @@ const profileSlice = createSlice({
     setErrorMessage: (state, action: PayloadAction<string>) => {
       state.errorMessage = action.payload;
     },
+    setPasswordCheckResult: (state, action: PayloadAction<boolean>) => {
+      state.passwordCheckResult = action.payload;
+    },
   },
   extraReducers: builder => {
     builder
@@ -47,6 +51,18 @@ const profileSlice = createSlice({
         state.data = action.payload;
       })
       .addCase(profileFetch.rejected, (state, action) => {
+        state.status = "failed";
+        state.errorMessage = action.payload as string;
+      })
+
+      .addCase(passwordCheck.pending, state => {
+        state.status = "pending";
+      })
+      .addCase(passwordCheck.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.passwordCheckResult = action.payload;
+      })
+      .addCase(passwordCheck.rejected, (state, action) => {
         state.status = "failed";
         state.errorMessage = action.payload as string;
       });
@@ -77,6 +93,28 @@ export const profileFetch = createAsyncThunk("profile/me", async (_, { rejectWit
   }
 });
 
-export const { setName, setSurname, setEmail, setPassword, setPhoneNumber, setErrorMessage } = profileSlice.actions;
+export const passwordCheck = createAsyncThunk("profile/password-check", async (dataInfo: PasswordCheckRequest, { rejectWithValue }) => {
+  try {
+    const resp = await fetch("http://localhost:3001/users/me/password-check", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+      body: JSON.stringify(dataInfo),
+    });
+
+    if (resp.ok) {
+      const data: PasswordCheckResponse = await resp.json();
+      return data.result;
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (error) {
+    return rejectWithValue("Qualcosa è andato storto.");
+  }
+});
+
+export const { setName, setSurname, setEmail, setPassword, setPhoneNumber, setErrorMessage, setPasswordCheckResult } = profileSlice.actions;
 
 export default profileSlice.reducer;

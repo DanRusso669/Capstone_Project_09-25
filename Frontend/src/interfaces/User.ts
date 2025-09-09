@@ -1,3 +1,11 @@
+export interface PasswordCheckRequest {
+  password: string;
+}
+
+export interface PasswordCheckResponse {
+  result: boolean;
+}
+
 export interface LoginData {
   email: string;
   password: string;
@@ -13,6 +21,7 @@ export interface UserState<Data> {
   data: Data;
   status: "succeeded" | "failed" | "pending";
   errorMessage: string;
+  passwordCheckResult?: boolean | null;
 }
 
 export interface ProfileResponse extends UserData {

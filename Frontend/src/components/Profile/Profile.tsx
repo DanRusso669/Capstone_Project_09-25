@@ -1,19 +1,27 @@
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import "./profile.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { profileFetch } from "../../redux/actions/profileSlice";
+import MyVerticalModal from "./MyVerticalModal";
 
 const Profile = () => {
+  // const [isVerifying, setIsVeryfing] = useState(false);
+  // const [authenticated, setAuthenticated] = useState(false);
+  const [modalShow, setModalShow] = useState(false);
   const dispatch = useAppDispatch();
   const {
     data: { name, surname, email, phoneNumber },
-    status,
+    passwordCheckResult,
   } = useAppSelector(state => state.profile);
 
   useEffect(() => {
     dispatch(profileFetch());
   }, []);
+
+  useEffect(() => {
+    if (passwordCheckResult) setModalShow(false);
+  }, [passwordCheckResult]);
 
   return (
     <>
@@ -50,7 +58,7 @@ const Profile = () => {
             </Form.Group>
           </Row>
           <div className="d-flex justify-content-center">
-            <Button variant="outline-none" className="monthly-form-btn mb-4">
+            <Button variant="outline-none" className="monthly-form-btn mb-4" onClick={() => setModalShow(true)}>
               Modifica i tuoi dati
             </Button>
           </div>
@@ -58,6 +66,7 @@ const Profile = () => {
         <h4 className="subtitles mx-auto mt-3 mb-2">Le tue donazioni mensili</h4>
         <h4 className="subtitles mx-auto mt-3 mb-2">Le tue adozioni</h4>
       </Container>
+      <MyVerticalModal show={modalShow} onHide={() => setModalShow(false)} />
     </>
   );
 };
