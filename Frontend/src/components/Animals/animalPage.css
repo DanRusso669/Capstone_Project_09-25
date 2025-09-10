@@ -1,0 +1,24 @@
+#animal-section .card-img {
+  max-width: 230px;
+}
+
+#animal-section .details-btn {
+  text-decoration: none;
+  color: white;
+  background-color: rgb(58, 107, 47);
+  padding-inline: 0.8rem;
+  padding-block: 0.6rem;
+  border-radius: 20px;
+  font-size: 19px;
+}
+
+#animal-section .details-btn:hover {
+  background-color: white;
+  color: #3a6b2f;
+  font-weight: bold;
+  border: 2px solid #3a6b2f;
+}
+
+/* #animal-section .details-btn-wrapper {
+  min-height: 100px;
+} */

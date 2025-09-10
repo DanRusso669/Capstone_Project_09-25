@@ -73,8 +73,8 @@ const MyNavbar = () => {
           <Link to={"/blog"} className="nav-link">
             Blog
           </Link>
-          <Link to={"/faq"} className="nav-link">
-            FAQ
+          <Link to={"/i-nostri-animali"} className="nav-link">
+            Ospiti
           </Link>
         </Nav>
         <Nav as={Col} lg={2} className="d-flex justify-content-center">
