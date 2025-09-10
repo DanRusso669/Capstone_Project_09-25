@@ -1,10 +1,20 @@
-import { Button, Card, Container } from "react-bootstrap";
+import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import "./animalPage.css";
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
+import { allAnimalFetch } from "../../redux/actions/animalSlice";
 
 const AnimalPage = () => {
+  const dispatch = useAppDispatch();
+  const { data } = useAppSelector(state => state.animals);
+
+  useEffect(() => {
+    dispatch(allAnimalFetch());
+  }, [dispatch]);
+
   return (
     <>
-      <Container id="animal-section" className="navbar-height information d-flex flex-column justify-content-start align-items-start">
+      <Container id="animal-section" className="navbar-height information d-flex flex-column justify-content-start align-items-start mb-4">
         <h1 className="titles mx-auto mb-2 mt-4">Gli ospiti del Rifugio</h1>
         <p className="mb-4">
           Benvenuti nella nostra pagina dedicata agli animali che hanno trovato una casa nel Rifugio. Qui potrete scoprire le storie degli{" "}
@@ -14,21 +24,37 @@ const AnimalPage = () => {
           esplorare le storie di questi straordinari animali e a conoscere più da vicino{" "}
           <span className="fw-bold">il nostro impegno nella tutela della fauna selvatica</span>.
         </p>
-        <Card className="d-flex flex-column flex-md-row align-items-center w-100 mb-2">
-          <Card.Img src="https://www.stfrancisanimalwelfare.co.uk/wp-content/uploads/placeholder-logo-3-300x300.png" />
-          <Card.Body className="d-flex flex-column d-lg-block justify-content-center align-items-center">
-            <Card.Title className="text-center">Nome Animale</Card.Title>
-            <Card.Text>
-              Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to
-              make a type specimen book.
-            </Card.Text>
-            <div className="d-flex justify-content-end details-btn-wrapper me-3 mt-3 mb-2">
-              <Button variant="outline-none" className="ms-auto details-btn">
-                Dettagli
-              </Button>
-            </div>
-          </Card.Body>
-        </Card>
+        <Row className="gy-2 gx-2">
+          {data.length !== 0 &&
+            data.map(animal => (
+              <Col key={animal.id} xs={12} md={6}>
+                <Card className="d-flex flex-column flex-lg-row align-items-center justify-content-between mb-2 rounded-5 animal-card">
+                  <Col className="text-center">
+                    <Card.Img src={animal.imageUrl} className="mt-4 mt-lg-0 ms-4" />
+                  </Col>
+                  <Card.Body as={Col} className="d-flex flex-column justify-content-center align-items-center px-0">
+                    <Card.Title className="text-center">{animal.name}</Card.Title>
+                    <Card.Text>
+                      <span className="fw-medium fst-italic">Sesso</span>: {animal.gender === "MALE" ? "Maschio" : "Femmina"}
+                      <br />
+                      <span className="fw-medium fst-italic">Specie</span>: {animal.species}
+                      <br />
+                      <span className="fw-medium fst-italic">Razza</span>: {animal.breed}
+                      <br />
+                      <span className="fw-medium fst-italic">Status</span>:{" "}
+                      {animal.status === "HOSPITALIZED" ? "Ricoverato" : animal.status === "RELEASED" ? "Rilasciato" : "Deceduto"}
+                      <br />
+                    </Card.Text>
+                    <div className="d-flex justify-content-end details-btn-wrapper mt-3 mb-2">
+                      <Button variant="outline-none" className="ms-auto details-btn">
+                        Dettagli
+                      </Button>
+                    </div>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
+        </Row>
       </Container>
     </>
   );
