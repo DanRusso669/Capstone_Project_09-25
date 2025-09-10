@@ -29,7 +29,7 @@ export interface FoundBy {
 }
 
 export interface AnimalState {
-  data: Animal[];
+  data: { list: Animal[]; single: Animal | null };
   status: "succeeded" | "failed" | "pending";
   errorMessage: string;
   page: number;

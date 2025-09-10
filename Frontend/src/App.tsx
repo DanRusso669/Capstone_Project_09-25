@@ -15,6 +15,7 @@ import RegisterPage from "./components/LoginAndRegister/RegisterPage";
 import { ToastContainer } from "react-toastify";
 import Profile from "./components/Profile/Profile";
 import AnimalPage from "./components/Animals/AnimalPage";
+import DetailPage from "./components/Animals/DetailPage";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/il-rifugio" element={<ShelterPage />} />
           <Route path="/cras" element={<CrasPage />} />
           <Route path="/i-nostri-animali" element={<AnimalPage />} />
+          <Route path="/dettagli/:animalId" element={<DetailPage />} />
           <Route path="/donazioni" element={<DonationPage />} />
           <Route path="/donazione-mensile" element={<MonthlyDonationPage />} />
           <Route path="/volontariato" element={<VolunteeringPage />} />

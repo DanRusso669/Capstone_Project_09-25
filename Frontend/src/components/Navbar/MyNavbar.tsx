@@ -142,8 +142,8 @@ const MyNavbar = () => {
             <Link to={"/blog"} className="nav-link" onClick={handleShowOffcanvas}>
               Blog
             </Link>
-            <Link to={"/faq"} className="nav-link" onClick={handleShowOffcanvas}>
-              FAQ
+            <Link to={"/i-nostri-animali"} className="nav-link" onClick={handleShowOffcanvas}>
+              Ospiti
             </Link>
             <Link to={"/donazioni"} className="nav-link" onClick={handleShowOffcanvas}>
               Donazioni

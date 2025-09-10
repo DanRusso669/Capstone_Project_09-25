@@ -3,16 +3,21 @@ import "./animalPage.css";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { allAnimalFetch, setPage } from "../../redux/actions/animalSlice";
+import { Link } from "react-router-dom";
 
 const AnimalPage = () => {
   const dispatch = useAppDispatch();
-  const { data, status, page } = useAppSelector(state => state.animals);
+  const {
+    data: { list },
+    status,
+    page,
+  } = useAppSelector(state => state.animals);
 
   useEffect(() => {
-    if (data.length === 0) {
+    if (list.length === 0) {
       dispatch(allAnimalFetch());
     }
-  }, [data.length, dispatch]);
+  }, [list.length, dispatch]);
 
   const loadMoreAnimals = () => {
     if (status === "pending") return;
@@ -34,8 +39,8 @@ const AnimalPage = () => {
         </p>
         <h3 className="subtitles mx-auto mb-3">Ultimi arrivati</h3>
         <Row className="gy-2 gx-2">
-          {data.length !== 0 ? (
-            data.map(animal => (
+          {list.length !== 0 ? (
+            list.map(animal => (
               <Col key={animal.id} xs={12} md={6}>
                 <Card className="d-flex flex-column flex-lg-row align-items-center justify-content-between mb-2 rounded-5 animal-card">
                   <Col className="text-center">
@@ -55,9 +60,9 @@ const AnimalPage = () => {
                       <br />
                     </Card.Text>
                     <div className="d-flex justify-content-end details-btn-wrapper mt-3 mb-2">
-                      <Button variant="outline-none" className="ms-auto details-btn">
+                      <Link to={`/dettagli/${animal.id}`} className="ms-auto details-btn">
                         Dettagli
-                      </Button>
+                      </Link>
                     </div>
                   </Card.Body>
                 </Card>

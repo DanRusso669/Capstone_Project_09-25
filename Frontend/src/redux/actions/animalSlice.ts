@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { AllAnimalResponse, AnimalState } from "../../interfaces/Animal";
+import type { AllAnimalResponse, Animal, AnimalState } from "../../interfaces/Animal";
 import type { ErrorsData } from "../../interfaces/ErrorsData";
 
 const initialState: AnimalState = {
-  data: [],
+  data: { list: [], single: null },
   status: "pending",
   errorMessage: "",
   page: 0,
@@ -32,9 +32,21 @@ const animalSlice = createSlice({
       })
       .addCase(allAnimalFetch.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.data = [...state.data, ...action.payload];
+        state.data.list = [...state.data.list, ...action.payload];
       })
       .addCase(allAnimalFetch.rejected, (state, action) => {
+        state.status = "failed";
+        state.errorMessage = action.payload as string;
+      })
+
+      .addCase(singleAnimalFetch.pending, state => {
+        state.status = "pending";
+      })
+      .addCase(singleAnimalFetch.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.data.single = action.payload;
+      })
+      .addCase(singleAnimalFetch.rejected, (state, action) => {
         state.status = "failed";
         state.errorMessage = action.payload as string;
       });
@@ -60,6 +72,28 @@ export const allAnimalFetch = createAsyncThunk("animals/get-all", async (_, { re
 
     const data: AllAnimalResponse = await resp.json();
     return data.content;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (error) {
+    return rejectWithValue("Qualcosa è andato storto.");
+  }
+});
+
+export const singleAnimalFetch = createAsyncThunk("animals/get-single", async (animalId: string, { rejectWithValue }) => {
+  try {
+    const resp = await fetch(`http://localhost:3001/animals/${animalId}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    });
+
+    if (!resp.ok) {
+      const errorData: ErrorsData = await resp.json();
+      return rejectWithValue(errorData);
+    }
+
+    const data: Animal = await resp.json();
+    return data;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     return rejectWithValue("Qualcosa è andato storto.");
