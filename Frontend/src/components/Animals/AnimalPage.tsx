@@ -2,16 +2,23 @@ import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import "./animalPage.css";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
-import { allAnimalFetch } from "../../redux/actions/animalSlice";
+import { allAnimalFetch, setPage } from "../../redux/actions/animalSlice";
 
 const AnimalPage = () => {
   const dispatch = useAppDispatch();
-  const { data } = useAppSelector(state => state.animals);
+  const { data, status, page } = useAppSelector(state => state.animals);
 
   useEffect(() => {
+    if (data.length === 0) {
+      dispatch(allAnimalFetch());
+    }
+  }, [data.length, dispatch]);
+
+  const loadMoreAnimals = () => {
+    if (status === "pending") return;
+    dispatch(setPage(page + 1));
     dispatch(allAnimalFetch());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  };
 
   return (
     <>
@@ -25,8 +32,9 @@ const AnimalPage = () => {
           esplorare le storie di questi straordinari animali e a conoscere più da vicino{" "}
           <span className="fw-bold">il nostro impegno nella tutela della fauna selvatica</span>.
         </p>
+        <h3 className="subtitles mx-auto mb-3">Ultimi arrivati</h3>
         <Row className="gy-2 gx-2">
-          {data.length !== 0 &&
+          {data.length !== 0 ? (
             data.map(animal => (
               <Col key={animal.id} xs={12} md={6}>
                 <Card className="d-flex flex-column flex-lg-row align-items-center justify-content-between mb-2 rounded-5 animal-card">
@@ -54,8 +62,23 @@ const AnimalPage = () => {
                   </Card.Body>
                 </Card>
               </Col>
-            ))}
+            ))
+          ) : (
+            <>
+              <h4>Putroppo non ci sono animali al momento</h4>
+            </>
+          )}
         </Row>
+
+        {status === "pending" ? (
+          <Button variant="outline-none" className="mt-4 load-more-btn mx-auto" disabled>
+            Caricamento...
+          </Button>
+        ) : (
+          <Button variant="outline-none" className="mt-4 load-more-btn mx-auto" onClick={loadMoreAnimals}>
+            Carica di più
+          </Button>
+        )}
       </Container>
     </>
   );

@@ -5,7 +5,8 @@
   border: thin solid rgba(0, 0, 0, 0.336);
 }
 
-#animal-section .details-btn {
+#animal-section .details-btn,
+.load-more-btn {
   text-decoration: none;
   color: white;
   background-color: rgb(58, 107, 47);
@@ -15,7 +16,8 @@
   font-size: 19px;
 }
 
-#animal-section .details-btn:hover {
+#animal-section .details-btn:hover,
+.load-more-btn:hover {
   background-color: white;
   color: #3a6b2f;
   font-weight: bold;

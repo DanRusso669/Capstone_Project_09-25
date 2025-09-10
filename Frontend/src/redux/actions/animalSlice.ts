@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { AllAnimalResponse, AnimalState } from "../../interfaces/Animal";
 import type { ErrorsData } from "../../interfaces/ErrorsData";
 
@@ -6,12 +6,25 @@ const initialState: AnimalState = {
   data: [],
   status: "pending",
   errorMessage: "",
+  page: 0,
+  size: 10,
+  sortBy: "id",
 };
 
 const animalSlice = createSlice({
   name: "animals",
   initialState,
-  reducers: {},
+  reducers: {
+    setPage: (state, action: PayloadAction<number>) => {
+      state.page = action.payload;
+    },
+    setSize: (state, action: PayloadAction<number>) => {
+      state.size = action.payload;
+    },
+    setSortBy: (state, action: PayloadAction<string>) => {
+      state.sortBy = action.payload;
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(allAnimalFetch.pending, state => {
@@ -19,7 +32,7 @@ const animalSlice = createSlice({
       })
       .addCase(allAnimalFetch.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.data = action.payload;
+        state.data = [...state.data, ...action.payload];
       })
       .addCase(allAnimalFetch.rejected, (state, action) => {
         state.status = "failed";
@@ -28,9 +41,12 @@ const animalSlice = createSlice({
   },
 });
 
-export const allAnimalFetch = createAsyncThunk("animals/get-all", async (_, { rejectWithValue }) => {
+export const allAnimalFetch = createAsyncThunk("animals/get-all", async (_, { rejectWithValue, getState }) => {
+  const { animals } = getState() as { animals: AnimalState };
+  const { page, size, sortBy } = animals;
+
   try {
-    const resp = await fetch("http://localhost:3001/animals", {
+    const resp = await fetch(`http://localhost:3001/animals?page=${page}&size=${size}&sortBy=${sortBy}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -49,5 +65,7 @@ export const allAnimalFetch = createAsyncThunk("animals/get-all", async (_, { re
     return rejectWithValue("Qualcosa è andato storto.");
   }
 });
+
+export const { setPage, setSize, setSortBy } = animalSlice.actions;
 
 export default animalSlice.reducer;

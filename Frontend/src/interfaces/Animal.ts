@@ -32,6 +32,9 @@ export interface AnimalState {
   data: Animal[];
   status: "succeeded" | "failed" | "pending";
   errorMessage: string;
+  page: number;
+  size: number;
+  sortBy: string;
 }
 
 export interface AllAnimalResponse {
