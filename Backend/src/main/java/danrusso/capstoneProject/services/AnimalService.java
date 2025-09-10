@@ -38,26 +38,26 @@ public class AnimalService {
     @Autowired
     private PasswordEncoder bcrypt;
 
-    public Animal findById (long animalId){
+    public Animal findById(long animalId) {
         return this.animalRepository.findById(animalId).orElseThrow(() -> new NotFoundException(animalId, "Animale"));
     }
 
-    public void checkValidationErrors(BindingResult validation){
-        if (validation.hasErrors()){
+    public void checkValidationErrors(BindingResult validation) {
+        if (validation.hasErrors()) {
             throw new ValidationException(validation.getFieldErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).toList());
         }
     }
 
-    public Gender checkGenderValue (String payloadGender){
-        return switch (payloadGender.toUpperCase()){
+    public Gender checkGenderValue(String payloadGender) {
+        return switch (payloadGender.toUpperCase()) {
             case "MALE" -> Gender.MALE;
             case "FEMALE" -> Gender.FEMALE;
             default -> throw new BadRequestException("Genere " + payloadGender + " non valido.");
         };
     }
 
-    public AnimalStatus checkStatusValue (String payloadStatus){
-        return switch (payloadStatus.toUpperCase()){
+    public AnimalStatus checkStatusValue(String payloadStatus) {
+        return switch (payloadStatus.toUpperCase()) {
             case "HOSPITALIZED" -> AnimalStatus.HOSPITALIZED;
             case "RELEASED" -> AnimalStatus.RELEASED;
             case "DEAD" -> AnimalStatus.DEAD;
@@ -65,13 +65,13 @@ public class AnimalService {
         };
     }
 
-    public Page<Animal> findAll (int pageNum, int pageSize, String sortBy){
-        if (pageSize > 10 ) pageSize = 10;
+    public Page<Animal> findAll(int pageNum, int pageSize, String sortBy) {
+        if (pageSize > 10) pageSize = 10;
         Pageable pageable = PageRequest.of(pageNum, pageSize, Sort.by(sortBy));
         return this.animalRepository.findAll(pageable);
     }
 
-    public Animal save (NewAnimalDTO payload){
+    public Animal save(NewAnimalDTO payload) {
 
         Gender gender = this.checkGenderValue(payload.gender());
         AnimalStatus status = this.checkStatusValue(payload.status());
@@ -82,14 +82,14 @@ public class AnimalService {
             return this.userService.save(newUser);
         });
 
-        String imageUrl = "https://www.stfrancisanimalwelfare.co.uk/wp-content/uploads/placeholder-logo-3-300x300.png";
+        String imageUrl = "http://localhost:5173/src/assets/Logo-Rifugio-Mamo.jpg";
         if (!(payload.imageUrl() == null)) imageUrl = payload.imageUrl();
 
         Animal newAnimal = new Animal(payload.name(), payload.age(), gender, payload.species(), payload.breed(), payload.description(), payload.clinicalCondition(), status, imageUrl, LocalDate.now(), true, payload.city(), payload.province(), payload.region(), userFound);
         return this.animalRepository.save(newAnimal);
     }
 
-    public Animal findByIdAndUpdate(NewAnimalDTO payload, long animalId){
+    public Animal findByIdAndUpdate(NewAnimalDTO payload, long animalId) {
 
         Gender gender = this.checkGenderValue(payload.gender());
         AnimalStatus status = this.checkStatusValue(payload.status());
@@ -97,10 +97,10 @@ public class AnimalService {
         Animal foundAnimal = this.findById(animalId);
         User foundUser = null;
         if (!payload.userEmail().equals(foundAnimal.getFoundBy().getEmail())) {
-           foundUser = this.userRepository.findByEmail(payload.userEmail()).orElseGet(() -> {
-               NewUserDTO newUser = new NewUserDTO(payload.userName(), payload.userSurname(), payload.userEmail(),"1234?Ciao", payload.userPhoneNumber());
-               return this.userService.save(newUser);
-           });
+            foundUser = this.userRepository.findByEmail(payload.userEmail()).orElseGet(() -> {
+                NewUserDTO newUser = new NewUserDTO(payload.userName(), payload.userSurname(), payload.userEmail(), "1234?Ciao", payload.userPhoneNumber());
+                return this.userService.save(newUser);
+            });
         }
 
         foundAnimal.setName(payload.name());
@@ -125,20 +125,10 @@ public class AnimalService {
         return this.animalRepository.save(foundAnimal);
     }
 
-    public void findByIdAndDelete(long animalId){
+    public void findByIdAndDelete(long animalId) {
         Animal found = this.findById(animalId);
         this.animalRepository.delete(found);
     }
-
-
-
-
-
-
-
-
-
-
 
 
 }
