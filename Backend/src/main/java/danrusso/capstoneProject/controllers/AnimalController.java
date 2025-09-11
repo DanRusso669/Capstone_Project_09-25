@@ -1,7 +1,6 @@
 package danrusso.capstoneProject.controllers;
 
 import danrusso.capstoneProject.entities.Animal;
-import danrusso.capstoneProject.entities.User;
 import danrusso.capstoneProject.payloads.AnimalRespDTO;
 import danrusso.capstoneProject.payloads.NewAnimalDTO;
 import danrusso.capstoneProject.services.AnimalService;
@@ -22,22 +21,27 @@ public class AnimalController {
 
     @GetMapping
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
-    public Page<Animal> findAll (@RequestParam(defaultValue = "0") int page,
-                               @RequestParam(defaultValue = "10") int size,
-                               @RequestParam(defaultValue = "id") String sortBy) {
-        return this.animalService.findAll(page, size, sortBy);
+    public Page<Animal> findAll(@RequestParam(defaultValue = "0") int page,
+                                @RequestParam(defaultValue = "10") int size,
+                                @RequestParam(defaultValue = "id") String sortBy,
+                                @RequestParam(required = false) String gender,
+                                @RequestParam(required = false) String status,
+                                @RequestParam(required = false) String species,
+                                @RequestParam(required = false) String breed,
+                                @RequestParam(required = false) String provice) {
+        return this.animalService.findAll(page, size, sortBy, gender, status, species, breed, provice);
     }
 
     @GetMapping("/{animalId}")
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
-    public Animal findById(@PathVariable long animalId){
+    public Animal findById(@PathVariable long animalId) {
         return this.animalService.findById(animalId);
     }
 
     @PostMapping
     @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
-    public AnimalRespDTO save(@RequestBody @Validated NewAnimalDTO payload, BindingResult validation){
+    public AnimalRespDTO save(@RequestBody @Validated NewAnimalDTO payload, BindingResult validation) {
         this.animalService.checkValidationErrors(validation);
         Animal newAnimal = this.animalService.save(payload);
         return new AnimalRespDTO(newAnimal.getId());
@@ -45,7 +49,7 @@ public class AnimalController {
 
     @PutMapping("/{animalId}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public AnimalRespDTO update(@RequestBody @Validated NewAnimalDTO payload, BindingResult validation, @PathVariable long animalId){
+    public AnimalRespDTO update(@RequestBody @Validated NewAnimalDTO payload, BindingResult validation, @PathVariable long animalId) {
         this.animalService.checkValidationErrors(validation);
         Animal updatedAnimal = this.animalService.findByIdAndUpdate(payload, animalId);
         return new AnimalRespDTO(updatedAnimal.getId());
@@ -54,7 +58,7 @@ public class AnimalController {
     @DeleteMapping("/{animalId}")
     @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete (@PathVariable long animalId){
+    public void delete(@PathVariable long animalId) {
         this.animalService.findByIdAndDelete(animalId);
     }
 }

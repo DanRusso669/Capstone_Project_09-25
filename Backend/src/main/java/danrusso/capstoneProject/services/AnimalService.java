@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
@@ -65,10 +66,36 @@ public class AnimalService {
         };
     }
 
-    public Page<Animal> findAll(int pageNum, int pageSize, String sortBy) {
+    public Page<Animal> findAll(int pageNum, int pageSize, String sortBy, String genderFilter, String statusFilter, String species, String breed, String province) {
+        Specification<Animal> spec = Specification.allOf((root, query, cb) -> cb.conjunction());
         if (pageSize > 10) pageSize = 10;
+
+
+        if (genderFilter != null) {
+            Gender gender = this.checkGenderValue(genderFilter);
+            spec = spec.and((root, query, cb) -> cb.equal(root.get("gender"), gender));
+        }
+
+        if (statusFilter != null) {
+            AnimalStatus status = this.checkStatusValue(statusFilter);
+            spec = spec.and((root, query, cb) -> cb.equal(root.get("status"), status));
+        }
+
+        if (species != null) {
+            spec = spec.and((root, query, cb) -> cb.equal(root.get("species"), species));
+        }
+
+        if (breed != null) {
+            spec = spec.and((root, query, cb) -> cb.equal(root.get("breed"), breed));
+        }
+
+        if (province != null) {
+            spec = spec.and((root, query, cb) -> cb.equal(root.get("province"), province));
+        }
+
         Pageable pageable = PageRequest.of(pageNum, pageSize, Sort.by(sortBy));
-        return this.animalRepository.findAll(pageable);
+
+        return this.animalRepository.findAll(spec, pageable);
     }
 
     public Animal save(NewAnimalDTO payload) {
