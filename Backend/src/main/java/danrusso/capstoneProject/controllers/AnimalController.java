@@ -28,8 +28,8 @@ public class AnimalController {
                                 @RequestParam(required = false) String status,
                                 @RequestParam(required = false) String species,
                                 @RequestParam(required = false) String breed,
-                                @RequestParam(required = false) String provice) {
-        return this.animalService.findAll(page, size, sortBy, gender, status, species, breed, provice);
+                                @RequestParam(required = false) String province) {
+        return this.animalService.findAll(page, size, sortBy, gender, status, species, breed, province);
     }
 
     @GetMapping("/{animalId}")

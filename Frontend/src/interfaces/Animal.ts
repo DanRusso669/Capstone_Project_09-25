@@ -28,13 +28,22 @@ export interface FoundBy {
   phoneNumber: string;
 }
 
-export interface AnimalState {
-  data: { list: Animal[]; single: Animal | null };
-  status: "succeeded" | "failed" | "pending";
-  errorMessage: string;
+export interface FilterState {
   page: number;
   size: number;
   sortBy: string;
+  gender: string;
+  status: string;
+  species: string;
+  breed: string;
+  province: string;
+}
+
+export interface AnimalState {
+  data: { list: Animal[]; single: Animal | null };
+  requestStatus: "succeeded" | "failed" | "pending";
+  errorMessage: string;
+  filters: FilterState;
 }
 
 export interface AllAnimalResponse {

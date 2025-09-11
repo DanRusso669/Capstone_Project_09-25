@@ -4,11 +4,18 @@ import type { ErrorsData } from "../../interfaces/ErrorsData";
 
 const initialState: AnimalState = {
   data: { list: [], single: null },
-  status: "pending",
+  requestStatus: "pending",
   errorMessage: "",
-  page: 0,
-  size: 10,
-  sortBy: "id",
+  filters: {
+    page: 0,
+    size: 10,
+    sortBy: "id",
+    gender: "",
+    status: "",
+    species: "",
+    breed: "",
+    province: "",
+  },
 };
 
 const animalSlice = createSlice({
@@ -16,49 +23,66 @@ const animalSlice = createSlice({
   initialState,
   reducers: {
     setPage: (state, action: PayloadAction<number>) => {
-      state.page = action.payload;
+      state.filters.page = action.payload;
     },
     setSize: (state, action: PayloadAction<number>) => {
-      state.size = action.payload;
+      state.filters.size = action.payload;
     },
     setSortBy: (state, action: PayloadAction<string>) => {
-      state.sortBy = action.payload;
+      state.filters.sortBy = action.payload;
+    },
+    setGender: (state, action: PayloadAction<string>) => {
+      state.filters.gender = action.payload;
+    },
+    setStatus: (state, action: PayloadAction<string>) => {
+      state.filters.status = action.payload;
+    },
+    setSpecies: (state, action: PayloadAction<string>) => {
+      state.filters.species = action.payload;
+    },
+    setBreed: (state, action: PayloadAction<string>) => {
+      state.filters.breed = action.payload;
+    },
+    setProvince: (state, action: PayloadAction<string>) => {
+      state.filters.province = action.payload;
     },
   },
   extraReducers: builder => {
     builder
       .addCase(allAnimalFetch.pending, state => {
-        state.status = "pending";
+        state.requestStatus = "pending";
       })
       .addCase(allAnimalFetch.fulfilled, (state, action) => {
-        state.status = "succeeded";
-        state.data.list = [...state.data.list, ...action.payload];
+        state.requestStatus = "succeeded";
+        if (state.filters.page === 0) {
+          state.data.list = action.payload;
+        } else {
+          state.data.list = [...state.data.list, ...action.payload];
+        }
+        state.data.list = action.payload;
       })
       .addCase(allAnimalFetch.rejected, (state, action) => {
-        state.status = "failed";
+        state.requestStatus = "failed";
         state.errorMessage = action.payload as string;
       })
 
       .addCase(singleAnimalFetch.pending, state => {
-        state.status = "pending";
+        state.requestStatus = "pending";
       })
       .addCase(singleAnimalFetch.fulfilled, (state, action) => {
-        state.status = "succeeded";
+        state.requestStatus = "succeeded";
         state.data.single = action.payload;
       })
       .addCase(singleAnimalFetch.rejected, (state, action) => {
-        state.status = "failed";
+        state.requestStatus = "failed";
         state.errorMessage = action.payload as string;
       });
   },
 });
 
-export const allAnimalFetch = createAsyncThunk("animals/get-all", async (_, { rejectWithValue, getState }) => {
-  const { animals } = getState() as { animals: AnimalState };
-  const { page, size, sortBy } = animals;
-
+export const allAnimalFetch = createAsyncThunk("animals/get-all", async (filterParams: string, { rejectWithValue }) => {
   try {
-    const resp = await fetch(`http://localhost:3001/animals?page=${page}&size=${size}&sortBy=${sortBy}`, {
+    const resp = await fetch(`http://localhost:3001/animals?${filterParams}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -100,6 +124,6 @@ export const singleAnimalFetch = createAsyncThunk("animals/get-single", async (a
   }
 });
 
-export const { setPage, setSize, setSortBy } = animalSlice.actions;
+export const { setPage, setSize, setSortBy, setGender, setStatus, setSpecies, setBreed, setProvince } = animalSlice.actions;
 
 export default animalSlice.reducer;

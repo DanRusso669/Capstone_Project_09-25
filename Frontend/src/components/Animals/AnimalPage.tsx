@@ -1,33 +1,56 @@
 import { Button, Card, Col, Container, Form, Offcanvas, Row } from "react-bootstrap";
 import "./animalPage.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
-import { allAnimalFetch, setPage } from "../../redux/actions/animalSlice";
-import { Link } from "react-router-dom";
+import { allAnimalFetch, setBreed, setGender, setPage, setProvince, setSpecies, setStatus } from "../../redux/actions/animalSlice";
+import { Link, useSearchParams } from "react-router-dom";
 
 const AnimalPage = () => {
   const [showOffcanvas, setShowOffcanvas] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const dispatch = useAppDispatch();
   const {
     data: { list },
-    status,
-    page,
+    requestStatus,
+    filters: { page, gender, species, breed, province, status },
   } = useAppSelector(state => state.animals);
 
   useEffect(() => {
-    if (list.length === 0) {
-      dispatch(allAnimalFetch());
-    }
-  }, [list.length, dispatch]);
+    dispatch(setPage(0));
+    dispatch(allAnimalFetch(searchParams.toString()));
+  }, [searchParams, dispatch]);
 
   const loadMoreAnimals = () => {
-    if (status === "pending") return;
+    if (requestStatus === "pending") return;
+    const params = new URLSearchParams(searchParams);
+    params.set("page", (page + 1).toString());
+    setSearchParams(params);
     dispatch(setPage(page + 1));
-    dispatch(allAnimalFetch());
+    dispatch(allAnimalFetch(searchParams.toString()));
   };
 
   const handleShowOffcanvas = () => setShowOffcanvas(!showOffcanvas);
+
+  const handleSpeciesChange = (e: ChangeEvent<HTMLSelectElement>) => dispatch(setSpecies(e.target.value));
+  const handleProvinceChange = (e: ChangeEvent<HTMLSelectElement>) => dispatch(setProvince(e.target.value));
+  const handleBreedChange = (e: ChangeEvent<HTMLInputElement>) => dispatch(setBreed(e.target.value));
+  const handleGenderChange = (e: ChangeEvent<HTMLInputElement>) => dispatch(setGender(e.target.value));
+  const handleAnimalStatusChange = (e: ChangeEvent<HTMLInputElement>) => dispatch(setStatus(e.target.value));
+
+  const handleFilteredSearch = () => {
+    const newParams: Record<string, string> = {};
+
+    if (gender) newParams.gender = gender;
+    if (species) newParams.species = species;
+    if (province) newParams.province = province;
+    if (breed) newParams.breed = breed;
+    if (status) newParams.status = status;
+    newParams.page = page.toString();
+    dispatch(setPage(0));
+    setSearchParams(newParams);
+    handleShowOffcanvas();
+  };
 
   return (
     <>
@@ -114,49 +137,51 @@ const AnimalPage = () => {
             <Row className="d-flex flex-row">
               <Form.Group as={Col} md={6} lg={4} className="mb-3" controlId="formSortBy">
                 <Form.Label className="fst-italic fw-semibold">Specie</Form.Label>
-                <Form.Select>
-                  <option>- - -</option>
-                  <option value={1}>Cervidi</option>
-                  <option value={2}>Volatili</option>
-                  <option value={3}>Suidi</option>
-                  <option value={4}>Specie</option>
-                  <option value={5}>Provincia</option>
+                <Form.Select value={species} onChange={handleSpeciesChange}>
+                  <option value={""}>- - -</option>
+                  <option value={"Cervide"}>Cervidi</option>
+                  <option value={"Volatile"}>Volatili</option>
+                  <option value={"Suide"}>Suidi</option>
+                  <option value={"Ungolato"}>Specie</option>
+                  <option value={"Rapace"}>Provincia</option>
                 </Form.Select>
               </Form.Group>
 
               <Form.Group as={Col} md={6} lg={4} className="mb-3" controlId="formSortBy">
                 <Form.Label className="fst-italic fw-semibold">Provincia</Form.Label>
-                <Form.Select>
-                  <option>- - -</option>
-                  <option value={1}>Torino</option>
-                  <option value={2}>Vercelli</option>
-                  <option value={3}>Novara</option>
-                  <option value={4}>Verbania</option>
-                  <option value={5}>Varese</option>
+                <Form.Select value={province} onChange={handleProvinceChange}>
+                  <option value={""}>- - -</option>
+                  <option value={"Torino"}>Torino</option>
+                  <option value={"Vercelli"}>Vercelli</option>
+                  <option value={"Novara"}>Novara</option>
+                  <option value={"Verbania"}>Verbania</option>
+                  <option value={"Varese"}>Varese</option>
                 </Form.Select>
               </Form.Group>
 
               <Form.Group as={Col} md={6} lg={4} className="mb-3">
                 <Form.Label className="fst-italic fw-semibold mb-0 mt-2">Razza</Form.Label>
-                <Form.Control type="text" placeholder="Inserisci la razza" />
+                <Form.Control value={breed} type="text" placeholder="Inserisci la razza" onChange={handleBreedChange} />
               </Form.Group>
 
               <Form.Group as={Col} md={6} lg={4} className="mb-3">
                 <Form.Label className="fst-italic fw-semibold">Sesso</Form.Label>
-                <Form.Check type="checkbox" label="Maschio" />
-                <Form.Check type="checkbox" label="Femmina" />
+                <Form.Check type="radio" value="" label="Nessuna selezione" name="sesso" onChange={handleGenderChange} />
+                <Form.Check type="radio" value="MALE" label="Maschio" name="sesso" onChange={handleGenderChange} />
+                <Form.Check type="radio" value="FEMALE" label="Femmina" name="sesso" onChange={handleGenderChange} />
               </Form.Group>
 
               <Form.Group as={Col} md={6} lg={4} className="mb-3">
                 <Form.Label className="fst-italic fw-semibold">Status</Form.Label>
-                <Form.Check type="checkbox" label="Ricoverato" />
-                <Form.Check type="checkbox" label="Rilasciato" />
-                <Form.Check type="checkbox" label="Deceduto" />
+                <Form.Check type="radio" value="" label="Nessuna selezione" name="status" onChange={handleAnimalStatusChange} />
+                <Form.Check type="radio" value="HOSPITALIZED" label="Ricoverato" name="status" onChange={handleAnimalStatusChange} />
+                <Form.Check type="radio" value="RELEASED" label="Rilasciato" name="status" onChange={handleAnimalStatusChange} />
+                <Form.Check type="radio" value="DEAD" label="Deceduto" name="status" onChange={handleAnimalStatusChange} />
               </Form.Group>
             </Row>
 
             <div className="d-flex w-100 justify-content-end">
-              <Button variant="outline-none" type="submit" className="filter-submit-btn me-4">
+              <Button variant="outline-none" className="filter-submit-btn me-4" onClick={handleFilteredSearch}>
                 Submit
               </Button>
             </div>
