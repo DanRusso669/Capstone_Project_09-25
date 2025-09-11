@@ -1,11 +1,13 @@
-import { Button, Card, Col, Container, Row } from "react-bootstrap";
+import { Button, Card, Col, Container, Form, Offcanvas, Row } from "react-bootstrap";
 import "./animalPage.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { allAnimalFetch, setPage } from "../../redux/actions/animalSlice";
 import { Link } from "react-router-dom";
 
 const AnimalPage = () => {
+  const [showOffcanvas, setShowOffcanvas] = useState(false);
+
   const dispatch = useAppDispatch();
   const {
     data: { list },
@@ -25,6 +27,8 @@ const AnimalPage = () => {
     dispatch(allAnimalFetch());
   };
 
+  const handleShowOffcanvas = () => setShowOffcanvas(!showOffcanvas);
+
   return (
     <>
       <Container id="animal-section" className="navbar-height information d-flex flex-column justify-content-start align-items-start mb-4">
@@ -37,7 +41,10 @@ const AnimalPage = () => {
           esplorare le storie di questi straordinari animali e a conoscere più da vicino{" "}
           <span className="fw-bold">il nostro impegno nella tutela della fauna selvatica</span>.
         </p>
-        <h3 className="subtitles mx-auto mb-3">Ultimi arrivati</h3>
+        <h3 className="subtitles mx-auto">Ultimi arrivati</h3>
+        <Button variant="outline-none" className="filter-btn ms-auto fs-5 me-2" onClick={handleShowOffcanvas}>
+          Filtri
+        </Button>
         <Row className="gy-2 gx-2">
           {list.length !== 0 ? (
             list.map(animal => (
@@ -85,6 +92,77 @@ const AnimalPage = () => {
           </Button>
         )}
       </Container>
+
+      <Offcanvas id="filter-offcanvas" show={showOffcanvas} onHide={handleShowOffcanvas} placement="top">
+        <Offcanvas.Header closeButton></Offcanvas.Header>
+        <Offcanvas.Title>
+          <h4 className="subtitles fs-5 text-center">Filtra per</h4>
+        </Offcanvas.Title>
+        <Offcanvas.Body>
+          <Form>
+            {/* <Form.Group className="mb-3" controlId="formSortBy">
+              <Form.Label>Ordina per </Form.Label>
+              <Form.Select>
+                <option>Più recente</option>
+                <option>Più vecchio</option>
+                <option>Nome</option>
+                <option>Specie</option>
+                <option>Provincia</option>
+              </Form.Select>
+            </Form.Group> */}
+
+            <Row className="d-flex flex-row">
+              <Form.Group as={Col} md={6} lg={4} className="mb-3" controlId="formSortBy">
+                <Form.Label className="fst-italic fw-semibold">Specie</Form.Label>
+                <Form.Select>
+                  <option>- - -</option>
+                  <option value={1}>Cervidi</option>
+                  <option value={2}>Volatili</option>
+                  <option value={3}>Suidi</option>
+                  <option value={4}>Specie</option>
+                  <option value={5}>Provincia</option>
+                </Form.Select>
+              </Form.Group>
+
+              <Form.Group as={Col} md={6} lg={4} className="mb-3" controlId="formSortBy">
+                <Form.Label className="fst-italic fw-semibold">Provincia</Form.Label>
+                <Form.Select>
+                  <option>- - -</option>
+                  <option value={1}>Torino</option>
+                  <option value={2}>Vercelli</option>
+                  <option value={3}>Novara</option>
+                  <option value={4}>Verbania</option>
+                  <option value={5}>Varese</option>
+                </Form.Select>
+              </Form.Group>
+
+              <Form.Group as={Col} md={6} lg={4} className="mb-3">
+                <Form.Label className="fst-italic fw-semibold mb-0 mt-2">Razza</Form.Label>
+                <Form.Control type="text" placeholder="Inserisci la razza" />
+              </Form.Group>
+
+              <Form.Group as={Col} md={6} lg={4} className="mb-3">
+                <Form.Label className="fst-italic fw-semibold">Sesso</Form.Label>
+                <Form.Check type="checkbox" label="Maschio" />
+                <Form.Check type="checkbox" label="Femmina" />
+              </Form.Group>
+
+              <Form.Group as={Col} md={6} lg={4} className="mb-3">
+                <Form.Label className="fst-italic fw-semibold">Status</Form.Label>
+                <Form.Check type="checkbox" label="Ricoverato" />
+                <Form.Check type="checkbox" label="Rilasciato" />
+                <Form.Check type="checkbox" label="Deceduto" />
+              </Form.Group>
+            </Row>
+
+            <div className="d-flex w-100 justify-content-end">
+              <Button variant="outline-none" type="submit" className="filter-submit-btn me-4">
+                Submit
+              </Button>
+            </div>
+          </Form>
+        </Offcanvas.Body>
+      </Offcanvas>
     </>
   );
 };

@@ -6,7 +6,8 @@
 }
 
 #animal-section .details-btn,
-.load-more-btn {
+.load-more-btn,
+.filter-submit-btn {
   text-decoration: none;
   color: white;
   background-color: rgb(58, 107, 47);
@@ -17,7 +18,8 @@
 }
 
 #animal-section .details-btn:hover,
-.load-more-btn:hover {
+.load-more-btn:hover,
+.filter-submit-btn:hover {
   background-color: white;
   color: #3a6b2f;
   font-weight: bold;
@@ -26,4 +28,31 @@
 
 #animal-section .card-body {
   max-width: 260px;
+}
+
+#animal-section .filter-btn {
+  color: #3a6b2f;
+  position: relative;
+}
+
+#animal-section .filter-btn::after {
+  content: "";
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #3a6b2f;
+  transition: width 0.7s linear;
+}
+
+#animal-section .filter-btn:hover::after {
+  width: 100%;
+}
+
+#filter-offcanvas {
+  border-radius: 0px 0px 40px 40px;
+  background-color: #faf3dd;
+  transition: all 1s linear;
+  height: 400px;
 }

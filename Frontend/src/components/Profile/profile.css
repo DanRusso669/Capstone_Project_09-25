@@ -1,3 +1,7 @@
 .profile-container {
   min-height: calc(100vh - 160px - 110px);
 }
+
+.update-modal {
+  background-color: #faf3dd;
+}

@@ -30,8 +30,8 @@ const MyVerticalModal = ({ show, onHide }: Props) => {
   return (
     <>
       <Modal show={show} onHide={onHide} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
-        <Modal.Header closeButton></Modal.Header>
-        <Modal.Body className="d-flex flex-column align-items-center">
+        <Modal.Header closeButton className="update-modal"></Modal.Header>
+        <Modal.Body className="d-flex flex-column align-items-center update-modal rounded-bottom">
           <h4 className="subtitles">Modifica dei dati</h4>
           <p className="mt-2 mb-3">Per poter modificare i tuoi dati, devi inserire la tua password.</p>
           <Form.Group as={Col} md={6} className="mb-3 mx-auto" controlId="formGridPassword">
