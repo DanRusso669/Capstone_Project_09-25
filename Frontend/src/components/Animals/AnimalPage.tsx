@@ -13,19 +13,15 @@ const AnimalPage = () => {
   const {
     data: { list },
     requestStatus,
-    filters: { page, gender, species, breed, province, status },
+    filters: { page, gender, species, breed, province, status, lastPage },
   } = useAppSelector(state => state.animals);
 
   useEffect(() => {
-    dispatch(setPage(0));
     dispatch(allAnimalFetch(searchParams.toString()));
-  }, [searchParams, dispatch]);
+  }, [dispatch, searchParams]);
 
   const loadMoreAnimals = () => {
     if (requestStatus === "pending") return;
-    const params = new URLSearchParams(searchParams);
-    params.set("page", (page + 1).toString());
-    setSearchParams(params);
     dispatch(setPage(page + 1));
     dispatch(allAnimalFetch(searchParams.toString()));
   };
@@ -46,7 +42,6 @@ const AnimalPage = () => {
     if (province) newParams.province = province;
     if (breed) newParams.breed = breed;
     if (status) newParams.status = status;
-    newParams.page = page.toString();
     dispatch(setPage(0));
     setSearchParams(newParams);
     handleShowOffcanvas();
@@ -68,7 +63,7 @@ const AnimalPage = () => {
         <Button variant="outline-none" className="filter-btn ms-auto fs-5 me-2" onClick={handleShowOffcanvas}>
           Filtri
         </Button>
-        <Row className="gy-2 gx-2">
+        <Row className="gy-2 gx-2 w-100">
           {list.length !== 0 ? (
             list.map(animal => (
               <Col key={animal.id} xs={12} md={6}>
@@ -110,7 +105,7 @@ const AnimalPage = () => {
             Caricamento...
           </Button>
         ) : (
-          <Button variant="outline-none" className="mt-4 load-more-btn mx-auto" onClick={loadMoreAnimals}>
+          <Button variant="outline-none" className={`mt-4 load-more-btn mx-auto ${lastPage && "d-none"}`} onClick={loadMoreAnimals}>
             Carica di più
           </Button>
         )}

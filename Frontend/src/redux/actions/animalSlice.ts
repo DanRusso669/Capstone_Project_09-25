@@ -8,6 +8,7 @@ const initialState: AnimalState = {
   errorMessage: "",
   filters: {
     page: 0,
+    lastPage: false,
     size: 10,
     sortBy: "id",
     gender: "",
@@ -54,12 +55,13 @@ const animalSlice = createSlice({
       })
       .addCase(allAnimalFetch.fulfilled, (state, action) => {
         state.requestStatus = "succeeded";
+        const { animals, lastPage } = action.payload;
         if (state.filters.page === 0) {
-          state.data.list = action.payload;
+          state.data.list = animals;
         } else {
-          state.data.list = [...state.data.list, ...action.payload];
+          state.data.list = [...state.data.list, ...animals];
         }
-        state.data.list = action.payload;
+        state.filters.lastPage = lastPage;
       })
       .addCase(allAnimalFetch.rejected, (state, action) => {
         state.requestStatus = "failed";
@@ -80,9 +82,12 @@ const animalSlice = createSlice({
   },
 });
 
-export const allAnimalFetch = createAsyncThunk("animals/get-all", async (filterParams: string, { rejectWithValue }) => {
+export const allAnimalFetch = createAsyncThunk("animals/get-all", async (filterParams: string, { rejectWithValue, getState }) => {
+  const { animals } = getState() as { animals: AnimalState };
+  const { page } = animals.filters;
+
   try {
-    const resp = await fetch(`http://localhost:3001/animals?${filterParams}`, {
+    const resp = await fetch(`http://localhost:3001/animals?page=${page}&${filterParams}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -95,7 +100,7 @@ export const allAnimalFetch = createAsyncThunk("animals/get-all", async (filterP
     }
 
     const data: AllAnimalResponse = await resp.json();
-    return data.content;
+    return { animals: data.content, lastPage: data.last };
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     return rejectWithValue("Qualcosa è andato storto.");

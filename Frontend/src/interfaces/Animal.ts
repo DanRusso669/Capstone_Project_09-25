@@ -30,6 +30,7 @@ export interface FoundBy {
 
 export interface FilterState {
   page: number;
+  lastPage: boolean;
   size: number;
   sortBy: string;
   gender: string;
