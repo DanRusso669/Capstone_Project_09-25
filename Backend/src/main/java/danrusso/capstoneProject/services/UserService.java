@@ -2,11 +2,10 @@ package danrusso.capstoneProject.services;
 
 import danrusso.capstoneProject.entities.Role;
 import danrusso.capstoneProject.entities.User;
-import danrusso.capstoneProject.exceptions.BadRequestException;
-import danrusso.capstoneProject.exceptions.ForbiddenException;
-import danrusso.capstoneProject.exceptions.NotFoundException;
-import danrusso.capstoneProject.exceptions.ValidationException;
+import danrusso.capstoneProject.exceptions.*;
+import danrusso.capstoneProject.payloads.NewPasswordDTO;
 import danrusso.capstoneProject.payloads.NewUserDTO;
+import danrusso.capstoneProject.payloads.UpdateUserDTO;
 import danrusso.capstoneProject.repositories.RoleRepository;
 import danrusso.capstoneProject.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,7 +71,7 @@ public class UserService {
         return this.userRepository.save(newUser);
     }
 
-    public User findByIdAndUpdate(NewUserDTO payload, long userId) {
+    public User findByIdAndUpdate(UpdateUserDTO payload, long userId) {
         User found = this.findById(userId);
 
         if (!found.getEmail().equals(payload.email())) {
@@ -82,10 +81,23 @@ public class UserService {
         found.setName(payload.name());
         found.setSurname(payload.surname());
         found.setEmail(payload.email());
-        found.setPassword(bcrypt.encode(payload.password()));
         found.setPhoneNumber(payload.phoneNumber());
 
         return this.userRepository.save(found);
+    }
+
+    public boolean findByIdAndChangePassword(NewPasswordDTO payload, long userId) {
+        if (!payload.newPassword().equals(payload.newPasswordRepeated()))
+            throw new ValidationException("Le nuove password devono essere uguali.");
+        else if (payload.newPassword().equals(payload.oldPassword())) {
+            throw new ValidationException("La nuova password non può essere uguale a quella attuale.");
+        }
+        User found = this.findById(userId);
+        if (bcrypt.matches(payload.oldPassword(), found.getPassword()))
+            found.setPassword(bcrypt.encode(payload.newPassword()));
+        else throw new UnauthorizedException("La password attuale è errata.");
+        this.userRepository.save(found);
+        return true;
     }
 
     public void findByIdAndDelete(long userId) {

@@ -17,6 +17,16 @@ export interface UserData extends LoginData {
   phoneNumber: string;
 }
 
+export interface NewPasswordData {
+  newPassword: string;
+  newPasswordRepeated: string;
+  oldPassword: string;
+}
+
+export interface DefinitiveUserState extends UserState<UserData> {
+  newPasswordData: NewPasswordData;
+}
+
 export interface UserState<Data> {
   data: Data;
   status: "succeeded" | "failed" | "pending";

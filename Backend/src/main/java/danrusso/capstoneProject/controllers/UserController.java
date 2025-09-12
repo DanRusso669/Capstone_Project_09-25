@@ -1,10 +1,7 @@
 package danrusso.capstoneProject.controllers;
 
 import danrusso.capstoneProject.entities.User;
-import danrusso.capstoneProject.payloads.CheckPasswordDTO;
-import danrusso.capstoneProject.payloads.CheckPasswordRespDTO;
-import danrusso.capstoneProject.payloads.NewUserDTO;
-import danrusso.capstoneProject.payloads.RoleAssignRespDTO;
+import danrusso.capstoneProject.payloads.*;
 import danrusso.capstoneProject.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -58,7 +55,7 @@ public class UserController {
 
     @PutMapping("/me")
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
-    public User updateOwnProfile(@AuthenticationPrincipal User currentAuthenticatedUser, @RequestBody @Validated NewUserDTO payload, BindingResult validation) {
+    public User updateOwnProfile(@AuthenticationPrincipal User currentAuthenticatedUser, @RequestBody @Validated UpdateUserDTO payload, BindingResult validation) {
         this.userService.checkValidationErrors(validation);
         return this.userService.findByIdAndUpdate(payload, currentAuthenticatedUser.getId());
     }
@@ -77,4 +74,11 @@ public class UserController {
         return new CheckPasswordRespDTO(result);
     }
 
+    @PatchMapping("/me/change-password")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
+    public CheckPasswordRespDTO changeOwnPassword(@AuthenticationPrincipal User currentAuthenticatedUser, @RequestBody @Validated NewPasswordDTO payload, BindingResult validation) {
+        this.userService.checkValidationErrors(validation);
+        boolean result = this.userService.findByIdAndChangePassword(payload, currentAuthenticatedUser.getId());
+        return new CheckPasswordRespDTO(result);
+    }
 }

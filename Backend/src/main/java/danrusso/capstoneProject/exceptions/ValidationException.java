@@ -11,6 +11,10 @@ public class ValidationException extends RuntimeException {
         this.errorMessages = errorMessages;
     }
 
+    public ValidationException(String msg) {
+        super(msg);
+    }
+
     public List<String> getErrorMessages() {
         return errorMessages;
     }

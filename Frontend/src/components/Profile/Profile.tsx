@@ -3,10 +3,13 @@ import "./profile.css";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import {
+  changePasswordFetch,
   profileFetch,
   setEmail,
   setName,
-  setPassword,
+  setNewPassword,
+  setNewPasswordRepeated,
+  setOldPassword,
   setPasswordCheckResult,
   setPhoneNumber,
   setSurname,
@@ -24,24 +27,38 @@ type FormFields = {
   phoneNumber: string;
 };
 
+type NewPasswordFormFields = {
+  newPassword: string;
+  newPasswordRepeated: string;
+  oldPassword: string;
+};
+
 const Profile = () => {
   const [modalShow, setModalShow] = useState(false);
   const dispatch = useAppDispatch();
 
   const {
-    register,
-    handleSubmit,
-    setError,
-    setValue,
-    formState: { errors, isSubmitting },
+    register: registerUserForm,
+    handleSubmit: handleSubmitUserForm,
+    setError: setErrorUserForm,
+    setValue: setValueUserForm,
+    formState: { errors: errorsUserForm, isSubmitting: isSubmittingUserForm },
   } = useForm<FormFields>();
+
+  const {
+    register: registerPasswordForm,
+    handleSubmit: handleSubmitPasswordForm,
+    setError: setErrorPasswordForm,
+    reset: resetPasswordForm,
+    formState: { errors: errorsPasswordForm, isSubmitting: isSubmittingPasswordForm },
+  } = useForm<NewPasswordFormFields>();
 
   const {
     data: { name, surname, email, phoneNumber, password },
     passwordCheckResult,
   } = useAppSelector(state => state.profile);
 
-  const onSubmit: SubmitHandler<FormFields> = async data => {
+  const onSubmitUserForm: SubmitHandler<FormFields> = async data => {
     try {
       await toast.promise(
         dispatch(updateProfileFetch(data)).unwrap(),
@@ -57,7 +74,7 @@ const Profile = () => {
 
       dispatch(setPasswordCheckResult(false));
     } catch (error) {
-      if (typeof error === "string") setError("email", { message: error });
+      if (typeof error === "string") setErrorUserForm("email", { message: error });
     }
   };
 
@@ -67,28 +84,50 @@ const Profile = () => {
   }, []);
 
   useEffect(() => {
-    if (name) setValue("name", name);
-    if (surname) setValue("surname", surname);
-    if (email) setValue("email", email);
-    if (phoneNumber) setValue("phoneNumber", phoneNumber);
-    if (password) setValue("password", password);
-  }, [name, surname, email, phoneNumber, password, setValue]);
+    if (name) setValueUserForm("name", name);
+    if (surname) setValueUserForm("surname", surname);
+    if (email) setValueUserForm("email", email);
+    if (phoneNumber) setValueUserForm("phoneNumber", phoneNumber);
+    if (password) setValueUserForm("password", password);
+  }, [name, surname, email, phoneNumber, password, setValueUserForm]);
 
   useEffect(() => {
     if (passwordCheckResult) setModalShow(false);
   }, [passwordCheckResult]);
+
+  // PASSWORD CHANGE ON SUBMIT
+
+  const onSubmitPasswordForm: SubmitHandler<NewPasswordFormFields> = async data => {
+    try {
+      await toast.promise(
+        dispatch(changePasswordFetch(data)).unwrap(),
+        {
+          pending: "Aggiornamento password in corso...",
+          success: "Aggiornamento password completato con successo!",
+          error: "Aggiornamento password fallito!",
+        },
+        {
+          autoClose: 5000,
+        }
+      );
+
+      resetPasswordForm();
+    } catch (error) {
+      if (typeof error === "string") setErrorPasswordForm("oldPassword", { message: error });
+    }
+  };
 
   return (
     <>
       <Container className="profile-container navbar-height d-flex flex-column justify-content-start align-items-start information">
         <h1 className="titles mx-auto mb-2 mt-4">Il tuo profilo</h1>
         <h4 className="subtitles mx-auto mt-3 mb-2">I tuoi dati</h4>
-        <Form className="mx-auto w-75" onSubmit={passwordCheckResult ? handleSubmit(onSubmit) : undefined}>
+        <Form className="mx-auto w-75" onSubmit={passwordCheckResult ? handleSubmitUserForm(onSubmitUserForm) : undefined}>
           <Row className="mb-3">
             <Form.Group as={Col} xs={12} md={6} className="mb-3" controlId="formGridName">
               <Form.Label>Nome</Form.Label>
               <Form.Control
-                {...register("name", {
+                {...registerUserForm("name", {
                   required: "Il nome è obbligatorio.",
                   minLength: {
                     message: "Il nome deve avere almeno 3 caratteri.",
@@ -106,13 +145,13 @@ const Profile = () => {
                   },
                 })}
               />
-              {errors.name && <Form.Text className="text-danger">{errors.name.message}</Form.Text>}
+              {errorsUserForm.name && <Form.Text className="text-danger">{errorsUserForm.name.message}</Form.Text>}
             </Form.Group>
 
             <Form.Group as={Col} xs={12} md={6} controlId="formGridSurname">
               <Form.Label>Cognome</Form.Label>
               <Form.Control
-                {...register("surname", {
+                {...registerUserForm("surname", {
                   required: "Il cognome è obbligatorio.",
                   minLength: {
                     message: "Il cognome deve avere almeno 3 caratteri.",
@@ -130,7 +169,7 @@ const Profile = () => {
                   },
                 })}
               />
-              {errors.surname && <Form.Text className="text-danger">{errors.surname.message}</Form.Text>}
+              {errorsUserForm.surname && <Form.Text className="text-danger">{errorsUserForm.surname.message}</Form.Text>}
             </Form.Group>
           </Row>
 
@@ -138,7 +177,7 @@ const Profile = () => {
             <Form.Group as={Col} md={6} className="mb-3" controlId="formGridEmail">
               <Form.Label>La tua email</Form.Label>
               <Form.Control
-                {...register("email", {
+                {...registerUserForm("email", {
                   required: "L'email è obbligatoria.",
                   pattern: {
                     value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
@@ -156,13 +195,13 @@ const Profile = () => {
                   },
                 })}
               />
-              {errors.email && <Form.Text className="text-danger">{errors.email.message}</Form.Text>}
+              {errorsUserForm.email && <Form.Text className="text-danger">{errorsUserForm.email.message}</Form.Text>}
             </Form.Group>
 
             <Form.Group as={Col} md={6} className="mb-3 mx-auto" controlId="formGridPhone">
               <Form.Label>Il tuo numero di telefono</Form.Label>
               <Form.Control
-                {...register("phoneNumber", {
+                {...registerUserForm("phoneNumber", {
                   required: "Il numero di telefono è obbligatorio.",
                   validate: value => {
                     if (value.length !== 10) {
@@ -182,43 +221,84 @@ const Profile = () => {
                   },
                 })}
               />
-              {errors.phoneNumber && <Form.Text className="text-danger">{errors.phoneNumber.message}</Form.Text>}
+              {errorsUserForm.phoneNumber && <Form.Text className="text-danger">{errorsUserForm.phoneNumber.message}</Form.Text>}
             </Form.Group>
-
-            {passwordCheckResult && (
-              <>
-                <Form.Group as={Col} md={6} className="mb-3" controlId="formGridPassword">
-                  <Form.Label>La tua password</Form.Label>
-                  <Form.Control
-                    {...register("password", {
-                      required: "La password è obbligatoria.",
-                      pattern: {
-                        value: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
-                        message: "La password deve contenere almeno 8 caratteri, una maiuscola, un numero e un carattere speciale.",
-                      },
-                    })}
-                    autoComplete="off"
-                    className="form-inputs"
-                    type="password"
-                    placeholder="Scegli una password"
-                    onChange={e => {
-                      dispatch(setPassword(e.target.value));
-                    }}
-                  />
-                  {errors.password && <Form.Text className="text-danger">{errors.password.message}</Form.Text>}
-                </Form.Group>
-              </>
-            )}
           </Row>
           <div className="d-flex justify-content-center">
             <Button
-              disabled={isSubmitting}
+              disabled={isSubmittingUserForm}
               variant="outline-none"
               type={passwordCheckResult ? "submit" : "button"}
               className="monthly-form-btn mb-4"
               onClick={passwordCheckResult ? undefined : () => setModalShow(true)}
             >
-              {isSubmitting ? "Salvataggio..." : passwordCheckResult ? "Salva i nuovi dati" : "Modifica i tuoi dati"}
+              {isSubmittingUserForm ? "Salvataggio..." : passwordCheckResult ? "Salva i nuovi dati" : "Modifica i tuoi dati"}
+            </Button>
+          </div>
+        </Form>
+        {/* PASSWORD CHANGE FORM */}
+        <h4 className="subtitles mx-auto mt-3 mb-2">Cambia la tua password</h4>
+        <Form className="mx-auto w-75" onSubmit={handleSubmitPasswordForm(onSubmitPasswordForm)}>
+          <Row className="mb-3">
+            <Form.Group as={Col} md={6} className="mb-3" controlId="formGridPassword">
+              <Form.Label>La tua password attuale</Form.Label>
+              <Form.Control
+                {...registerPasswordForm("oldPassword", {
+                  required: "La password è obbligatoria.",
+                  pattern: {
+                    value: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
+                    message: "La password deve contenere almeno 8 caratteri, una maiuscola, un numero e un carattere speciale.",
+                  },
+                })}
+                autoComplete="off"
+                className="form-inputs"
+                type="password"
+                placeholder="Scegli una password"
+                onChange={e => dispatch(setOldPassword(e.target.value))}
+              />
+              {errorsPasswordForm.oldPassword && <Form.Text className="text-danger">{errorsPasswordForm.oldPassword.message}</Form.Text>}
+            </Form.Group>
+            <Form.Group as={Col} md={6} className="mb-3" controlId="formGridPassword">
+              <Form.Label>La tua nuova password</Form.Label>
+              <Form.Control
+                {...registerPasswordForm("newPassword", {
+                  required: "La password è obbligatoria.",
+                  pattern: {
+                    value: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
+                    message: "La password deve contenere almeno 8 caratteri, una maiuscola, un numero e un carattere speciale.",
+                  },
+                })}
+                autoComplete="off"
+                className="form-inputs"
+                type="password"
+                placeholder="Scegli una password"
+                onChange={e => dispatch(setNewPassword(e.target.value))}
+              />
+              {errorsPasswordForm.newPassword && <Form.Text className="text-danger">{errorsPasswordForm.newPassword.message}</Form.Text>}
+            </Form.Group>
+          </Row>
+          <Form.Group as={Col} md={12} className="mb-3" controlId="formGridPassword">
+            <Form.Label>Riscrivi la tua nuova password</Form.Label>
+            <Form.Control
+              {...registerPasswordForm("newPasswordRepeated", {
+                required: "La password è obbligatoria.",
+                pattern: {
+                  value: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
+                  message: "La password deve contenere almeno 8 caratteri, una maiuscola, un numero e un carattere speciale.",
+                },
+              })}
+              autoComplete="off"
+              className="form-inputs"
+              type="password"
+              placeholder="Scegli una password"
+              onChange={e => dispatch(setNewPasswordRepeated(e.target.value))}
+            />
+            {errorsPasswordForm.newPasswordRepeated && <Form.Text className="text-danger">{errorsPasswordForm.newPasswordRepeated.message}</Form.Text>}
+          </Form.Group>
+
+          <div className="d-flex justify-content-center">
+            <Button disabled={isSubmittingPasswordForm} variant="outline-none" type={"submit"} className="monthly-form-btn mb-4">
+              {isSubmittingPasswordForm ? "Salvataggio..." : "Modifica la tua password"}
             </Button>
           </div>
         </Form>

@@ -1,14 +1,19 @@
 import { createAsyncThunk, createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { PasswordCheckRequest, PasswordCheckResponse, ProfileResponse, UserData, UserState } from "../../interfaces/User";
+import type { DefinitiveUserState, NewPasswordData, PasswordCheckRequest, PasswordCheckResponse, ProfileResponse, UserData } from "../../interfaces/User";
 import type { ErrorsData } from "../../interfaces/ErrorsData";
 
-const initialState: UserState<UserData> = {
+const initialState: DefinitiveUserState = {
   data: {
     name: "",
     surname: "",
     phoneNumber: "",
     email: "",
     password: "",
+  },
+  newPasswordData: {
+    newPassword: "",
+    newPasswordRepeated: "",
+    oldPassword: "",
   },
   status: "pending",
   errorMessage: "",
@@ -39,6 +44,15 @@ const profileSlice = createSlice({
     },
     setPasswordCheckResult: (state, action: PayloadAction<boolean>) => {
       state.passwordCheckResult = action.payload;
+    },
+    setNewPassword: (state, action: PayloadAction<string>) => {
+      state.newPasswordData.newPassword = action.payload;
+    },
+    setNewPasswordRepeated: (state, action: PayloadAction<string>) => {
+      state.newPasswordData.newPasswordRepeated = action.payload;
+    },
+    setOldPassword: (state, action: PayloadAction<string>) => {
+      state.newPasswordData.oldPassword = action.payload;
     },
   },
   extraReducers: builder => {
@@ -75,6 +89,17 @@ const profileSlice = createSlice({
         state.data = action.payload;
       })
       .addCase(updateProfileFetch.rejected, (state, action) => {
+        state.status = "failed";
+        state.errorMessage = action.payload as string;
+      })
+      // CHANGE PASSWORD
+      .addCase(changePasswordFetch.pending, state => {
+        state.status = "pending";
+      })
+      .addCase(changePasswordFetch.fulfilled, state => {
+        state.status = "succeeded";
+      })
+      .addCase(changePasswordFetch.rejected, (state, action) => {
         state.status = "failed";
         state.errorMessage = action.payload as string;
       });
@@ -150,6 +175,37 @@ export const updateProfileFetch = createAsyncThunk("profile/update-profile", asy
   }
 });
 
-export const { setName, setSurname, setEmail, setPassword, setPhoneNumber, setErrorMessage, setPasswordCheckResult } = profileSlice.actions;
+export const changePasswordFetch = createAsyncThunk("profile/change-password", async (newPasswordData: NewPasswordData, { rejectWithValue }) => {
+  try {
+    const resp = await fetch("http://localhost:3001/users/me/change-password", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+      body: JSON.stringify(newPasswordData),
+    });
+
+    if (!resp.ok) {
+      const errorData: ErrorsData = await resp.json();
+      return rejectWithValue(errorData.message);
+    }
+  } catch (error) {
+    return rejectWithValue(error);
+  }
+});
+
+export const {
+  setName,
+  setSurname,
+  setEmail,
+  setPassword,
+  setPhoneNumber,
+  setErrorMessage,
+  setPasswordCheckResult,
+  setNewPassword,
+  setNewPasswordRepeated,
+  setOldPassword,
+} = profileSlice.actions;
 
 export default profileSlice.reducer;
