@@ -4,6 +4,7 @@ import { useEffect, useState, type ChangeEvent } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { allAnimalFetch, setBreed, setGender, setPage, setProvince, setSpecies, setStatus } from "../../redux/actions/animalSlice";
 import { Link, useSearchParams } from "react-router-dom";
+import { ArrowRightShort, ArrowLeftShort } from "react-bootstrap-icons";
 
 const AnimalPage = () => {
   const [showOffcanvas, setShowOffcanvas] = useState(false);
@@ -47,6 +48,11 @@ const AnimalPage = () => {
     handleShowOffcanvas();
   };
 
+  const handleFilterReset = () => {
+    setSearchParams("");
+    setShowOffcanvas(false);
+  };
+
   return (
     <>
       <Container id="animal-section" className="navbar-height information d-flex flex-column justify-content-start align-items-start mb-4">
@@ -59,10 +65,17 @@ const AnimalPage = () => {
           esplorare le storie di questi straordinari animali e a conoscere più da vicino{" "}
           <span className="fw-bold">il nostro impegno nella tutela della fauna selvatica</span>.
         </p>
-        <h3 className="subtitles mx-auto">Ultimi arrivati</h3>
-        <Button variant="outline-none" className="filter-btn ms-auto fs-5 me-2" onClick={handleShowOffcanvas}>
-          Filtri
-        </Button>
+        <h2 className="subtitles mx-auto">Ultimi arrivati</h2>
+        <div className={`d-flex  ${searchParams.toString() !== "" ? "justify-content-center" : "justify-content-end"} justify-content-lg-end w-100`}>
+          {searchParams.toString() !== "" && (
+            <Button variant="outline-none" className="subtitles filter-btn" onClick={handleFilterReset}>
+              <ArrowRightShort /> Resetta tutti i filtri <ArrowLeftShort />
+            </Button>
+          )}
+          <Button variant="outline-none" className="subtitles filter-btn me-3" onClick={handleShowOffcanvas}>
+            <ArrowRightShort /> Filtri <ArrowLeftShort />
+          </Button>
+        </div>
         <Row className="gy-2 gx-2 w-100">
           {list.length !== 0 ? (
             list.map(animal => (
@@ -116,7 +129,7 @@ const AnimalPage = () => {
         <Offcanvas.Title>
           <h4 className="subtitles fs-5 text-center">Filtra per</h4>
         </Offcanvas.Title>
-        <Offcanvas.Body>
+        <Offcanvas.Body className="mx-5">
           <Form>
             {/* <Form.Group className="mb-3" controlId="formSortBy">
               <Form.Label>Ordina per </Form.Label>
@@ -175,9 +188,12 @@ const AnimalPage = () => {
               </Form.Group>
             </Row>
 
-            <div className="d-flex w-100 justify-content-end">
+            <div className="d-flex w-100 justify-content-end align-items-center">
+              <p className="me-4 subtitles reset-btn" onClick={handleFilterReset}>
+                Resetta tutti i filtri
+              </p>
               <Button variant="outline-none" className="filter-submit-btn me-4" onClick={handleFilteredSearch}>
-                Submit
+                Filtra
               </Button>
             </div>
           </Form>
