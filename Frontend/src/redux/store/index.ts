@@ -3,11 +3,13 @@ import { useDispatch, useSelector, type TypedUseSelectorHook } from "react-redux
 import registerReducer from "../actions/registerSlice";
 import loginReducer from "../actions/loginSlice";
 import profileReducer from "../actions/profileSlice";
+import animalsReducer from "../actions/animalSlice";
 
 const rootReducer = combineReducers({
   register: registerReducer,
   login: loginReducer,
   profile: profileReducer,
+  animals: animalsReducer,
 });
 
 const store = configureStore({
