@@ -17,6 +17,7 @@ import Profile from "./components/Profile/Profile";
 import AnimalPage from "./components/Animals/AnimalPage";
 import DetailPage from "./components/Animals/DetailPage";
 import BackOffice from "./components/BackOffice/BackOffice";
+import AddAnimalPage from "./components/BackOffice/AddAnimalPage";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
           <Route path="/registrati" element={<RegisterPage />} />
           <Route path="/profilo" element={<Profile />} />
           <Route path="/back-office" element={<BackOffice />} />
+          <Route path="/back-office/animal/add" element={<AddAnimalPage />} />
         </Routes>
         <Footer />
       </BrowserRouter>

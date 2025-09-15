@@ -1,11 +1,12 @@
 import { Button, Col, Container, Form, Modal, Row } from "react-bootstrap";
 import "./backOffice.css";
 import { useState } from "react";
-import { Plus, Dash, TrashFill } from "react-bootstrap-icons";
+import { Plus, Dash, TrashFill, ArrowReturnLeft } from "react-bootstrap-icons";
 import { useAppDispatch } from "../../redux/store";
 import { animalCRUDFetch } from "../../redux/actions/animalSlice";
 import { toast } from "react-toastify";
 import { useForm, type SubmitHandler } from "react-hook-form";
+import { Link } from "react-router-dom";
 
 type BackOfficeFields = {
   deleteId?: string;
@@ -17,7 +18,7 @@ type BackendError = {
 };
 
 const BackOffice = () => {
-  const [category, setCategory] = useState("animals");
+  const [category, setCategory] = useState("");
   const [showDeleteForm, setShowDeleteForm] = useState(false);
   const [deleteId, setDeleteId] = useState("");
   const [showModal, setShowModal] = useState(false);
@@ -84,23 +85,41 @@ const BackOffice = () => {
         )}
         {category === "animals" && (
           <>
+            <h2 className="titles mx-auto mb-2 mt-4">Animali</h2>
+            <h4 className="subtitles mt-3 " onClick={() => setCategory("")} style={{ cursor: "pointer" }}>
+              Torna indietro <ArrowReturnLeft />
+            </h4>
             <h4 className="subtitles mt-3 mb-2">
-              Visualizza tutti gli animale <Plus />
+              Visualizza tutti gli animale{" "}
+              <Link to={"/back-office/animal/view-all"} className="crud-links">
+                <Plus />
+              </Link>
             </h4>
             <p>Cliccare il + per visualizzare la tabella con tutti gli animali registrati.</p>
             <h4 className="subtitles mt-3 mb-2">
-              Aggiungi un animale <Plus />
+              Aggiungi un animale{" "}
+              <Link to={"/back-office/animal/add"} className="crud-links">
+                <Plus />
+              </Link>
             </h4>
             <p>Cliccare il + per aggiungere un animale.</p>
             <h4 className="subtitles mt-3 mb-2">
-              Modifica un animale <Plus />
+              Modifica un animale{" "}
+              <Link to={"/back-office/animal/update"} className="crud-links">
+                <Plus />
+              </Link>
             </h4>
             <p>Cliccare il + per modificare un animale tramite ID.</p>
             <h4 className="subtitles mt-3 mb-2">
               Elimina un animale{" "}
-              {showDeleteForm ? <Dash onClick={() => setShowDeleteForm(!showDeleteForm)} /> : <Plus onClick={() => setShowDeleteForm(!showDeleteForm)} />}
+              {showDeleteForm ? (
+                <Dash onClick={() => setShowDeleteForm(!showDeleteForm)} />
+              ) : (
+                <Plus onClick={() => setShowDeleteForm(!showDeleteForm)} style={{ cursor: "pointer" }} />
+              )}
             </h4>
             <p>Cliccare il + per eliminare un animale.</p>
+
             {showDeleteForm && (
               <div className="delete-wrapper d-flex flex-column justify-content-start align-items-start w-50">
                 <p className="mb-1 mt-2 align-middle">Inserire l'ID dell'animale che si vuole cancellare:</p>
@@ -121,6 +140,7 @@ const BackOffice = () => {
                 {errors.deleteId && <p className="text-danger mt-2">{errors.deleteId.message}</p>}
               </div>
             )}
+
             <Modal centered show={showModal} onHide={() => setShowModal(false)}>
               <Modal.Header closeButton></Modal.Header>
 
