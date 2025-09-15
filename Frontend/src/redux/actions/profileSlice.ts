@@ -109,7 +109,6 @@ const profileSlice = createSlice({
 export const profileFetch = createAsyncThunk("profile/me", async (_, { rejectWithValue }) => {
   try {
     const resp = await fetch("http://localhost:3001/users/me", {
-      method: "GET",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,

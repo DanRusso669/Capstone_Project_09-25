@@ -68,14 +68,14 @@ const animalSlice = createSlice({
         state.errorMessage = action.payload as string;
       })
 
-      .addCase(singleAnimalFetch.pending, state => {
+      .addCase(animalCRUDFetch.pending, state => {
         state.requestStatus = "pending";
       })
-      .addCase(singleAnimalFetch.fulfilled, (state, action) => {
+      .addCase(animalCRUDFetch.fulfilled, (state, action) => {
         state.requestStatus = "succeeded";
         state.data.single = action.payload;
       })
-      .addCase(singleAnimalFetch.rejected, (state, action) => {
+      .addCase(animalCRUDFetch.rejected, (state, action) => {
         state.requestStatus = "failed";
         state.errorMessage = action.payload as string;
       });
@@ -107,27 +107,31 @@ export const allAnimalFetch = createAsyncThunk("animals/get-all", async (filterP
   }
 });
 
-export const singleAnimalFetch = createAsyncThunk("animals/get-single", async (animalId: string, { rejectWithValue }) => {
-  try {
-    const resp = await fetch(`http://localhost:3001/animals/${animalId}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-      },
-    });
+export const animalCRUDFetch = createAsyncThunk(
+  "animals/get-single",
+  async ({ animalId, method }: { animalId: string; method: string }, { rejectWithValue }) => {
+    try {
+      const resp = await fetch(`http://localhost:3001/animals/${animalId}`, {
+        method: method,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      });
 
-    if (!resp.ok) {
-      const errorData: ErrorsData = await resp.json();
-      return rejectWithValue(errorData);
+      if (!resp.ok) {
+        const errorData: ErrorsData = await resp.json();
+        return rejectWithValue(errorData);
+      }
+
+      const data: Animal = await resp.json();
+      return data;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      return rejectWithValue("Qualcosa è andato storto.");
     }
-
-    const data: Animal = await resp.json();
-    return data;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  } catch (error) {
-    return rejectWithValue("Qualcosa è andato storto.");
   }
-});
+);
 
 export const { setPage, setSize, setSortBy, setGender, setStatus, setSpecies, setBreed, setProvince } = animalSlice.actions;
 

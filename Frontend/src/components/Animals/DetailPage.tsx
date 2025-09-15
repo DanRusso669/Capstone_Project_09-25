@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Col, Container, Image, Row } from "react-bootstrap";
-import { singleAnimalFetch } from "../../redux/actions/animalSlice";
+import { animalCRUDFetch } from "../../redux/actions/animalSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { useParams } from "react-router-dom";
 import "./detail.css";
@@ -13,7 +13,7 @@ const DetailPage = () => {
   } = useAppSelector(state => state.animals);
 
   useEffect(() => {
-    dispatch(singleAnimalFetch(animalId));
+    dispatch(animalCRUDFetch({ animalId, method: "GET" }));
   }, [animalId, dispatch]);
 
   return (
