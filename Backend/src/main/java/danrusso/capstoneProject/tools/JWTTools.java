@@ -1,5 +1,6 @@
 package danrusso.capstoneProject.tools;
 
+import danrusso.capstoneProject.entities.Role;
 import danrusso.capstoneProject.entities.User;
 import danrusso.capstoneProject.exceptions.UnauthorizedException;
 import io.jsonwebtoken.Jwts;
@@ -8,31 +9,34 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.List;
 
 @Component
 public class JWTTools {
     @Value("${jwt.secret}")
     private String secret;
 
-    public String createToken(User user){
+    public String createToken(User user) {
+        List<String> roles = user.getRoles().stream().map(Role::getRoleDef).toList();
 
         return Jwts.builder()
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 7))
                 .subject(String.valueOf(user.getId()))
+                .claim("roles", roles)
                 .signWith(Keys.hmacShaKeyFor(secret.getBytes()))
                 .compact();
     }
 
-    public void checkTokenValidity(String accessToken){
+    public void checkTokenValidity(String accessToken) {
         try {
             Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secret.getBytes())).build().parse(accessToken);
-        } catch (Exception ex){
+        } catch (Exception ex) {
             throw new UnauthorizedException("C'è un problema con il token. Effettua di nuovo il login.");
         }
     }
 
-    public String getIdFromAccessToken (String accessToken){
+    public String getIdFromAccessToken(String accessToken) {
         return Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secret.getBytes())).build().parseSignedClaims(accessToken).getPayload().getSubject();
     }
 }

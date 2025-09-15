@@ -122,7 +122,6 @@ export const profileFetch = createAsyncThunk("profile/me", async (_, { rejectWit
     }
 
     const data: ProfileResponse = await resp.json();
-    console.log(data);
     return data;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {

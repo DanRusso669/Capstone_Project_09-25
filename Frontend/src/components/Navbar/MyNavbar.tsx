@@ -12,6 +12,8 @@ const MyNavbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const isHomepage = location.pathname === "/";
+  const storedRoles = localStorage.getItem("userRoles");
+  const userRoles: string[] = storedRoles ? JSON.parse(storedRoles) : [];
 
   const handleShowOffcanvas = () => {
     setShowOffcanvas(!showOffcanvas);
@@ -44,6 +46,7 @@ const MyNavbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
+    localStorage.removeItem("userRoles");
     setShowOffcanvas(false);
   };
 
@@ -102,10 +105,19 @@ const MyNavbar = () => {
                 <Dropdown.Item onClick={() => navigate("/profilo")} className="profile-links">
                   <ArrowRightShort className="mb-1" />I tuoi dati
                 </Dropdown.Item>
+
                 <Dropdown.Item onClick={() => navigate("/profilo/adozioni")} className="profile-links">
                   <ArrowRightShort className="mb-1" />
                   Le tue adozioni
                 </Dropdown.Item>
+
+                {userRoles.some(role => role === "ADMIN") && (
+                  <Dropdown.Item onClick={() => navigate("/back-office")} className="profile-links">
+                    <ArrowRightShort className="mb-1" />
+                    Back Office
+                  </Dropdown.Item>
+                )}
+
                 <Dropdown.Item href="/" onClick={handleLogout} className="profile-links">
                   <ArrowRightShort className="mb-1" />
                   Logout
@@ -166,6 +178,12 @@ const MyNavbar = () => {
                       <ArrowRightShort className="mb-1" />
                       Le tue adozioni
                     </Link>
+                    {userRoles.some(role => role === "ADMIN") && (
+                      <Link to="/back-office" className="nav-link profile-links" onClick={handleShowOffcanvas}>
+                        <ArrowRightShort className="mb-1" />
+                        Back Office
+                      </Link>
+                    )}
                     <Link to="/" className="nav-link profile-links" onClick={handleLogout}>
                       <ArrowRightShort className="mb-1" />
                       Logout

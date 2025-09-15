@@ -240,7 +240,7 @@ const Profile = () => {
         <h4 className="subtitles mx-auto mt-3 mb-2">Cambia la tua password</h4>
         <Form className="mx-auto w-75" onSubmit={handleSubmitPasswordForm(onSubmitPasswordForm)}>
           <Row className="mb-3">
-            <Form.Group as={Col} md={6} className="mb-3" controlId="formGridPassword">
+            <Form.Group as={Col} md={6} className="mb-3" controlId="formGridOldPassword">
               <Form.Label>La tua password attuale</Form.Label>
               <Form.Control
                 {...registerPasswordForm("oldPassword", {
@@ -258,7 +258,7 @@ const Profile = () => {
               />
               {errorsPasswordForm.oldPassword && <Form.Text className="text-danger">{errorsPasswordForm.oldPassword.message}</Form.Text>}
             </Form.Group>
-            <Form.Group as={Col} md={6} className="mb-3" controlId="formGridPassword">
+            <Form.Group as={Col} md={6} className="mb-3" controlId="formGridNewPassword">
               <Form.Label>La tua nuova password</Form.Label>
               <Form.Control
                 {...registerPasswordForm("newPassword", {
@@ -277,7 +277,7 @@ const Profile = () => {
               {errorsPasswordForm.newPassword && <Form.Text className="text-danger">{errorsPasswordForm.newPassword.message}</Form.Text>}
             </Form.Group>
           </Row>
-          <Form.Group as={Col} md={12} className="mb-3" controlId="formGridPassword">
+          <Form.Group as={Col} md={12} className="mb-3" controlId="formGridNewPasswordRepeated">
             <Form.Label>Riscrivi la tua nuova password</Form.Label>
             <Form.Control
               {...registerPasswordForm("newPasswordRepeated", {
