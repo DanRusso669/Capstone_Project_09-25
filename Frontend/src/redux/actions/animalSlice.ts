@@ -124,6 +124,10 @@ export const animalCRUDFetch = createAsyncThunk(
         return rejectWithValue(errorData);
       }
 
+      if (resp.status === 204) {
+        return null;
+      }
+
       const data: Animal = await resp.json();
       return data;
       // eslint-disable-next-line @typescript-eslint/no-unused-vars

@@ -1,20 +1,59 @@
-import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import { Button, Col, Container, Form, Modal, Row } from "react-bootstrap";
 import "./backOffice.css";
 import { useState } from "react";
 import { Plus, Dash, TrashFill } from "react-bootstrap-icons";
 import { useAppDispatch } from "../../redux/store";
 import { animalCRUDFetch } from "../../redux/actions/animalSlice";
+import { toast } from "react-toastify";
+import { useForm, type SubmitHandler } from "react-hook-form";
+
+type BackOfficeFields = {
+  deleteId?: string;
+};
+
+type BackendError = {
+  message: string;
+  timestamp: string;
+};
 
 const BackOffice = () => {
   const [category, setCategory] = useState("animals");
   const [showDeleteForm, setShowDeleteForm] = useState(false);
   const [deleteId, setDeleteId] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   const dispatch = useAppDispatch();
 
-  const handleDelete = () => {
-    dispatch(animalCRUDFetch({ animalId: deleteId, method: "DELETE" }));
-    setDeleteId("");
+  const {
+    register,
+    setError,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<BackOfficeFields>();
+
+  const handleDelete = async () => {
+    setShowModal(false);
+    try {
+      await toast.promise(
+        dispatch(animalCRUDFetch({ animalId: deleteId, method: "DELETE" })).unwrap(),
+        {
+          pending: `Rimozione in corso...`,
+          success: `Animale con ID ${deleteId} rimosso con successo.`,
+          error: `Rimozione fallita. Riprovare.`,
+        },
+        {
+          autoClose: 4000,
+        }
+      );
+      setDeleteId("");
+    } catch (error) {
+      const backendError = error as BackendError;
+      setError("deleteId", { message: backendError.message });
+    }
+  };
+
+  const onSubmit: SubmitHandler<BackOfficeFields> = () => {
+    setShowModal(true);
   };
 
   return (
@@ -65,19 +104,41 @@ const BackOffice = () => {
             {showDeleteForm && (
               <div className="delete-wrapper d-flex flex-column justify-content-start align-items-start w-50">
                 <p className="mb-1 mt-2 align-middle">Inserire l'ID dell'animale che si vuole cancellare:</p>
-                <Form.Group controlId="deleteById" className="d-flex justify-content-center align-items-center">
-                  <Form.Control
-                    value={deleteId}
-                    className="form-inputs rounded-start rounded-end-0"
-                    type="number"
-                    onChange={e => setDeleteId(e.target.value)}
-                  />
-                  <Button variant="outline-none" className="delete-btn rounded-end rounded-start-0 border-start-0" onClick={() => handleDelete()}>
-                    <TrashFill />
-                  </Button>
-                </Form.Group>
+                <Form onSubmit={handleSubmit(onSubmit)}>
+                  <Form.Group controlId="deleteById" className="d-flex justify-content-center align-items-center">
+                    <Form.Control
+                      {...register("deleteId", { required: "Il campo non può essere vuoto." })}
+                      value={deleteId}
+                      className="form-inputs rounded-start rounded-end-0"
+                      type="number"
+                      onChange={e => setDeleteId(e.target.value)}
+                    />
+                    <Button variant="outline-none" className="delete-btn rounded-end rounded-start-0 border-start-0" type="submit">
+                      <TrashFill />
+                    </Button>
+                  </Form.Group>
+                </Form>
+                {errors.deleteId && <p className="text-danger mt-2">{errors.deleteId.message}</p>}
               </div>
             )}
+            <Modal centered show={showModal} onHide={() => setShowModal(false)}>
+              <Modal.Header closeButton></Modal.Header>
+
+              <Modal.Body>
+                <p className="text-center">
+                  Sei sicuro di volere rimuovere questo animale ?<br /> <span className="fw-bold">L'azione è irreversibile.</span>
+                </p>
+              </Modal.Body>
+
+              <Modal.Footer>
+                <Button variant="outline-none" id="cancel-delete-btn" onClick={() => setShowModal(false)}>
+                  Annulla
+                </Button>
+                <Button variant="outline-none" id="confirm-delete-btn" onClick={handleDelete}>
+                  Rimuovi
+                </Button>
+              </Modal.Footer>
+            </Modal>
           </>
         )}
       </Container>
