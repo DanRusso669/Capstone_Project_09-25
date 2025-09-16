@@ -85,7 +85,7 @@
 }
 
 /* ANIMAL */
-#add-animal-section .add-animal-btn {
+.add-update-animal-btn {
   text-decoration: none;
   color: white;
   background-color: rgb(58, 107, 47);
@@ -95,7 +95,7 @@
   font-size: 19px;
 }
 
-#add-animal-section .add-animal-btn:hover {
+.add-update-animal-btn:hover {
   background-color: white;
   color: #3a6b2f;
   font-weight: bold;

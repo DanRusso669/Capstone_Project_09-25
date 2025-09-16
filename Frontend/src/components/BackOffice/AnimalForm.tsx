@@ -4,6 +4,8 @@ import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { animalCRUDFetch } from "../../redux/actions/animalSlice";
 import { toast } from "react-toastify";
 import type { NewAnimal } from "../../interfaces/Animal";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
 
 type FormFields = {
   id?: number | null;
@@ -52,7 +54,14 @@ const emptyAnimal: NewAnimal = {
 const AnimalForm = () => {
   const { single } = useAppSelector(state => state.animals.data);
   const dispatch = useAppDispatch();
+  const { animalId } = useParams();
   const isUpdatePage = location.pathname.includes("modifica");
+
+  useEffect(() => {
+    if (animalId && isUpdatePage) {
+      dispatch(animalCRUDFetch({ animalId: animalId, method: "GET", animalData: null }));
+    }
+  }, [animalId, isUpdatePage, dispatch]);
 
   const defaultValues =
     isUpdatePage && single
@@ -69,17 +78,31 @@ const AnimalForm = () => {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<FormFields>({ defaultValues: defaultValues });
+
+  useEffect(() => {
+    if (isUpdatePage && single) {
+      reset({
+        ...single,
+        userName: single.foundBy?.userName,
+        userSurname: single.foundBy?.userSurname,
+        userEmail: single.foundBy?.userEmail,
+        userPhoneNumber: single.foundBy?.userPhoneNumber,
+      });
+    }
+  }, [isUpdatePage, single, reset]);
 
   const onSubmit: SubmitHandler<FormFields> = async data => {
     try {
+      const method = isUpdatePage ? "PUT" : "POST";
+
       await toast.promise(
-        dispatch(animalCRUDFetch({ animalId: null, method: "POST", animalData: data })).unwrap(),
+        dispatch(animalCRUDFetch({ animalId: animalId, method, animalData: data })).unwrap(),
         {
-          pending: "Aggiunta in corso...",
-          success: "Animale aggiunto con successo!",
-          error: "Aggiunta fallita. Riprovare.",
+          pending: isUpdatePage ? "Modifica in corso..." : "Aggiunta in corso...",
+          success: isUpdatePage ? "Animale modificato con successo!" : "Animale aggiunto con successo!",
+          error: isUpdatePage ? "Modifica fallita. Riprovare." : "Aggiunta fallita. Riprovare.",
         },
         {
           autoClose: 4000,
@@ -88,9 +111,10 @@ const AnimalForm = () => {
 
       reset();
     } catch (error) {
-      console.error("Errore durante l'aggiunta dell'animale:", error);
+      console.error("Errore durante la fetch dell'animale:", error);
     }
   };
+
   return (
     <>
       <Form className="w-100" onSubmit={handleSubmit(onSubmit)}>
@@ -297,24 +321,32 @@ const AnimalForm = () => {
             {errors.userPhoneNumber && <p className="text-danger mt-1">{errors.userPhoneNumber.message}</p>}
           </Form.Group>
         </Row>
-        {/* 
-        <Row>
-                      <Form.Group as={Col} xs={12} sm={6} controlId="formGridPhone" className="mt-3">
-            <Form.Label className="fst-italic fw-semibold">Numero di Telefono del/la Cittadino/a</Form.Label>
-            <Form.Control
-              {...register("", { required: "Il numero di telefono del cittadino è obbligatorio" })}
-              autoComplete="off"
-              className="form-inputs"
-              type="number"
-              placeholder="Inserisci il telefono chi ha ritrovato l'animale"
-            />
-            {errors.userPhoneNumber && <p className="text-danger mt-1">{errors.userPhoneNumber.message}</p>}
-          </Form.Group>
-        </Row> */}
+
+        {isUpdatePage && (
+          <Row>
+            <Form.Group as={Col} xs={12} sm={6} lg={4} controlId="formGridReleaseDate" className="mt-3">
+              <Form.Label className="fst-italic fw-semibold">Data di Rilascio</Form.Label>
+              <Form.Control {...register("releaseDate")} autoComplete="off" className="form-inputs" type="date" />
+              {errors.releaseDate && <p className="text-danger mt-1">{errors.releaseDate.message}</p>}
+            </Form.Group>
+
+            <Form.Group as={Col} xs={12} sm={6} lg={4} controlId="formGridDeathDate" className="mt-3">
+              <Form.Label className="fst-italic fw-semibold">Data del Decesso</Form.Label>
+              <Form.Control {...register("deathDate")} autoComplete="off" className="form-inputs" type="date" />
+              {errors.deathDate && <p className="text-danger mt-1">{errors.deathDate.message}</p>}
+            </Form.Group>
+
+            <Form.Group as={Col} xs={12} sm={6} lg={4} controlId="formGridPhone" className="mt-3">
+              <Form.Label className="fst-italic fw-semibold">Causa del Decesso</Form.Label>
+              <Form.Control {...register("deathCause")} autoComplete="off" className="form-inputs" type="text" placeholder="Inserisci la causa del decesso" />
+              {errors.deathCause && <p className="text-danger mt-1">{errors.deathCause.message}</p>}
+            </Form.Group>
+          </Row>
+        )}
 
         <div className="d-flex justify-content-center mt-4">
-          <Button variant="outline-none" className="add-animal-btn" type="submit">
-            Aggiungi animale
+          <Button disabled={isSubmitting} variant="outline-none" className="add-update-animal-btn" type="submit">
+            {isSubmitting ? "Caricamento..." : isUpdatePage ? "Modifica animale" : "Aggiungi animale"}
           </Button>
         </div>
       </Form>

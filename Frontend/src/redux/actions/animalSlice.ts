@@ -109,7 +109,7 @@ export const allAnimalFetch = createAsyncThunk("animals/get-all", async (filterP
 
 export const animalCRUDFetch = createAsyncThunk(
   "animals/CRUD",
-  async ({ animalId, method, animalData }: { animalId: string | null; method: string; animalData: Animal | null }, { rejectWithValue }) => {
+  async ({ animalId, method, animalData }: { animalId: string | undefined; method: string; animalData: Animal | null }, { rejectWithValue }) => {
     try {
       const endpoint = animalId ? `http://localhost:3001/animals/${animalId}` : "http://localhost:3001/animals";
       const resp = await fetch(endpoint, {
