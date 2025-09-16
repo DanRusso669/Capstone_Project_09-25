@@ -107,7 +107,7 @@ const BackOffice = () => {
             </h4>
             <h4 className="subtitles mt-3 mb-2">
               Visualizza tutti gli animale{" "}
-              <Link to={"/back-office/animal/view-all"} className="crud-links">
+              <Link to={"/back-office/animal/visualizza-tutti"} className="crud-links">
                 <Plus />
               </Link>
             </h4>
