@@ -30,7 +30,8 @@
   border: 1px solid black;
 }
 
-#back-office-section .delete-wrapper {
+#back-office-section .delete-wrapper,
+.update-wrapper {
   opacity: 0;
   transform: translateX(-10px);
   animation: slide 1s ease forwards;
@@ -53,9 +54,20 @@
   color: white;
 }
 
+#back-office-section .update-btn {
+  color: white;
+  background-color: #3a6b2f;
+  border: 1px solid black;
+}
+
 #back-office-section .delete-btn:hover {
   background-color: white;
   color: rgb(248, 11, 11);
+}
+
+#back-office-section .update-btn:hover {
+  background-color: white;
+  color: #3a6b2f;
 }
 
 #confirm-delete-btn {

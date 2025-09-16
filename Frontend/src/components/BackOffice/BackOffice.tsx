@@ -1,15 +1,16 @@
 import { Button, Col, Container, Form, Modal, Row } from "react-bootstrap";
 import "./backOffice.css";
 import { useState } from "react";
-import { Plus, Dash, TrashFill, ArrowReturnLeft } from "react-bootstrap-icons";
+import { Plus, Dash, TrashFill, ArrowReturnLeft, SendFill } from "react-bootstrap-icons";
 import { useAppDispatch } from "../../redux/store";
 import { animalCRUDFetch } from "../../redux/actions/animalSlice";
 import { toast } from "react-toastify";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 type BackOfficeFields = {
   deleteId?: string;
+  updateId?: string;
 };
 
 type BackendError = {
@@ -20,10 +21,13 @@ type BackendError = {
 const BackOffice = () => {
   const [category, setCategory] = useState("");
   const [showDeleteForm, setShowDeleteForm] = useState(false);
+  const [showUpdateForm, setShowUpdateForm] = useState(false);
   const [deleteId, setDeleteId] = useState("");
+  const [updateId, setUpdateId] = useState("");
   const [showModal, setShowModal] = useState(false);
 
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -57,9 +61,21 @@ const BackOffice = () => {
     setShowModal(true);
   };
 
+  const handleUpdate = async () => {
+    try {
+      const response = await dispatch(animalCRUDFetch({ animalId: updateId, method: "GET", animalData: null })).unwrap();
+      if (response) {
+        navigate(`/back-office/animal/modifica/${updateId}`);
+      }
+    } catch (error) {
+      const backendError = error as BackendError;
+      setError("updateId", { message: backendError.message });
+    }
+  };
+
   return (
     <>
-      <Container id="back-office-section" className="navbar-height d-flex flex-column justify-content-start align-items-start information">
+      <Container id="back-office-section" className="navbar-height d-flex flex-column justify-content-start align-items-start information mb-4">
         <h1 className="titles mx-auto mb-2 mt-4">Back Office</h1>
         {category === "" && (
           <>
@@ -105,15 +121,38 @@ const BackOffice = () => {
             <p>Cliccare il + per aggiungere un animale.</p>
             <h4 className="subtitles mt-3 mb-2">
               Modifica un animale{" "}
-              <Link to={"/back-office/animal/update"} className="crud-links">
-                <Plus />
-              </Link>
+              {showUpdateForm ? (
+                <Dash onClick={() => setShowUpdateForm(!showUpdateForm)} style={{ cursor: "pointer" }} />
+              ) : (
+                <Plus onClick={() => setShowUpdateForm(!showUpdateForm)} style={{ cursor: "pointer" }} />
+              )}
             </h4>
             <p>Cliccare il + per modificare un animale tramite ID.</p>
+            {showUpdateForm && (
+              <div className="update-wrapper d-flex flex-column justify-content-start align-items-start w-50">
+                <p className="mb-1 mt-2 align-middle">Inserire l'ID dell'animale che si vuole modificare:</p>
+                <Form onSubmit={handleSubmit(handleUpdate)}>
+                  <Form.Group controlId="updateById" className="d-flex justify-content-center align-items-center">
+                    <Form.Control
+                      {...register("updateId", { required: "Il campo non può essere vuoto." })}
+                      value={updateId}
+                      className="form-inputs rounded-start rounded-end-0"
+                      type="number"
+                      onChange={e => setUpdateId(e.target.value)}
+                    />
+                    <Button variant="outline-none" className="update-btn rounded-end rounded-start-0 border-start-0" type="submit">
+                      <SendFill />
+                    </Button>
+                  </Form.Group>
+                </Form>
+                {errors.updateId && <p className="text-danger mt-2">{errors.updateId.message}</p>}
+              </div>
+            )}
+
             <h4 className="subtitles mt-3 mb-2">
               Elimina un animale{" "}
               {showDeleteForm ? (
-                <Dash onClick={() => setShowDeleteForm(!showDeleteForm)} />
+                <Dash onClick={() => setShowDeleteForm(!showDeleteForm)} style={{ cursor: "pointer" }} />
               ) : (
                 <Plus onClick={() => setShowDeleteForm(!showDeleteForm)} style={{ cursor: "pointer" }} />
               )}

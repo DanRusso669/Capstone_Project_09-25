@@ -1,6 +1,7 @@
 package danrusso.capstoneProject.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,14 +20,19 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column
+    @JsonProperty("userName")
     private String name;
     @Column
+    @JsonProperty("userSurname")
     private String surname;
     @Column
+    @JsonProperty("userEmail")
     private String email;
     @Column
+    @JsonProperty("userPassword")
     private String password;
     @Column(name = "phone_number")
+    @JsonProperty("userPhoneNumber")
     private String phoneNumber;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -84,13 +90,13 @@ public class User implements UserDetails {
         return password;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public String getUsername() {
         return "";
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getPhoneNumber() {
