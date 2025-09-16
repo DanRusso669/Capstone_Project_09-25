@@ -40,7 +40,7 @@ function App() {
           <Route path="/registrati" element={<RegisterPage />} />
           <Route path="/profilo" element={<Profile />} />
           <Route path="/back-office" element={<BackOffice />} />
-          <Route path="/back-office/animal/add" element={<AddAnimalPage />} />
+          <Route path="/back-office/animal/aggiungi" element={<AddAnimalPage />} />
         </Routes>
         <Footer />
       </BrowserRouter>

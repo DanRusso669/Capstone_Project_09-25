@@ -98,7 +98,7 @@ const BackOffice = () => {
             <p>Cliccare il + per visualizzare la tabella con tutti gli animali registrati.</p>
             <h4 className="subtitles mt-3 mb-2">
               Aggiungi un animale{" "}
-              <Link to={"/back-office/animal/add"} className="crud-links">
+              <Link to={"/back-office/animal/aggiungi"} className="crud-links">
                 <Plus />
               </Link>
             </h4>
