@@ -53,8 +53,7 @@ const AnimalForm = () => {
   const { single } = useAppSelector(state => state.animals.data);
   const dispatch = useAppDispatch();
   const isUpdatePage = location.pathname.includes("modifica");
-  console.log("single:", single);
-  console.log("foundBy:", single?.foundBy);
+
   const defaultValues =
     isUpdatePage && single
       ? {
@@ -298,6 +297,20 @@ const AnimalForm = () => {
             {errors.userPhoneNumber && <p className="text-danger mt-1">{errors.userPhoneNumber.message}</p>}
           </Form.Group>
         </Row>
+        {/* 
+        <Row>
+                      <Form.Group as={Col} xs={12} sm={6} controlId="formGridPhone" className="mt-3">
+            <Form.Label className="fst-italic fw-semibold">Numero di Telefono del/la Cittadino/a</Form.Label>
+            <Form.Control
+              {...register("", { required: "Il numero di telefono del cittadino è obbligatorio" })}
+              autoComplete="off"
+              className="form-inputs"
+              type="number"
+              placeholder="Inserisci il telefono chi ha ritrovato l'animale"
+            />
+            {errors.userPhoneNumber && <p className="text-danger mt-1">{errors.userPhoneNumber.message}</p>}
+          </Form.Group>
+        </Row> */}
 
         <div className="d-flex justify-content-center mt-4">
           <Button variant="outline-none" className="add-animal-btn" type="submit">

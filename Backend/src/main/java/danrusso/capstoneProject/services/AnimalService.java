@@ -128,6 +128,8 @@ public class AnimalService {
                 NewUserDTO newUser = new NewUserDTO(payload.userName(), payload.userSurname(), payload.userEmail(), "1234?Ciao", payload.userPhoneNumber());
                 return this.userService.save(newUser);
             });
+        } else {
+            foundUser = this.userRepository.findByEmail(foundAnimal.getFoundBy().getEmail()).orElseThrow(() -> new BadRequestException("C'è qualcosa che non va."));
         }
 
         foundAnimal.setName(payload.name());

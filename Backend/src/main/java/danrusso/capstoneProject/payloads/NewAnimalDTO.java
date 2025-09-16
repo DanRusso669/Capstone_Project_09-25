@@ -27,7 +27,6 @@ public record NewAnimalDTO(
         @NotEmpty(message = "Lo status è obbligatorio.")
         String status,
         String imageUrl,
-        @FutureOrPresent(message = "La data di rilascio non può essere passata.")
         LocalDate releaseDate,
         boolean isAdoptable,
         @NotEmpty(message = "La città è obbligatoria.")
