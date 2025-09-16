@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import {
   changePasswordFetch,
-  profileFetch,
   setEmail,
   setName,
   setNewPassword,
@@ -18,6 +17,7 @@ import {
 import MyVerticalModal from "./MyVerticalModal";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { toast } from "react-toastify";
+import type { ProfileResponse } from "../../interfaces/User";
 
 type FormFields = {
   name: string;
@@ -36,6 +36,8 @@ type NewPasswordFormFields = {
 const Profile = () => {
   const [modalShow, setModalShow] = useState(false);
   const dispatch = useAppDispatch();
+  const storedUser = localStorage.getItem("user");
+  const currentUser: ProfileResponse = storedUser ? JSON.parse(storedUser) : null;
 
   const {
     register: registerUserForm,
@@ -53,10 +55,7 @@ const Profile = () => {
     formState: { errors: errorsPasswordForm, isSubmitting: isSubmittingPasswordForm },
   } = useForm<NewPasswordFormFields>();
 
-  const {
-    data: { name, surname, email, phoneNumber, password },
-    passwordCheckResult,
-  } = useAppSelector(state => state.profile);
+  const { passwordCheckResult } = useAppSelector(state => state.profile);
 
   const onSubmitUserForm: SubmitHandler<FormFields> = async data => {
     try {
@@ -79,17 +78,11 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    dispatch(profileFetch());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    if (name) setValueUserForm("name", name);
-    if (surname) setValueUserForm("surname", surname);
-    if (email) setValueUserForm("email", email);
-    if (phoneNumber) setValueUserForm("phoneNumber", phoneNumber);
-    if (password) setValueUserForm("password", password);
-  }, [name, surname, email, phoneNumber, password, setValueUserForm]);
+    if (currentUser.name) setValueUserForm("name", currentUser.name);
+    if (currentUser.surname) setValueUserForm("surname", currentUser.surname);
+    if (currentUser.email) setValueUserForm("email", currentUser.email);
+    if (currentUser.phoneNumber) setValueUserForm("phoneNumber", currentUser.phoneNumber);
+  }, [setValueUserForm, currentUser.name, currentUser.surname, currentUser.email, currentUser.phoneNumber]);
 
   useEffect(() => {
     if (passwordCheckResult) setModalShow(false);
@@ -253,7 +246,7 @@ const Profile = () => {
                 autoComplete="off"
                 className="form-inputs"
                 type="password"
-                placeholder="Scegli una password"
+                placeholder="Inserisci la password attuale"
                 onChange={e => dispatch(setOldPassword(e.target.value))}
               />
               {errorsPasswordForm.oldPassword && <Form.Text className="text-danger">{errorsPasswordForm.oldPassword.message}</Form.Text>}
@@ -271,14 +264,14 @@ const Profile = () => {
                 autoComplete="off"
                 className="form-inputs"
                 type="password"
-                placeholder="Scegli una password"
+                placeholder="Inserisci la nuova password"
                 onChange={e => dispatch(setNewPassword(e.target.value))}
               />
               {errorsPasswordForm.newPassword && <Form.Text className="text-danger">{errorsPasswordForm.newPassword.message}</Form.Text>}
             </Form.Group>
           </Row>
           <Form.Group as={Col} md={12} className="mb-3" controlId="formGridNewPasswordRepeated">
-            <Form.Label>Riscrivi la tua nuova password</Form.Label>
+            <Form.Label>Reinserisci la tua nuova password</Form.Label>
             <Form.Control
               {...registerPasswordForm("newPasswordRepeated", {
                 required: "La password è obbligatoria.",
@@ -290,7 +283,7 @@ const Profile = () => {
               autoComplete="off"
               className="form-inputs"
               type="password"
-              placeholder="Scegli una password"
+              placeholder="Inserisci nuovamente la nuova password"
               onChange={e => dispatch(setNewPasswordRepeated(e.target.value))}
             />
             {errorsPasswordForm.newPasswordRepeated && <Form.Text className="text-danger">{errorsPasswordForm.newPasswordRepeated.message}</Form.Text>}

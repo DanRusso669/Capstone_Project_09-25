@@ -1,6 +1,5 @@
 package danrusso.capstoneProject.tools;
 
-import danrusso.capstoneProject.entities.Role;
 import danrusso.capstoneProject.entities.User;
 import danrusso.capstoneProject.exceptions.UnauthorizedException;
 import io.jsonwebtoken.Jwts;
@@ -9,7 +8,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
-import java.util.List;
 
 @Component
 public class JWTTools {
@@ -17,13 +15,11 @@ public class JWTTools {
     private String secret;
 
     public String createToken(User user) {
-        List<String> roles = user.getRoles().stream().map(Role::getRoleDef).toList();
 
         return Jwts.builder()
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 7))
                 .subject(String.valueOf(user.getId()))
-                .claim("roles", roles)
                 .signWith(Keys.hmacShaKeyFor(secret.getBytes()))
                 .compact();
     }

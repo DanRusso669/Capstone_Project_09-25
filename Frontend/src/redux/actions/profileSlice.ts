@@ -121,6 +121,8 @@ export const profileFetch = createAsyncThunk("profile/me", async (_, { rejectWit
     }
 
     const data: ProfileResponse = await resp.json();
+    localStorage.setItem("user", JSON.stringify(data));
+    localStorage.setItem("userRoles", JSON.stringify(data.roles.map(role => role.roleDef)));
     return data;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
@@ -167,6 +169,7 @@ export const updateProfileFetch = createAsyncThunk("profile/update-profile", asy
     }
 
     const data: ProfileResponse = await resp.json();
+    localStorage.setItem("user", JSON.stringify(data));
     return data;
   } catch (error) {
     return rejectWithValue(error);

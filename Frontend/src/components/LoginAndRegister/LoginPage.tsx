@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { loginFetch, resetForm, setEmail, setPassword } from "../../redux/actions/loginSlice";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
+import { profileFetch } from "../../redux/actions/profileSlice";
 
 type FormFields = {
   email: string;
@@ -39,6 +40,7 @@ const LoginPage = () => {
           autoClose: 5000,
         }
       );
+      await dispatch(profileFetch());
     } catch (error) {
       if (typeof error === "string") toast.error(error);
     }

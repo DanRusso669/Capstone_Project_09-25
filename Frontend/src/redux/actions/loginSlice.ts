@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { ErrorsData } from "../../interfaces/ErrorsData";
 import type { LoginData, UserState } from "../../interfaces/User";
-import { jwtDecode, type JwtPayload } from "jwt-decode";
 
 interface LoginResp {
   accessToken: string;
@@ -12,10 +11,6 @@ const initialState: UserState<LoginData> = {
   status: "pending",
   errorMessage: "",
 };
-
-interface RolesPayload extends JwtPayload {
-  roles: string[];
-}
 
 const loginSlice = createSlice({
   name: "login",
@@ -64,8 +59,6 @@ export const loginFetch = createAsyncThunk("login/signin", async (formData: Logi
 
     const data: LoginResp = await resp.json();
     localStorage.setItem("accessToken", data.accessToken);
-    const decodedToken = jwtDecode<RolesPayload>(data.accessToken);
-    localStorage.setItem("userRoles", JSON.stringify(decodedToken.roles));
     return data;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {

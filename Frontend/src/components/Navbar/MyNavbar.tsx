@@ -46,6 +46,7 @@ const MyNavbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
+    localStorage.removeItem("user");
     localStorage.removeItem("userRoles");
     setShowOffcanvas(false);
   };
