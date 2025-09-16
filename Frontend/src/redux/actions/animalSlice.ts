@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { AllAnimalResponse, Animal, AnimalState } from "../../interfaces/Animal";
+import type { AllAnimalResponse, Animal, AnimalState, NewAnimal } from "../../interfaces/Animal";
 import type { ErrorsData } from "../../interfaces/ErrorsData";
 
 const initialState: AnimalState = {
@@ -109,14 +109,16 @@ export const allAnimalFetch = createAsyncThunk("animals/get-all", async (filterP
 
 export const animalCRUDFetch = createAsyncThunk(
   "animals/get-single",
-  async ({ animalId, method }: { animalId: string; method: string }, { rejectWithValue }) => {
+  async ({ animalId, method, animalData }: { animalId: string | null; method: string; animalData: NewAnimal | null }, { rejectWithValue }) => {
     try {
-      const resp = await fetch(`http://localhost:3001/animals/${animalId}`, {
+      const endpoint = animalId ? `http://localhost:3001/animals/${animalId}` : "http://localhost:3001/animals";
+      const resp = await fetch(endpoint, {
         method: method,
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
+        body: method === "POST" || method === "PUT" ? JSON.stringify(animalData) : null,
       });
 
       if (!resp.ok) {

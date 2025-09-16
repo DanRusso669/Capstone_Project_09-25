@@ -13,7 +13,7 @@ const DetailPage = () => {
   } = useAppSelector(state => state.animals);
 
   useEffect(() => {
-    dispatch(animalCRUDFetch({ animalId, method: "GET" }));
+    dispatch(animalCRUDFetch({ animalId, method: "GET", animalData: null }));
   }, [animalId, dispatch]);
 
   return (
@@ -73,7 +73,7 @@ const DetailPage = () => {
                 {single.releaseDate ? new Date(single.releaseDate).toLocaleDateString() : "Nessuna data disponibile."}
               </p>
               <p>
-                <span className="fw-medium fst-italic">Trovato da</span>: {single.foundBy?.name + " " + single.foundBy?.surname}
+                <span className="fw-medium fst-italic">Trovato da</span>: {single.foundBy?.userName + " " + single.foundBy?.userSurname}
               </p>
               <p>
                 <span className="fw-medium fst-italic">Condizione Clinica</span>: <br />

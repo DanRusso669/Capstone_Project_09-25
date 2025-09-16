@@ -20,12 +20,27 @@ export interface Animal {
   adoptable: boolean;
 }
 
-export interface FoundBy {
-  id: number;
+export interface NewAnimal extends FoundBy {
   name: string;
-  surname: string;
-  email: string;
-  phoneNumber: string;
+  age: string;
+  gender: string;
+  species: string;
+  breed: string;
+  description: string;
+  clinicalCondition: string;
+  status: string;
+  imageUrl?: string | null;
+  city: string;
+  province: string;
+  region: string;
+}
+
+export interface FoundBy {
+  id?: number;
+  userName: string;
+  userSurname: string;
+  userEmail: string;
+  userPhoneNumber: string;
 }
 
 export interface FilterState {

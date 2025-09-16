@@ -36,7 +36,7 @@ const BackOffice = () => {
     setShowModal(false);
     try {
       await toast.promise(
-        dispatch(animalCRUDFetch({ animalId: deleteId, method: "DELETE" })).unwrap(),
+        dispatch(animalCRUDFetch({ animalId: deleteId, method: "DELETE", animalData: null })).unwrap(),
         {
           pending: `Rimozione in corso...`,
           success: `Animale con ID ${deleteId} rimosso con successo.`,
