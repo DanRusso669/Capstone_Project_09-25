@@ -24,12 +24,13 @@ public class AnimalController {
     public Page<Animal> findAll(@RequestParam(defaultValue = "0") int page,
                                 @RequestParam(defaultValue = "10") int size,
                                 @RequestParam(defaultValue = "id") String sortBy,
+                                @RequestParam(defaultValue = "asc") String sortByDirection,
                                 @RequestParam(required = false) String gender,
                                 @RequestParam(required = false) String status,
                                 @RequestParam(required = false) String species,
                                 @RequestParam(required = false) String breed,
                                 @RequestParam(required = false) String province) {
-        return this.animalService.findAll(page, size, sortBy, gender, status, species, breed, province);
+        return this.animalService.findAll(page, size, sortBy, sortByDirection, gender, status, species, breed, province);
     }
 
     @GetMapping("/{animalId}")

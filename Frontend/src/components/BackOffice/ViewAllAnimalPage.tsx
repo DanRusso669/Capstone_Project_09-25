@@ -40,25 +40,25 @@ const ViewAllAnimalPage = () => {
           )}
           <FilterOffcanvas />
         </div>
-        <Table bordered hover className="mt-3">
+        <Table bordered hover striped className="mt-3">
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Nome</th>
-              <th>Età</th>
-              <th>Sesso</th>
-              <th>Specie</th>
-              <th>Razza</th>
-              <th>Descrizione</th>
-              <th>Condizione Clinica</th>
-              <th>Status</th>
-              <th>Città</th>
-              <th>Provincia</th>
-              <th>Regione</th>
-              <th>Data di Ingresso</th>
-              <th>Data del Rilascio</th>
-              <th>Data del Decesso</th>
-              <th>Cause del Decesso</th>
+              <th style={{ width: "2%" }}>ID</th>
+              <th style={{ width: "6%" }}>Nome</th>
+              <th style={{ width: "2%" }}>Età</th>
+              <th style={{ width: "4%" }}>Sesso</th>
+              <th style={{ width: "5%" }}>Specie</th>
+              <th style={{ width: "5%" }}>Razza</th>
+              {/* <th>Descrizione</th>
+              <th style={{ width: "7.14%" }} >Condizione Clinica</th> */}
+              <th style={{ width: "7%" }}>Status</th>
+              <th style={{ width: "5.5%" }}>Città</th>
+              <th style={{ width: "5.5%" }}>Provincia</th>
+              <th style={{ width: "5%" }}>Regione</th>
+              <th style={{ width: "6%" }}>Data di Ingresso</th>
+              <th style={{ width: "6%" }}>Data del Rilascio</th>
+              <th style={{ width: "6%" }}>Data del Decesso</th>
+              <th style={{ width: "10%" }}>Cause del Decesso</th>
             </tr>
           </thead>
           <tbody>
@@ -70,8 +70,8 @@ const ViewAllAnimalPage = () => {
                 <td>{animal.gender}</td>
                 <td>{animal.species}</td>
                 <td>{animal.breed}</td>
-                <td>{animal.description}</td>
-                <td>{animal.clinicalCondition}</td>
+                {/* <td>{animal.description}</td>
+                <td>{animal.clinicalCondition}</td> */}
                 <td>{animal.status}</td>
                 <td>{animal.city}</td>
                 <td>{animal.province}</td>
