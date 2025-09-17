@@ -7,14 +7,14 @@ export interface PasswordCheckResponse {
 }
 
 export interface LoginData {
-  email: string;
-  password: string;
+  userEmail: string;
+  userPassword: string;
 }
 
 export interface UserData extends LoginData {
-  name: string;
-  surname: string;
-  phoneNumber: string;
+  userName: string;
+  userSurname: string;
+  userPhoneNumber: string;
 }
 
 export interface NewPasswordData {

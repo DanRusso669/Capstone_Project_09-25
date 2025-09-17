@@ -20,11 +20,11 @@ import { toast } from "react-toastify";
 import type { ProfileResponse } from "../../interfaces/User";
 
 type FormFields = {
-  name: string;
-  surname: string;
-  email: string;
-  password: string;
-  phoneNumber: string;
+  userName: string;
+  userSurname: string;
+  userEmail: string;
+  userPassword: string;
+  userPhoneNumber: string;
 };
 
 type NewPasswordFormFields = {
@@ -38,6 +38,7 @@ const Profile = () => {
   const dispatch = useAppDispatch();
   const storedUser = localStorage.getItem("user");
   const currentUser: ProfileResponse = storedUser ? JSON.parse(storedUser) : null;
+  console.log(currentUser);
 
   const {
     register: registerUserForm,
@@ -73,16 +74,16 @@ const Profile = () => {
 
       dispatch(setPasswordCheckResult(false));
     } catch (error) {
-      if (typeof error === "string") setErrorUserForm("email", { message: error });
+      if (typeof error === "string") setErrorUserForm("userEmail", { message: error });
     }
   };
 
   useEffect(() => {
-    if (currentUser.name) setValueUserForm("name", currentUser.name);
-    if (currentUser.surname) setValueUserForm("surname", currentUser.surname);
-    if (currentUser.email) setValueUserForm("email", currentUser.email);
-    if (currentUser.phoneNumber) setValueUserForm("phoneNumber", currentUser.phoneNumber);
-  }, [setValueUserForm, currentUser.name, currentUser.surname, currentUser.email, currentUser.phoneNumber]);
+    if (currentUser.userName) setValueUserForm("userName", currentUser.userName);
+    if (currentUser.userSurname) setValueUserForm("userSurname", currentUser.userSurname);
+    if (currentUser.userEmail) setValueUserForm("userEmail", currentUser.userEmail);
+    if (currentUser.userPhoneNumber) setValueUserForm("userPhoneNumber", currentUser.userPhoneNumber);
+  }, [currentUser.userEmail, currentUser.userName, currentUser.userPhoneNumber, currentUser.userSurname, setValueUserForm]);
 
   useEffect(() => {
     if (passwordCheckResult) setModalShow(false);
@@ -120,7 +121,7 @@ const Profile = () => {
             <Form.Group as={Col} xs={12} md={6} className="mb-3" controlId="formGridName">
               <Form.Label>Nome</Form.Label>
               <Form.Control
-                {...registerUserForm("name", {
+                {...registerUserForm("userName", {
                   required: "Il nome è obbligatorio.",
                   minLength: {
                     message: "Il nome deve avere almeno 3 caratteri.",
@@ -138,13 +139,13 @@ const Profile = () => {
                   },
                 })}
               />
-              {errorsUserForm.name && <Form.Text className="text-danger">{errorsUserForm.name.message}</Form.Text>}
+              {errorsUserForm.userName && <Form.Text className="text-danger">{errorsUserForm.userName.message}</Form.Text>}
             </Form.Group>
 
             <Form.Group as={Col} xs={12} md={6} controlId="formGridSurname">
               <Form.Label>Cognome</Form.Label>
               <Form.Control
-                {...registerUserForm("surname", {
+                {...registerUserForm("userSurname", {
                   required: "Il cognome è obbligatorio.",
                   minLength: {
                     message: "Il cognome deve avere almeno 3 caratteri.",
@@ -162,7 +163,7 @@ const Profile = () => {
                   },
                 })}
               />
-              {errorsUserForm.surname && <Form.Text className="text-danger">{errorsUserForm.surname.message}</Form.Text>}
+              {errorsUserForm.userSurname && <Form.Text className="text-danger">{errorsUserForm.userSurname.message}</Form.Text>}
             </Form.Group>
           </Row>
 
@@ -170,7 +171,7 @@ const Profile = () => {
             <Form.Group as={Col} md={6} className="mb-3" controlId="formGridEmail">
               <Form.Label>La tua email</Form.Label>
               <Form.Control
-                {...registerUserForm("email", {
+                {...registerUserForm("userEmail", {
                   required: "L'email è obbligatoria.",
                   pattern: {
                     value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
@@ -188,13 +189,13 @@ const Profile = () => {
                   },
                 })}
               />
-              {errorsUserForm.email && <Form.Text className="text-danger">{errorsUserForm.email.message}</Form.Text>}
+              {errorsUserForm.userEmail && <Form.Text className="text-danger">{errorsUserForm.userEmail.message}</Form.Text>}
             </Form.Group>
 
             <Form.Group as={Col} md={6} className="mb-3 mx-auto" controlId="formGridPhone">
               <Form.Label>Il tuo numero di telefono</Form.Label>
               <Form.Control
-                {...registerUserForm("phoneNumber", {
+                {...registerUserForm("userPhoneNumber", {
                   required: "Il numero di telefono è obbligatorio.",
                   validate: value => {
                     if (value.length !== 10) {
@@ -214,7 +215,7 @@ const Profile = () => {
                   },
                 })}
               />
-              {errorsUserForm.phoneNumber && <Form.Text className="text-danger">{errorsUserForm.phoneNumber.message}</Form.Text>}
+              {errorsUserForm.userPhoneNumber && <Form.Text className="text-danger">{errorsUserForm.userPhoneNumber.message}</Form.Text>}
             </Form.Group>
           </Row>
           <div className="d-flex justify-content-center">

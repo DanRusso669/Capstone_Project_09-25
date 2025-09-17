@@ -7,7 +7,7 @@ interface LoginResp {
 }
 
 const initialState: UserState<LoginData> = {
-  data: { email: "", password: "" },
+  data: { userEmail: "", userPassword: "" },
   status: "pending",
   errorMessage: "",
 };
@@ -17,10 +17,10 @@ const loginSlice = createSlice({
   initialState,
   reducers: {
     setEmail: (state, action: PayloadAction<string>) => {
-      state.data.email = action.payload;
+      state.data.userEmail = action.payload;
     },
     setPassword: (state, action: PayloadAction<string>) => {
-      state.data.password = action.payload;
+      state.data.userPassword = action.payload;
     },
     setErrorMessage: (state, action: PayloadAction<string>) => {
       state.errorMessage = action.payload;

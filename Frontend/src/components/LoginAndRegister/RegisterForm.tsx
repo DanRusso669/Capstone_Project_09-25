@@ -8,11 +8,11 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 type FormFields = {
-  name: string;
-  surname: string;
-  email: string;
-  password: string;
-  phoneNumber: string;
+  userName: string;
+  userSurname: string;
+  userEmail: string;
+  userPassword: string;
+  userPhoneNumber: string;
   privacy: boolean;
 };
 
@@ -27,7 +27,7 @@ const RegisterForm = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const {
-    data: { name, surname, email, password, phoneNumber },
+    data: { userName, userSurname, userEmail, userPassword, userPhoneNumber },
     status,
   } = useAppSelector(state => state.register);
 
@@ -45,7 +45,7 @@ const RegisterForm = () => {
         }
       );
     } catch (error) {
-      if (typeof error === "string") setError("email", { message: error });
+      if (typeof error === "string") setError("userEmail", { message: error });
     }
   };
 
@@ -64,88 +64,88 @@ const RegisterForm = () => {
           <Form.Group as={Col} xs={12} sm={6} controlId="formGridName">
             <Form.Label>Nome</Form.Label>
             <Form.Control
-              {...register("name", {
+              {...register("userName", {
                 required: "Il nome è obbligatorio.",
                 minLength: {
                   message: "Il nome deve avere almeno 3 caratteri.",
                   value: 3,
                 },
               })}
-              value={name}
+              value={userName}
               autoComplete="off"
               className="form-inputs"
               type="text"
               placeholder="Inserisci il nome"
               onChange={e => dispatch(setName(e.target.value))}
             />
-            {errors.name && <Form.Text className="text-danger">{errors.name.message}</Form.Text>}
+            {errors.userName && <Form.Text className="text-danger">{errors.userName.message}</Form.Text>}
           </Form.Group>
 
           <Form.Group as={Col} xs={12} sm={6} controlId="formGridSurname" className="mt-3 mt-sm-0">
             <Form.Label>Cognome</Form.Label>
             <Form.Control
-              {...register("surname", {
+              {...register("userSurname", {
                 required: "Il cognome è obbligatorio.",
                 minLength: {
                   message: "Il cognome deve avere almeno 3 caratteri.",
                   value: 3,
                 },
               })}
-              value={surname}
+              value={userSurname}
               autoComplete="off"
               className="form-inputs"
               type="text"
               placeholder="Inserisci il cognome"
               onChange={e => dispatch(setSurname(e.target.value))}
             />
-            {errors.surname && <Form.Text className="text-danger">{errors.surname.message}</Form.Text>}
+            {errors.userSurname && <Form.Text className="text-danger">{errors.userSurname.message}</Form.Text>}
           </Form.Group>
         </Row>
 
         <Form.Group className="mb-3" controlId="formGridEmail">
           <Form.Label>Email</Form.Label>
           <Form.Control
-            {...register("email", {
+            {...register("userEmail", {
               required: "L'email è obbligatoria.",
               pattern: {
                 value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
                 message: "Formato email non valido.",
               },
             })}
-            value={email}
+            value={userEmail}
             autoComplete="off"
             className="form-inputs"
             type="email"
             placeholder="Inserisci email"
             onChange={e => dispatch(setEmail(e.target.value))}
           />
-          {errors.email && <Form.Text className="text-danger">{errors.email.message}</Form.Text>}
+          {errors.userEmail && <Form.Text className="text-danger">{errors.userEmail.message}</Form.Text>}
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formGridPassword">
           <Form.Label>Scegli una password</Form.Label>
           <Form.Control
-            {...register("password", {
+            {...register("userPassword", {
               required: "La password è obbligatoria.",
               pattern: {
                 value: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
                 message: "La password deve contenere almeno 8 caratteri, una maiuscola, un numero e un carattere speciale.",
               },
             })}
-            value={password}
+            value={userPassword}
             autoComplete="off"
             className="form-inputs"
             type="password"
             placeholder="Scegli una password"
             onChange={e => dispatch(setPassword(e.target.value))}
           />
-          {errors.password && <Form.Text className="text-danger">{errors.password.message}</Form.Text>}
+          {errors.userPassword && <Form.Text className="text-danger">{errors.userPassword.message}</Form.Text>}
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formGridPhone">
           <Form.Label>Numero di Telefono</Form.Label>
           <Form.Control
-            {...register("phoneNumber", {
+            {...register("userPhoneNumber", {
               required: "Il numero di telefono è obbligatorio.",
               validate: value => {
                 if (value.length !== 10) {
@@ -154,14 +154,14 @@ const RegisterForm = () => {
                 return true;
               },
             })}
-            value={phoneNumber}
+            value={userPhoneNumber}
             autoComplete="off"
             className="form-inputs"
             placeholder="348123456"
             type="number"
             onChange={e => dispatch(setPhoneNumber(e.target.value))}
           />
-          {errors.phoneNumber && <Form.Text className="text-danger">{errors.phoneNumber.message}</Form.Text>}
+          {errors.userPhoneNumber && <Form.Text className="text-danger">{errors.userPhoneNumber.message}</Form.Text>}
         </Form.Group>
 
         <Form.Group className="mb-3" id="formGridCheckbox">

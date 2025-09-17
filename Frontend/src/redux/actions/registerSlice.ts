@@ -7,11 +7,11 @@ interface RegisterResp {
 
 const initialState: UserState<UserData> = {
   data: {
-    name: "",
-    surname: "",
-    phoneNumber: "",
-    email: "",
-    password: "",
+    userName: "",
+    userSurname: "",
+    userPhoneNumber: "",
+    userEmail: "",
+    userPassword: "",
   },
   status: "pending",
   errorMessage: "",
@@ -22,19 +22,19 @@ const registerSlice = createSlice({
   initialState,
   reducers: {
     setName: (state, action: PayloadAction<string>) => {
-      state.data.name = action.payload;
+      state.data.userName = action.payload;
     },
     setSurname: (state, action: PayloadAction<string>) => {
-      state.data.surname = action.payload;
+      state.data.userSurname = action.payload;
     },
     setEmail: (state, action: PayloadAction<string>) => {
-      state.data.email = action.payload;
+      state.data.userEmail = action.payload;
     },
     setPassword: (state, action: PayloadAction<string>) => {
-      state.data.password = action.payload;
+      state.data.userPassword = action.payload;
     },
     setPhoneNumber: (state, action: PayloadAction<string>) => {
-      state.data.phoneNumber = action.payload;
+      state.data.userPhoneNumber = action.payload;
     },
     setErrorMessage: (state, action: PayloadAction<string>) => {
       state.errorMessage = action.payload;

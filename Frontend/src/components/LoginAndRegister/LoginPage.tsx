@@ -9,8 +9,8 @@ import { useEffect } from "react";
 import { profileFetch } from "../../redux/actions/profileSlice";
 
 type FormFields = {
-  email: string;
-  password: string;
+  userEmail: string;
+  userPassword: string;
 };
 
 const LoginPage = () => {
@@ -23,7 +23,7 @@ const LoginPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const {
-    data: { email, password },
+    data: { userEmail, userPassword },
     status,
   } = useAppSelector(state => state.login);
 
@@ -63,20 +63,20 @@ const LoginPage = () => {
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label className="ms-1">Indirizzo Email</Form.Label>
               <Form.Control
-                {...register("email", {
+                {...register("userEmail", {
                   required: "L'email è obbligatoria.",
                   pattern: {
                     value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
                     message: "Formato email non valido.",
                   },
                 })}
-                value={email}
+                value={userEmail}
                 type="email"
                 placeholder="Inserisci la tua email"
                 onChange={e => dispatch(setEmail(e.target.value))}
               />
-              {errors.email ? (
-                <Form.Text className="text-danger">{errors.email.message}</Form.Text>
+              {errors.userEmail ? (
+                <Form.Text className="text-danger">{errors.userEmail.message}</Form.Text>
               ) : (
                 <Form.Text className="ms-1">Non condivideremo la tua email con nessuno.</Form.Text>
               )}
@@ -85,15 +85,15 @@ const LoginPage = () => {
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label className="ms-1">Password</Form.Label>
               <Form.Control
-                {...register("password", {
+                {...register("userPassword", {
                   required: "La password è obbligatoria.",
                 })}
-                value={password}
+                value={userPassword}
                 type="password"
                 placeholder="Inserisci la tua password"
                 onChange={e => dispatch(setPassword(e.target.value))}
               />
-              {errors.password && <Form.Text className="text-danger">{errors.password.message}</Form.Text>}
+              {errors.userPassword && <Form.Text className="text-danger">{errors.userPassword.message}</Form.Text>}
               <Form.Text className="ms-1">
                 <br />
                 Non ricordi la password ?{" "}
