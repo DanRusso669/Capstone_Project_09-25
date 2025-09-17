@@ -1,9 +1,9 @@
 import { Button, Container, Table } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
-import { allAnimalFetch, resetFilters, setPage, setSortByDirection } from "../../redux/actions/animalSlice";
+import { allAnimalFetch, resetFilters, setPage, setSortBy, setSortByDirection } from "../../redux/actions/animalSlice";
 import FilterOffcanvas from "../FilterOffcanvas";
 import { useSearchParams } from "react-router-dom";
-import { ArrowLeftShort, ArrowRightShort, SortNumericDown, SortNumericDownAlt } from "react-bootstrap-icons";
+import { ArrowLeftShort, ArrowRightShort, SortAlphaDown, SortAlphaDownAlt, SortNumericDown, SortNumericDownAlt } from "react-bootstrap-icons";
 
 const ViewAllAnimalPage = () => {
   const dispatch = useAppDispatch();
@@ -12,7 +12,7 @@ const ViewAllAnimalPage = () => {
   const {
     data: { list },
     requestStatus,
-    filters: { page, status, lastPage, sortByDirection },
+    filters: { page, status, lastPage, sortBy, sortByDirection },
   } = useAppSelector(state => state.animals);
 
   const loadMoreAnimals = () => {
@@ -26,11 +26,12 @@ const ViewAllAnimalPage = () => {
     dispatch(resetFilters());
   };
 
-  const handleIdSorting = () => {
+  const handleSorting = (property: string) => {
     dispatch(setPage(0));
+    dispatch(setSortBy(property));
     const sortingParams = new URLSearchParams(searchParams);
 
-    sortingParams.set("sortBy", "id");
+    sortingParams.set("sortBy", property);
     const newSortDirection = sortByDirection === "asc" ? "desc" : "asc";
     dispatch(setSortByDirection(newSortDirection));
     sortingParams.set("sortByDirection", newSortDirection);
@@ -54,10 +55,22 @@ const ViewAllAnimalPage = () => {
         <Table bordered hover striped className="mt-3">
           <thead>
             <tr>
-              <th style={{ width: "5%" }} onClick={handleIdSorting}>
-                ID {sortByDirection === "asc" ? <SortNumericDown className="ms-2" /> : <SortNumericDownAlt className="ms-2" />}
+              <th style={{ width: "5%" }} onClick={() => handleSorting("id")}>
+                ID{" "}
+                {sortByDirection === "asc" && sortBy === "id" ? (
+                  <SortNumericDown className="ms-2" />
+                ) : sortByDirection === "desc" && sortBy === "id" ? (
+                  <SortNumericDownAlt className="ms-2" />
+                ) : null}
               </th>
-              <th style={{ width: "8%" }}>Nome</th>
+              <th style={{ width: "8%" }} onClick={() => handleSorting("name")}>
+                Nome
+                {sortByDirection === "asc" && sortBy === "name" ? (
+                  <SortAlphaDown className="ms-2" />
+                ) : sortByDirection === "desc" && sortBy === "name" ? (
+                  <SortAlphaDownAlt className="ms-2" />
+                ) : null}
+              </th>
               <th style={{ width: "3%" }}>Età</th>
               <th style={{ width: "5%" }}>Sesso</th>
               <th style={{ width: "5%" }}>Specie</th>
