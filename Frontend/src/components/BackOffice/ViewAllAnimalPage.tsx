@@ -1,13 +1,14 @@
 import { Button, Container, Table } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
-import { allAnimalFetch, setPage } from "../../redux/actions/animalSlice";
+import { allAnimalFetch, resetFilters, setPage } from "../../redux/actions/animalSlice";
 import FilterOffcanvas from "../FilterOffcanvas";
 import { useSearchParams } from "react-router-dom";
+import { ArrowLeftShort, ArrowRightShort } from "react-bootstrap-icons";
 // import { useSearchParams } from "react-router-dom";
 
 const ViewAllAnimalPage = () => {
   const dispatch = useAppDispatch();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const {
     data: { list },
@@ -21,12 +22,24 @@ const ViewAllAnimalPage = () => {
     dispatch(allAnimalFetch(searchParams.toString()));
   };
 
+  const handleFilterReset = () => {
+    setSearchParams("");
+    dispatch(resetFilters());
+  };
+
   return (
     <>
       <Container fluid id="bo-all-animal-section" className="navbar-height d-flex flex-column justify-content-start align-items-start information pb-4">
         <h2 className="titles mx-auto mb-2 mt-4">Animali</h2>
         <h4 className="subtitles mx-auto">Visualizza tutti gli animali</h4>
-        <FilterOffcanvas />
+        <div className="d-flex justify-content-center w-100">
+          {searchParams.toString() !== "" && (
+            <Button variant="outline-none" className="subtitles filter-btn" onClick={handleFilterReset}>
+              <ArrowRightShort /> Resetta tutti i filtri <ArrowLeftShort />
+            </Button>
+          )}
+          <FilterOffcanvas />
+        </div>
         <Table bordered hover className="mt-3">
           <thead>
             <tr>
