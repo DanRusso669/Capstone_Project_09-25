@@ -1,54 +1,103 @@
-import { Container, Table } from "react-bootstrap";
+import { Button, Container, Table } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
-import { useEffect } from "react";
-import { allAnimalFetch } from "../../redux/actions/animalSlice";
+import { allAnimalFetch, resetFilters, setPage, setSortBy, setSortByDirection } from "../../redux/actions/animalSlice";
+import FilterOffcanvas from "../FilterOffcanvas";
+import { useSearchParams } from "react-router-dom";
+import { ArrowLeftShort, ArrowRightShort, SortAlphaDown, SortAlphaDownAlt, SortNumericDown, SortNumericDownAlt } from "react-bootstrap-icons";
 
 const ViewAllAnimalPage = () => {
   const dispatch = useAppDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const { list } = useAppSelector(state => state.animals.data);
+  const {
+    data: { list },
+    requestStatus,
+    filters: { page, status, lastPage, sortBy, sortByDirection },
+  } = useAppSelector(state => state.animals);
 
-  useEffect(() => {
-    dispatch(allAnimalFetch(""));
-  }, [dispatch]);
+  const loadMoreAnimals = () => {
+    if (requestStatus === "pending") return;
+    dispatch(setPage(page + 1));
+    dispatch(allAnimalFetch(searchParams.toString()));
+  };
+
+  const handleFilterReset = () => {
+    setSearchParams("");
+    dispatch(resetFilters());
+  };
+
+  const handleSorting = (property: string) => {
+    dispatch(setPage(0));
+    dispatch(setSortBy(property));
+    const sortingParams = new URLSearchParams(searchParams);
+
+    sortingParams.set("sortBy", property);
+    const newSortDirection = sortByDirection === "asc" ? "desc" : "asc";
+    dispatch(setSortByDirection(newSortDirection));
+    sortingParams.set("sortByDirection", newSortDirection);
+
+    setSearchParams(sortingParams);
+  };
 
   return (
     <>
-      <Container fluid id="view-all-animal-section" className="navbar-height d-flex flex-column justify-content-start align-items-start information mb-4">
+      <Container fluid id="bo-all-animal-section" className="navbar-height d-flex flex-column justify-content-start align-items-start information pb-4">
         <h2 className="titles mx-auto mb-2 mt-4">Animali</h2>
         <h4 className="subtitles mx-auto">Visualizza tutti gli animali</h4>
-        <Table bordered hover className="mt-3">
+        <div className="d-flex justify-content-center w-100">
+          {searchParams.toString() !== "" && (
+            <Button variant="outline-none" className="subtitles filter-btn" onClick={handleFilterReset}>
+              <ArrowRightShort /> Resetta tutti i filtri <ArrowLeftShort />
+            </Button>
+          )}
+          <FilterOffcanvas />
+        </div>
+        <Table bordered hover striped className="mt-3">
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Nome</th>
-              <th>Età</th>
-              <th>Sesso</th>
-              <th>Specie</th>
-              <th>Razza</th>
-              <th>Descrizione</th>
-              <th>Condizione Clinica</th>
-              <th>Status</th>
-              <th>Città</th>
-              <th>Provincia</th>
-              <th>Regione</th>
-              <th>Data di Ingresso</th>
-              <th>Data del Rilascio</th>
-              <th>Data del Decesso</th>
-              <th>Cause del Decesso</th>
+              <th style={{ width: "5%" }} onClick={() => handleSorting("id")}>
+                ID{" "}
+                {sortByDirection === "asc" && sortBy === "id" ? (
+                  <SortNumericDown className="ms-2" />
+                ) : sortByDirection === "desc" && sortBy === "id" ? (
+                  <SortNumericDownAlt className="ms-2" />
+                ) : null}
+              </th>
+              <th style={{ width: "8%" }} onClick={() => handleSorting("name")}>
+                Nome
+                {sortByDirection === "asc" && sortBy === "name" ? (
+                  <SortAlphaDown className="ms-2" />
+                ) : sortByDirection === "desc" && sortBy === "name" ? (
+                  <SortAlphaDownAlt className="ms-2" />
+                ) : null}
+              </th>
+              <th style={{ width: "3%" }}>Età</th>
+              <th style={{ width: "5%" }}>Sesso</th>
+              <th style={{ width: "5%" }}>Specie</th>
+              <th style={{ width: "5%" }}>Razza</th>
+              {/* <th>Descrizione</th>
+              <th style={{ width: "7.14%" }} >Condizione Clinica</th> */}
+              <th style={{ width: "7%" }}>Status</th>
+              <th style={{ width: "6.5%" }}>Città</th>
+              <th style={{ width: "6.5%" }}>Provincia</th>
+              <th style={{ width: "6%" }}>Regione</th>
+              <th style={{ width: "7%" }}>Data di Ingresso</th>
+              <th style={{ width: "8%" }}>Data del Rilascio</th>
+              <th style={{ width: "8%" }}>Data del Decesso</th>
+              <th style={{ width: "20%" }}>Cause del Decesso</th>
             </tr>
           </thead>
           <tbody>
             {list.map(animal => (
-              <tr>
+              <tr key={animal.id}>
                 <td>{animal.id}</td>
                 <td>{animal.name}</td>
                 <td>{animal.age}</td>
                 <td>{animal.gender}</td>
                 <td>{animal.species}</td>
                 <td>{animal.breed}</td>
-                <td>{animal.description}</td>
-                <td>{animal.clinicalCondition}</td>
+                {/* <td>{animal.description}</td>
+                <td>{animal.clinicalCondition}</td> */}
                 <td>{animal.status}</td>
                 <td>{animal.city}</td>
                 <td>{animal.province}</td>
@@ -61,6 +110,15 @@ const ViewAllAnimalPage = () => {
             ))}
           </tbody>
         </Table>
+        {status === "pending" ? (
+          <Button variant="outline-none" className="mt-4 load-more-btn mx-auto" disabled>
+            Caricamento...
+          </Button>
+        ) : (
+          <Button variant="outline-none" className={`mt-4 load-more-btn mx-auto ${lastPage && "d-none"}`} onClick={loadMoreAnimals}>
+            Carica di più
+          </Button>
+        )}
       </Container>
     </>
   );

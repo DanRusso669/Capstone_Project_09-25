@@ -48,6 +48,7 @@ export interface FilterState {
   lastPage: boolean;
   size: number;
   sortBy: string;
+  sortByDirection: string;
   gender: string;
   status: string;
   species: string;

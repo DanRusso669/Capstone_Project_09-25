@@ -1,5 +1,6 @@
 #back-office-section,
-#add-animal-section {
+#add-animal-section,
+#bo-all-animal-section {
   min-height: calc(100vh - 160px - 110px);
 }
 
@@ -70,13 +71,13 @@
   color: #3a6b2f;
 }
 
-#confirm-delete-btn {
+#confirm-delete-animal-btn {
   background-color: red;
   color: white;
   border-radius: 20px;
 }
 
-#cancel-delete-btn {
+#cancel-delete-animal-btn {
   text-decoration: none;
   color: white;
   background-color: rgb(58, 107, 47);
@@ -84,7 +85,8 @@
   font-size: 16px;
 }
 
-/* ANIMAL */
+/* ********** ANIMAL ************ */
+/* UPDATE */
 .add-update-animal-btn {
   text-decoration: none;
   color: white;
@@ -100,4 +102,14 @@
   color: #3a6b2f;
   font-weight: bold;
   border: 2px solid #3a6b2f;
+}
+
+/* VIEW ALL */
+
+#bo-all-animal-section .filter-btn {
+  font-size: 23px;
+}
+
+#bo-all-animal-section .filter-btn:hover {
+  color: #3a6b2f;
 }

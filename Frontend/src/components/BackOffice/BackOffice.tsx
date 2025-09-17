@@ -9,8 +9,8 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 
 type BackOfficeFields = {
-  deleteId?: string;
-  updateId?: string;
+  animalIdToDelete?: string;
+  animalIdToUpdate?: string;
 };
 
 type BackendError = {
@@ -22,8 +22,8 @@ const BackOffice = () => {
   const [category, setCategory] = useState("");
   const [showDeleteForm, setShowDeleteForm] = useState(false);
   const [showUpdateForm, setShowUpdateForm] = useState(false);
-  const [deleteId, setDeleteId] = useState("");
-  const [updateId, setUpdateId] = useState("");
+  const [animalIdToDelete, setAnimalIdToDelete] = useState("");
+  const [animalIdToUpdate, setAnimalIdToUpdate] = useState("");
   const [showModal, setShowModal] = useState(false);
 
   const dispatch = useAppDispatch();
@@ -40,20 +40,20 @@ const BackOffice = () => {
     setShowModal(false);
     try {
       await toast.promise(
-        dispatch(animalCRUDFetch({ animalId: deleteId, method: "DELETE", animalData: null })).unwrap(),
+        dispatch(animalCRUDFetch({ animalId: animalIdToDelete, method: "DELETE", animalData: null })).unwrap(),
         {
           pending: `Rimozione in corso...`,
-          success: `Animale con ID ${deleteId} rimosso con successo.`,
+          success: `Animale con ID ${animalIdToDelete} rimosso con successo.`,
           error: `Rimozione fallita. Riprovare.`,
         },
         {
           autoClose: 4000,
         }
       );
-      setDeleteId("");
+      setAnimalIdToDelete("");
     } catch (error) {
       const backendError = error as BackendError;
-      setError("deleteId", { message: backendError.message });
+      setError("animalIdToDelete", { message: backendError.message });
     }
   };
 
@@ -63,13 +63,13 @@ const BackOffice = () => {
 
   const handleUpdate = async () => {
     try {
-      const response = await dispatch(animalCRUDFetch({ animalId: updateId, method: "GET", animalData: null })).unwrap();
+      const response = await dispatch(animalCRUDFetch({ animalId: animalIdToUpdate, method: "GET", animalData: null })).unwrap();
       if (response) {
-        navigate(`/back-office/animal/modifica/${updateId}`);
+        navigate(`/back-office/animal/modifica/${animalIdToUpdate}`);
       }
     } catch (error) {
       const backendError = error as BackendError;
-      setError("updateId", { message: backendError.message });
+      setError("animalIdToUpdate", { message: backendError.message });
     }
   };
 
@@ -134,18 +134,18 @@ const BackOffice = () => {
                 <Form onSubmit={handleSubmit(handleUpdate)}>
                   <Form.Group controlId="updateById" className="d-flex justify-content-center align-items-center">
                     <Form.Control
-                      {...register("updateId", { required: "Il campo non può essere vuoto." })}
-                      value={updateId}
+                      {...register("animalIdToUpdate", { required: "Il campo non può essere vuoto." })}
+                      value={animalIdToUpdate}
                       className="form-inputs rounded-start rounded-end-0"
                       type="number"
-                      onChange={e => setUpdateId(e.target.value)}
+                      onChange={e => setAnimalIdToUpdate(e.target.value)}
                     />
                     <Button variant="outline-none" className="update-btn rounded-end rounded-start-0 border-start-0" type="submit">
                       <SendFill />
                     </Button>
                   </Form.Group>
                 </Form>
-                {errors.updateId && <p className="text-danger mt-2">{errors.updateId.message}</p>}
+                {errors.animalIdToUpdate && <p className="text-danger mt-2">{errors.animalIdToUpdate.message}</p>}
               </div>
             )}
 
@@ -165,18 +165,18 @@ const BackOffice = () => {
                 <Form onSubmit={handleSubmit(onSubmit)}>
                   <Form.Group controlId="deleteById" className="d-flex justify-content-center align-items-center">
                     <Form.Control
-                      {...register("deleteId", { required: "Il campo non può essere vuoto." })}
-                      value={deleteId}
+                      {...register("animalIdToDelete", { required: "Il campo non può essere vuoto." })}
+                      value={animalIdToDelete}
                       className="form-inputs rounded-start rounded-end-0"
                       type="number"
-                      onChange={e => setDeleteId(e.target.value)}
+                      onChange={e => setAnimalIdToDelete(e.target.value)}
                     />
                     <Button variant="outline-none" className="delete-btn rounded-end rounded-start-0 border-start-0" type="submit">
                       <TrashFill />
                     </Button>
                   </Form.Group>
                 </Form>
-                {errors.deleteId && <p className="text-danger mt-2">{errors.deleteId.message}</p>}
+                {errors.animalIdToDelete && <p className="text-danger mt-2">{errors.animalIdToDelete.message}</p>}
               </div>
             )}
 
@@ -190,10 +190,10 @@ const BackOffice = () => {
               </Modal.Body>
 
               <Modal.Footer>
-                <Button variant="outline-none" id="cancel-delete-btn" onClick={() => setShowModal(false)}>
+                <Button variant="outline-none" id="cancel-delete-animal-btn" onClick={() => setShowModal(false)}>
                   Annulla
                 </Button>
-                <Button variant="outline-none" id="confirm-delete-btn" onClick={handleDelete}>
+                <Button variant="outline-none" id="confirm-delete-animal-btn" onClick={handleDelete}>
                   Rimuovi
                 </Button>
               </Modal.Footer>
