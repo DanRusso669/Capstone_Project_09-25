@@ -47,6 +47,9 @@ const animalSlice = createSlice({
     setProvince: (state, action: PayloadAction<string>) => {
       state.filters.province = action.payload;
     },
+    resetFilters: state => {
+      state.filters = initialState.filters;
+    },
   },
   extraReducers: builder => {
     builder
@@ -139,6 +142,6 @@ export const animalCRUDFetch = createAsyncThunk(
   }
 );
 
-export const { setPage, setSize, setSortBy, setGender, setStatus, setSpecies, setBreed, setProvince } = animalSlice.actions;
+export const { setPage, setSize, setSortBy, setGender, setStatus, setSpecies, setBreed, setProvince, resetFilters } = animalSlice.actions;
 
 export default animalSlice.reducer;
