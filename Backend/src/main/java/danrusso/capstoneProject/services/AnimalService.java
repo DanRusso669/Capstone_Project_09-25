@@ -110,7 +110,7 @@ public class AnimalService {
         });
 
         String imageUrl = "http://localhost:5173/src/assets/Logo-Rifugio-Mamo.jpg";
-        if (!(payload.imageUrl() == null)) imageUrl = payload.imageUrl();
+        if (!(payload.imageUrl().isEmpty())) imageUrl = payload.imageUrl();
 
         Animal newAnimal = new Animal(payload.name(), payload.age(), gender, payload.species(), payload.breed(), payload.description(), payload.clinicalCondition(), status, imageUrl, LocalDate.now(), true, payload.city(), payload.province(), payload.region(), userFound);
         return this.animalRepository.save(newAnimal);
@@ -128,6 +128,8 @@ public class AnimalService {
                 NewUserDTO newUser = new NewUserDTO(payload.userName(), payload.userSurname(), payload.userEmail(), "1234?Ciao", payload.userPhoneNumber());
                 return this.userService.save(newUser);
             });
+        } else {
+            foundUser = this.userRepository.findByEmail(foundAnimal.getFoundBy().getEmail()).orElseThrow(() -> new BadRequestException("C'è qualcosa che non va."));
         }
 
         foundAnimal.setName(payload.name());

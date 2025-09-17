@@ -20,14 +20,13 @@ public record NewAnimalDTO(
         @Size(min = 2, max = 20, message = "La razza deve essere lungo da 2 a 20 caratteri.")
         String breed,
         @NotEmpty(message = "La descrizione è obbligatoria.")
-        @Size(min = 10, max = 200, message = "La descrizione può essere lunga massimo 200 caratteri.")
+        @Size(min = 10, max = 400, message = "La descrizione può essere lunga massimo 400 caratteri.")
         String description,
         @NotEmpty(message = "La condizione clinica è obbligatoria.")
         String clinicalCondition,
         @NotEmpty(message = "Lo status è obbligatorio.")
         String status,
         String imageUrl,
-        @FutureOrPresent(message = "La data di rilascio non può essere passata.")
         LocalDate releaseDate,
         boolean isAdoptable,
         @NotEmpty(message = "La città è obbligatoria.")

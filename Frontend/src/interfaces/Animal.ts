@@ -1,23 +1,23 @@
 export interface Animal {
-  id: number | null;
+  id?: number | null;
   name: string;
-  age: number | null;
+  age: string;
   gender: string;
   species: string;
   breed: string;
   description: string;
   clinicalCondition: string;
   status: string;
-  imageUrl: string;
-  entryDate: Date | null;
-  releaseDate: Date | null;
+  imageUrl?: string;
+  entryDate?: Date | null;
+  releaseDate?: Date | null;
   city: string;
   province: string;
   region: string;
-  foundBy: FoundBy | null;
-  deathDate: Date | null;
-  deathCause: string | null;
-  adoptable: boolean;
+  foundBy?: FoundBy | null;
+  deathDate?: Date | null;
+  deathCause?: string | null;
+  adoptable?: boolean;
 }
 
 export interface NewAnimal extends FoundBy {
@@ -29,7 +29,7 @@ export interface NewAnimal extends FoundBy {
   description: string;
   clinicalCondition: string;
   status: string;
-  imageUrl?: string | null;
+  imageUrl?: string;
   city: string;
   province: string;
   region: string;
