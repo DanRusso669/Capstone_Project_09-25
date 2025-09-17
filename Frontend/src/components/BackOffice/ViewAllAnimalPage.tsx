@@ -1,10 +1,9 @@
 import { Button, Container, Table } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
-import { allAnimalFetch, resetFilters, setPage } from "../../redux/actions/animalSlice";
+import { allAnimalFetch, resetFilters, setPage, setSortByDirection } from "../../redux/actions/animalSlice";
 import FilterOffcanvas from "../FilterOffcanvas";
 import { useSearchParams } from "react-router-dom";
-import { ArrowLeftShort, ArrowRightShort } from "react-bootstrap-icons";
-// import { useSearchParams } from "react-router-dom";
+import { ArrowLeftShort, ArrowRightShort, SortNumericDown, SortNumericDownAlt } from "react-bootstrap-icons";
 
 const ViewAllAnimalPage = () => {
   const dispatch = useAppDispatch();
@@ -13,7 +12,7 @@ const ViewAllAnimalPage = () => {
   const {
     data: { list },
     requestStatus,
-    filters: { page, status, lastPage },
+    filters: { page, status, lastPage, sortByDirection },
   } = useAppSelector(state => state.animals);
 
   const loadMoreAnimals = () => {
@@ -25,6 +24,18 @@ const ViewAllAnimalPage = () => {
   const handleFilterReset = () => {
     setSearchParams("");
     dispatch(resetFilters());
+  };
+
+  const handleIdSorting = () => {
+    dispatch(setPage(0));
+    const sortingParams = new URLSearchParams(searchParams);
+
+    sortingParams.set("sortBy", "id");
+    const newSortDirection = sortByDirection === "asc" ? "desc" : "asc";
+    dispatch(setSortByDirection(newSortDirection));
+    sortingParams.set("sortByDirection", newSortDirection);
+
+    setSearchParams(sortingParams);
   };
 
   return (
@@ -43,27 +54,29 @@ const ViewAllAnimalPage = () => {
         <Table bordered hover striped className="mt-3">
           <thead>
             <tr>
-              <th style={{ width: "2%" }}>ID</th>
-              <th style={{ width: "6%" }}>Nome</th>
-              <th style={{ width: "2%" }}>Età</th>
-              <th style={{ width: "4%" }}>Sesso</th>
+              <th style={{ width: "5%" }} onClick={handleIdSorting}>
+                ID {sortByDirection === "asc" ? <SortNumericDown className="ms-2" /> : <SortNumericDownAlt className="ms-2" />}
+              </th>
+              <th style={{ width: "8%" }}>Nome</th>
+              <th style={{ width: "3%" }}>Età</th>
+              <th style={{ width: "5%" }}>Sesso</th>
               <th style={{ width: "5%" }}>Specie</th>
               <th style={{ width: "5%" }}>Razza</th>
               {/* <th>Descrizione</th>
               <th style={{ width: "7.14%" }} >Condizione Clinica</th> */}
               <th style={{ width: "7%" }}>Status</th>
-              <th style={{ width: "5.5%" }}>Città</th>
-              <th style={{ width: "5.5%" }}>Provincia</th>
-              <th style={{ width: "5%" }}>Regione</th>
-              <th style={{ width: "6%" }}>Data di Ingresso</th>
-              <th style={{ width: "6%" }}>Data del Rilascio</th>
-              <th style={{ width: "6%" }}>Data del Decesso</th>
-              <th style={{ width: "10%" }}>Cause del Decesso</th>
+              <th style={{ width: "6.5%" }}>Città</th>
+              <th style={{ width: "6.5%" }}>Provincia</th>
+              <th style={{ width: "6%" }}>Regione</th>
+              <th style={{ width: "7%" }}>Data di Ingresso</th>
+              <th style={{ width: "8%" }}>Data del Rilascio</th>
+              <th style={{ width: "8%" }}>Data del Decesso</th>
+              <th style={{ width: "20%" }}>Cause del Decesso</th>
             </tr>
           </thead>
           <tbody>
             {list.map(animal => (
-              <tr>
+              <tr key={animal.id}>
                 <td>{animal.id}</td>
                 <td>{animal.name}</td>
                 <td>{animal.age}</td>

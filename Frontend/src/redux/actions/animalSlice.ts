@@ -11,6 +11,7 @@ const initialState: AnimalState = {
     lastPage: false,
     size: 10,
     sortBy: "id",
+    sortByDirection: "asc",
     gender: "",
     status: "",
     species: "",
@@ -31,6 +32,9 @@ const animalSlice = createSlice({
     },
     setSortBy: (state, action: PayloadAction<string>) => {
       state.filters.sortBy = action.payload;
+    },
+    setSortByDirection: (state, action: PayloadAction<string>) => {
+      state.filters.sortByDirection = action.payload;
     },
     setGender: (state, action: PayloadAction<string>) => {
       state.filters.gender = action.payload;
@@ -142,6 +146,6 @@ export const animalCRUDFetch = createAsyncThunk(
   }
 );
 
-export const { setPage, setSize, setSortBy, setGender, setStatus, setSpecies, setBreed, setProvince, resetFilters } = animalSlice.actions;
+export const { setPage, setSize, setSortBy, setSortByDirection, setGender, setStatus, setSpecies, setBreed, setProvince, resetFilters } = animalSlice.actions;
 
 export default animalSlice.reducer;

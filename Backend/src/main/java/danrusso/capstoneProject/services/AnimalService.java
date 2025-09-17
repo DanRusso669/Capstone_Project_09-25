@@ -68,7 +68,7 @@ public class AnimalService {
 
     public Page<Animal> findAll(int pageNum, int pageSize, String sortBy, String sortByDirection, String genderFilter, String statusFilter, String species, String breed, String province) {
         Specification<Animal> spec = Specification.allOf((root, query, cb) -> cb.conjunction());
-        if (pageSize > 10) pageSize = 10;
+        if (pageSize > 50) pageSize = 50;
         Sort.Direction direction = sortByDirection.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
 
         if (genderFilter != null) {

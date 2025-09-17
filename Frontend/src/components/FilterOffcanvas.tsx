@@ -12,7 +12,7 @@ const FilterOffcanvas = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useAppDispatch();
   const {
-    filters: { gender, species, breed, province, status },
+    filters: { gender, species, breed, province, status, sortBy, sortByDirection },
   } = useAppSelector(state => state.animals);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const FilterOffcanvas = () => {
     dispatch(allAnimalFetch(searchParams.toString()));
     lastParams.current = searchParams.toString();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, searchParams, setSearchParams]);
+  }, [dispatch, searchParams]);
 
   const handleShowOffcanvas = () => setShowOffcanvas(!showOffcanvas);
 
@@ -43,6 +43,8 @@ const FilterOffcanvas = () => {
   const handleFilteredSearch = () => {
     const newParams: Record<string, string> = {};
 
+    if (sortBy) newParams.sortBy = sortBy;
+    if (sortByDirection) newParams.sortByDirection = sortByDirection;
     if (gender) newParams.gender = gender;
     if (species) newParams.species = species;
     if (province) newParams.province = province;
@@ -71,17 +73,6 @@ const FilterOffcanvas = () => {
         </Offcanvas.Title>
         <Offcanvas.Body className="mx-5">
           <Form>
-            {/* <Form.Group className="mb-3" controlId="formSortBy">
-              <Form.Label>Ordina per </Form.Label>
-              <Form.Select>
-                <option>Più recente</option>
-                <option>Più vecchio</option>
-                <option>Nome</option>
-                <option>Specie</option>
-                <option>Provincia</option>
-              </Form.Select>
-            </Form.Group> */}
-
             <Row className="d-flex flex-row">
               <Form.Group as={Col} md={6} lg={4} className="mb-3" controlId="formSortBy">
                 <Form.Label className="fst-italic fw-semibold">Specie</Form.Label>
@@ -90,8 +81,8 @@ const FilterOffcanvas = () => {
                   <option value={"Cervide"}>Cervidi</option>
                   <option value={"Volatile"}>Volatili</option>
                   <option value={"Suide"}>Suidi</option>
-                  <option value={"Ungolato"}>Specie</option>
-                  <option value={"Rapace"}>Provincia</option>
+                  <option value={"Felino"}>Felini</option>
+                  <option value={"Canide"}>Canidi</option>
                 </Form.Select>
               </Form.Group>
 
@@ -99,11 +90,11 @@ const FilterOffcanvas = () => {
                 <Form.Label className="fst-italic fw-semibold">Provincia</Form.Label>
                 <Form.Select value={province} onChange={handleProvinceChange}>
                   <option value={""}>- - -</option>
-                  <option value={"Torino"}>Torino</option>
-                  <option value={"Vercelli"}>Vercelli</option>
+                  <option value={"Biella"}>Biella</option>
                   <option value={"Novara"}>Novara</option>
-                  <option value={"Verbania"}>Verbania</option>
                   <option value={"Varese"}>Varese</option>
+                  <option value={"Verbania"}>Verbania</option>
+                  <option value={"Vercelli"}>Vercelli</option>
                 </Form.Select>
               </Form.Group>
 
