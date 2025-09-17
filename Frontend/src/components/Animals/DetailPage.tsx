@@ -21,14 +21,14 @@ const DetailPage = () => {
       <Container id="details-section" className="navbar-height information d-flex flex-column justify-content-center align-items-center mb-4">
         <h1 className="titles mx-auto mb-2 mt-4">{single !== null ? `Profilo di ${single.name}` : "Qualcosa non va!"}</h1>
         {single !== null ? (
-          <Row className="d-flex flex-column gy-3">
-            <Col className="mb-2">
-              <Row>
-                <Col xs={12} md={7} lg={8} className="d-flex justify-content-center align-items-center">
-                  <Image src={single.imageUrl} fluid />
-                </Col>
-                <Col xs={12} md={5} lg={4}>
-                  <h4 className="subtitles text-center mt-3 mb-2 mt-md-0">Caratteristiche di {single.name}</h4>
+          <Row className="d-flex flex-column justify-content-center align-items-center gy-3">
+            <Col className="d-flex justify-content-center align-items-center">
+              <Image src={single.imageUrl} fluid className="rounded-5" />
+            </Col>
+            <Col>
+              <Row className="d-flex flex-row justify-content-center">
+                <h4 className="subtitles text-center mt-3 mb-2 mt-md-0">Caratteristiche di {single.name}</h4>
+                <Col md={12} lg={6} className="text-lg-end text-center">
                   <p>
                     <span className="fw-medium fst-italic">Sesso</span>: {single.gender === "MALE" ? "Maschio" : "Femmina"}
                   </p>
@@ -38,6 +38,8 @@ const DetailPage = () => {
                   <p>
                     <span className="fw-medium fst-italic">Razza</span>: {single.breed}
                   </p>
+                </Col>
+                <Col md={12} lg={6} className="text-lg-start text-center">
                   <p>
                     <span className="fw-medium fst-italic">Città</span>: {single.city}
                   </p>
@@ -47,44 +49,51 @@ const DetailPage = () => {
                   <p>
                     <span className="fw-medium fst-italic">Regione</span>: {single.region}
                   </p>
-                  <p>
-                    <span className="fw-medium fst-italic">Ingresso al Rifugio</span>:{" "}
-                    {single.entryDate ? new Date(single.entryDate).toLocaleDateString() : "Nessuna data disponibile."}
-                  </p>
-                  <p className=" d-none d-lg-inline">
-                    <span className="fw-medium fst-italic">Descrizione</span>: <br />
-                    {single.description}
-                  </p>
                 </Col>
-                <p className="d-inline d-lg-none mt-md-2 ">
-                  <span className="fw-medium fst-italic">Descrizione</span>: <br />
-                  {single.description}
-                </p>
               </Row>
             </Col>
+            <Col className="text-center mt-0">
+              <p>
+                <span className="fw-medium fst-italic">Ingresso al Rifugio</span>:{" "}
+                {single.entryDate ? new Date(single.entryDate).toLocaleDateString() : "Nessuna data disponibile."}
+              </p>
+              <p className=" mt-md-2 ">
+                <span className="fw-medium fst-italic">Descrizione</span>: <br />
+                {single.description}
+              </p>
+            </Col>
+
             <Col>
-              <h4 className="subtitles text-center mt-3 mb-2 mt-md-0">Cartella Clinica di {single.name}</h4>
-              <p>
-                <span className="fw-medium fst-italic">Status</span>:{" "}
-                {single.status === "HOSPITALIZED" ? "Ricoverato" : single.status === "RELEASED" ? "Rilasciato" : "Deceduto"}
-              </p>
-              <p>
-                <span className="fw-medium fst-italic">Data di Rilascio</span>:{" "}
-                {single.releaseDate ? new Date(single.releaseDate).toLocaleDateString() : "Nessuna data disponibile."}
-              </p>
+              <Row>
+                <h4 className="subtitles text-center mt-3 mb-2 mt-md-0">Cartella Clinica di {single.name}</h4>
+                <Col md={12} lg={6} className="text-lg-end text-center">
+                  <p>
+                    <span className="fw-medium fst-italic">Status</span>:{" "}
+                    {single.status === "HOSPITALIZED" ? "Ricoverato" : single.status === "RELEASED" ? "Rilasciato" : "Deceduto"}
+                  </p>
+                  <p>
+                    <span className="fw-medium fst-italic">Data di Rilascio</span>:{" "}
+                    {single.releaseDate ? new Date(single.releaseDate).toLocaleDateString() : "Nessuna data disponibile."}
+                  </p>
+                </Col>
+                <Col md={12} lg={6} className="text-lg-start text-center">
+                  <p>
+                    <span className="fw-medium fst-italic">Data del decesso</span>:{" "}
+                    {single.deathDate ? new Date(single.deathDate).toLocaleDateString() : "Nessuna data disponibile."}
+                  </p>
+                  <p>
+                    <span className="fw-medium fst-italic">Causa del decesso</span>: {single.deathCause ? single.deathCause : "Nessun dato disponibile."}
+                  </p>
+                </Col>
+              </Row>
+            </Col>
+            <Col className="text-center mt-0">
               <p>
                 <span className="fw-medium fst-italic">Trovato da</span>: {single.foundBy?.userName + " " + single.foundBy?.userSurname}
               </p>
-              <p>
+              <p className=" mt-md-2 ">
                 <span className="fw-medium fst-italic">Condizione Clinica</span>: <br />
                 {single.clinicalCondition}
-              </p>
-              <p>
-                <span className="fw-medium fst-italic">Data del decesso</span>:{" "}
-                {single.deathDate ? new Date(single.deathDate).toLocaleDateString() : "Nessuna data disponibile."}
-              </p>
-              <p>
-                <span className="fw-medium fst-italic">Causa del decesso</span>: {single.deathCause ? single.deathCause : "Nessun dato disponibile."}
               </p>
             </Col>
           </Row>
