@@ -1,22 +1,36 @@
 import { Button, Col, Form, Offcanvas, Row } from "react-bootstrap";
-import { useState, type ChangeEvent } from "react";
+import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import { useAppDispatch, useAppSelector } from "../redux/store";
-import { resetFilters, setBreed, setGender, setPage, setProvince, setSpecies, setStatus } from "../redux/actions/animalSlice";
+import { allAnimalFetch, resetFilters, setBreed, setGender, setPage, setProvince, setSpecies, setStatus } from "../redux/actions/animalSlice";
 import { ArrowRightShort, ArrowLeftShort } from "react-bootstrap-icons";
 import { useSearchParams } from "react-router-dom";
 
 const FilterOffcanvas = () => {
   const [showOffcanvas, setShowOffcanvas] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const firstRender = useRef(true);
+  const lastParams = useRef("");
   const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useAppDispatch();
   const {
     filters: { gender, species, breed, province, status },
   } = useAppSelector(state => state.animals);
 
-  //   useEffect(() => {
-  //     dispatch(allAnimalFetch(searchParams.toString()));
-  //   }, [dispatch, searchParams]);
+  useEffect(() => {
+    if (firstRender.current) {
+      handleFilterReset();
+      dispatch(setPage(0));
+      dispatch(allAnimalFetch(""));
+      firstRender.current = false;
+      lastParams.current = "";
+      return;
+    }
+
+    if (lastParams.current == searchParams.toString()) return;
+
+    dispatch(allAnimalFetch(searchParams.toString()));
+    lastParams.current = searchParams.toString();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, searchParams, setSearchParams]);
 
   const handleShowOffcanvas = () => setShowOffcanvas(!showOffcanvas);
 

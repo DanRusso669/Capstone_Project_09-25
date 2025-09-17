@@ -5,10 +5,8 @@ import { allAnimalFetch, resetFilters, setPage } from "../../redux/actions/anima
 import { Link, useSearchParams } from "react-router-dom";
 import { ArrowRightShort, ArrowLeftShort } from "react-bootstrap-icons";
 import FilterOffcanvas from "../FilterOffcanvas";
-import { useEffect } from "react";
 
 const AnimalPage = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams();
 
   const dispatch = useAppDispatch();
@@ -17,10 +15,6 @@ const AnimalPage = () => {
     requestStatus,
     filters: { page, status, lastPage },
   } = useAppSelector(state => state.animals);
-
-  useEffect(() => {
-    dispatch(allAnimalFetch(searchParams.toString()));
-  }, [dispatch, searchParams]);
 
   const loadMoreAnimals = () => {
     if (requestStatus === "pending") return;
@@ -35,7 +29,7 @@ const AnimalPage = () => {
 
   return (
     <>
-      <Container id="animal-section" className="navbar-height information d-flex flex-column justify-content-start align-items-start mb-4">
+      <Container id="animal-section" className="navbar-height information d-flex flex-column justify-content-start align-items-start pb-4">
         <h1 className="titles mx-auto mb-2 mt-4">Gli ospiti del Rifugio</h1>
         <p className="mb-4">
           Benvenuti nella nostra pagina dedicata agli animali che hanno trovato una casa nel Rifugio. Qui potrete scoprire le storie degli{" "}

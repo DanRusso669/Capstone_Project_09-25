@@ -2,38 +2,18 @@ import { Button, Container, Table } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { allAnimalFetch, setPage } from "../../redux/actions/animalSlice";
 import FilterOffcanvas from "../FilterOffcanvas";
-import { useEffect, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 // import { useSearchParams } from "react-router-dom";
 
 const ViewAllAnimalPage = () => {
   const dispatch = useAppDispatch();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [searchParams, setSearchParams] = useSearchParams();
-  const firstRender = useRef(true);
-  const lastParams = useRef("");
+  const [searchParams] = useSearchParams();
 
   const {
     data: { list },
     requestStatus,
     filters: { page, status, lastPage },
   } = useAppSelector(state => state.animals);
-
-  useEffect(() => {
-    if (firstRender.current) {
-      setSearchParams("");
-      dispatch(setPage(0));
-      dispatch(allAnimalFetch(""));
-      firstRender.current = false;
-      lastParams.current = "";
-      return;
-    }
-
-    if (lastParams.current == searchParams.toString()) return;
-
-    dispatch(allAnimalFetch(searchParams.toString()));
-    lastParams.current = searchParams.toString();
-  }, [dispatch, searchParams, setSearchParams]);
 
   const loadMoreAnimals = () => {
     if (requestStatus === "pending") return;
@@ -43,7 +23,7 @@ const ViewAllAnimalPage = () => {
 
   return (
     <>
-      <Container fluid id="bo-all-animal-section" className="navbar-height d-flex flex-column justify-content-start align-items-start information">
+      <Container fluid id="bo-all-animal-section" className="navbar-height d-flex flex-column justify-content-start align-items-start information pb-4">
         <h2 className="titles mx-auto mb-2 mt-4">Animali</h2>
         <h4 className="subtitles mx-auto">Visualizza tutti gli animali</h4>
         <FilterOffcanvas />
@@ -92,11 +72,11 @@ const ViewAllAnimalPage = () => {
           </tbody>
         </Table>
         {status === "pending" ? (
-          <Button variant="outline-none" className="mt-4 load-more-btn mx-auto mb-5" disabled>
+          <Button variant="outline-none" className="mt-4 load-more-btn mx-auto" disabled>
             Caricamento...
           </Button>
         ) : (
-          <Button variant="outline-none" className={`mt-4 load-more-btn mx-auto ${lastPage && "d-none"} mb-5`} onClick={loadMoreAnimals}>
+          <Button variant="outline-none" className={`mt-4 load-more-btn mx-auto ${lastPage && "d-none"}`} onClick={loadMoreAnimals}>
             Carica di più
           </Button>
         )}

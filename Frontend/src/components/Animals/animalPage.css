@@ -1,3 +1,7 @@
+#animal-section {
+  min-height: calc(100vh - 160px - 110px);
+}
+
 #animal-section .card-img {
   max-width: 250px;
   min-height: 180px;
