@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { AdoptionResponse, AdoptionState } from "../../interfaces/Adoption";
+import type { Adoption, AdoptionResponse, AdoptionState, UpdateAdoptionBody } from "../../interfaces/Adoption";
 import type { ErrorsData } from "../../interfaces/ErrorsData";
 
 const initialState: AdoptionState = {
@@ -51,6 +51,18 @@ const adoptionSlice = createSlice({
       .addCase(allAdoptionFetch.rejected, (state, action) => {
         state.requestStatus = "failed";
         state.errorMessage = action.payload as string;
+      })
+
+      .addCase(adoptionCRUDFetch.pending, state => {
+        state.requestStatus = "pending";
+      })
+      .addCase(adoptionCRUDFetch.fulfilled, (state, action) => {
+        state.requestStatus = "succeeded";
+        state.data.single = action.payload;
+      })
+      .addCase(adoptionCRUDFetch.rejected, (state, action) => {
+        state.requestStatus = "failed";
+        state.errorMessage = action.payload as string;
       });
   },
 });
@@ -78,6 +90,40 @@ export const allAdoptionFetch = createAsyncThunk("adoptions/get-all", async (_, 
     return rejectWithValue(error);
   }
 });
+
+export const adoptionCRUDFetch = createAsyncThunk(
+  "adoptions/CRUD",
+  async (
+    { adoptionId, method, adoptionData }: { adoptionId: string | undefined; method: string; adoptionData: UpdateAdoptionBody | null },
+    { rejectWithValue }
+  ) => {
+    try {
+      const endpoint = adoptionId ? `http://localhost:3001/adoptions/${adoptionId}` : `http://localhost:3001/adoptions`;
+      const resp = await fetch(endpoint, {
+        method: method,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+        body: method === "PUT" ? JSON.stringify(adoptionData) : null,
+      });
+
+      if (!resp.ok) {
+        const errorData: ErrorsData = await resp.json();
+        return rejectWithValue(errorData);
+      }
+
+      if (resp.status === 204) {
+        return null;
+      }
+
+      const data: Adoption = await resp.json();
+      return data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
 
 export const { setPage, setSize, setSortBy, setSortByDirection } = adoptionSlice.actions;
 

@@ -19,7 +19,8 @@ import DetailPage from "./components/Animals/DetailPage";
 import BackOffice from "./components/BackOffice/BackOffice";
 import AddAnimalPage from "./components/BackOffice/AddAnimalPage";
 import UpdateAnimalPage from "./components/BackOffice/UpdateAnimalPage";
-import AllAnimalPage from "./components/BackOffice/ViewAllAnimalPage";
+import ViewAllAnimalPage from "./components/BackOffice/ViewAllAnimalPage";
+import ViewAllAdoptionPage from "./components/BackOffice/ViewAllAdoptionPage";
 
 function App() {
   return (
@@ -42,9 +43,10 @@ function App() {
           <Route path="/registrati" element={<RegisterPage />} />
           <Route path="/profilo" element={<Profile />} />
           <Route path="/back-office" element={<BackOffice />} />
-          <Route path="/back-office/animal/visualizza-tutti" element={<AllAnimalPage />} />
-          <Route path="/back-office/animal/aggiungi" element={<AddAnimalPage />} />
-          <Route path="/back-office/animal/modifica/:animalId" element={<UpdateAnimalPage />} />
+          <Route path="/back-office/animali/visualizza-tutti" element={<ViewAllAnimalPage />} />
+          <Route path="/back-office/animali/aggiungi" element={<AddAnimalPage />} />
+          <Route path="/back-office/animali/modifica/:animalId" element={<UpdateAnimalPage />} />
+          <Route path="/back-office/adozioni/visualizza-tutte" element={<ViewAllAdoptionPage />} />
         </Routes>
         <Footer />
       </BrowserRouter>

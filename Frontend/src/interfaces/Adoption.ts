@@ -55,3 +55,8 @@ export interface Sort {
   sorted: boolean;
   unsorted: boolean;
 }
+
+export interface UpdateAdoptionBody {
+  status: string;
+  startDate: Date;
+}
