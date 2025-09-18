@@ -1,7 +1,7 @@
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import "./animalPage.css";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
-import { allAnimalFetch, resetFilters, setPage } from "../../redux/actions/animalSlice";
+import { allAnimalFetch, resetFilters, setPage, setSortByDirection } from "../../redux/actions/animalSlice";
 import { Link, useSearchParams } from "react-router-dom";
 import { ArrowRightShort, ArrowLeftShort } from "react-bootstrap-icons";
 import FilterOffcanvas from "../FilterOffcanvas";
@@ -23,8 +23,11 @@ const AnimalPage = () => {
   };
 
   const handleFilterReset = () => {
-    setSearchParams("");
+    const initialParams = new URLSearchParams("");
+    initialParams.set("sortByDirection", "desc");
+    setSearchParams(initialParams);
     dispatch(resetFilters());
+    dispatch(setSortByDirection("desc"));
   };
 
   return (
