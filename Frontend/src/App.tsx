@@ -20,7 +20,7 @@ import BackOffice from "./components/BackOffice/BackOffice";
 import AddAnimalPage from "./components/BackOffice/AddAnimalPage";
 import UpdateAnimalPage from "./components/BackOffice/UpdateAnimalPage";
 import ViewAllAnimalPage from "./components/BackOffice/ViewAllAnimalPage";
-import ViewAllAdoptionPage from "./components/BackOffice/ViewAllAdoptionPage";
+// import ViewAllAdoptionPage from "./components/BackOffice/ViewAllAdoptionPage";
 
 function App() {
   return (
@@ -46,7 +46,7 @@ function App() {
           <Route path="/back-office/animali/visualizza-tutti" element={<ViewAllAnimalPage />} />
           <Route path="/back-office/animali/aggiungi" element={<AddAnimalPage />} />
           <Route path="/back-office/animali/modifica/:animalId" element={<UpdateAnimalPage />} />
-          <Route path="/back-office/adozioni/visualizza-tutte" element={<ViewAllAdoptionPage />} />
+          <Route path="/back-office/adozioni/visualizza-tutte" element={<ViewAllAnimalPage />} />
         </Routes>
         <Footer />
       </BrowserRouter>

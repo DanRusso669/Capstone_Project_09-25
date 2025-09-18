@@ -67,12 +67,12 @@ const adoptionSlice = createSlice({
   },
 });
 
-export const allAdoptionFetch = createAsyncThunk("adoptions/get-all", async (_, { rejectWithValue, getState }) => {
+export const allAdoptionFetch = createAsyncThunk("adoptions/get-all", async (filterParams: string, { rejectWithValue, getState }) => {
   const { adoptions } = getState() as { adoptions: AdoptionState };
   const { page } = adoptions.filters;
 
   try {
-    const resp = await fetch(`http://localhost:3001/adoptions?page=${page}`, {
+    const resp = await fetch(`http://localhost:3001/adoptions?page=${page}&${filterParams}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
