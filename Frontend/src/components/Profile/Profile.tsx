@@ -38,7 +38,6 @@ const Profile = () => {
   const dispatch = useAppDispatch();
   const storedUser = localStorage.getItem("user");
   const currentUser: ProfileResponse = storedUser ? JSON.parse(storedUser) : null;
-  console.log(currentUser);
 
   const {
     register: registerUserForm,

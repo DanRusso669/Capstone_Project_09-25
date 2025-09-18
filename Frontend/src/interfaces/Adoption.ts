@@ -2,10 +2,10 @@ import type { Animal } from "./Animal";
 import type { ProfileResponse } from "./User";
 
 export interface Adoption {
-  id?: number;
+  id?: number | null;
   requestDate: Date | null;
-  startDate: Date | null;
-  endDate: Date | null;
+  startDate?: Date | null;
+  endDate?: Date | null;
   status: string;
   user: ProfileResponse | null;
   animal: Animal | null;
@@ -58,5 +58,5 @@ export interface Sort {
 
 export interface UpdateAdoptionBody {
   status: string;
-  startDate: Date;
+  startDate?: Date;
 }

@@ -11,6 +11,7 @@ const ViewAllPage = () => {
   const dispatch = useAppDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
   const isAnimalPage = location.pathname.includes("visualizza/animali");
+  const isAdoptionPage = location.pathname.includes("visualizza/adozioni");
 
   const {
     data: { list: animalList },
@@ -55,10 +56,11 @@ const ViewAllPage = () => {
   };
 
   useEffect(() => {
-    if (!isAnimalPage) {
+    if (isAdoptionPage) {
       dispatch(allAdoptionFetch(searchParams.toString()));
     }
-  }, [dispatch, isAnimalPage, searchParams]);
+    console.log(adoptionList);
+  }, [dispatch, isAdoptionPage, searchParams]);
 
   return (
     <>

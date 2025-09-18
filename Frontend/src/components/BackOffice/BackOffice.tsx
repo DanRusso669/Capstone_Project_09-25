@@ -2,7 +2,7 @@ import { Button, Col, Container, Form, Modal, Row } from "react-bootstrap";
 import "./backOffice.css";
 import { useState } from "react";
 import { Plus, Dash, TrashFill, ArrowReturnLeft, SendFill } from "react-bootstrap-icons";
-import { useAppDispatch } from "../../redux/store";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { animalCRUDFetch } from "../../redux/actions/animalSlice";
 import { toast } from "react-toastify";
 import { useForm, type SubmitHandler } from "react-hook-form";
@@ -14,6 +14,8 @@ type BackOfficeFields = {
   animalIdToUpdate?: string;
   adoptionIdToDelete?: string;
   adoptionIdToUpdate?: string;
+  adoptionStatus: string;
+  adoptionStartDate?: Date;
 };
 
 type BackendError = {
@@ -25,10 +27,12 @@ const BackOffice = () => {
   const [category, setCategory] = useState("");
   const [showDeleteForm, setShowDeleteForm] = useState(false);
   const [showUpdateForm, setShowUpdateForm] = useState(false);
+  const [showUpdateSelectForm, setShowUpdateSelectForm] = useState(false);
   const [animalIdToDelete, setAnimalIdToDelete] = useState("");
   const [adoptionIdToDelete, setAdoptionIdToDelete] = useState("");
   const [adoptionIdToUpdate, setAdoptionIdToUpdate] = useState("");
   const [animalIdToUpdate, setAnimalIdToUpdate] = useState("");
+  const [adoptionStatus, setAdoptionStatus] = useState("");
   const [showModal, setShowModal] = useState(false);
 
   const dispatch = useAppDispatch();
@@ -38,8 +42,11 @@ const BackOffice = () => {
     register,
     setError,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<BackOfficeFields>();
+
+  const { single } = useAppSelector(state => state.adoptions.data);
 
   const handleAnimalDelete = async () => {
     setShowModal(false);
@@ -103,7 +110,41 @@ const BackOffice = () => {
     try {
       const response = await dispatch(adoptionCRUDFetch({ adoptionId: adoptionIdToUpdate, method: "GET", adoptionData: null })).unwrap();
       if (response) {
-        navigate(`/back-office/modifica/adozioni/${adoptionIdToUpdate}`);
+        setShowUpdateForm(false);
+        setShowUpdateSelectForm(true);
+      }
+    } catch (error) {
+      const backendError = error as BackendError;
+      setError("adoptionIdToUpdate", { message: backendError.message });
+    }
+  };
+
+  const handleDefinitiveAdoptionUpdate: SubmitHandler<BackOfficeFields> = async data => {
+    try {
+      const response = await toast.promise(
+        dispatch(
+          adoptionCRUDFetch({
+            adoptionId: data.adoptionIdToUpdate,
+            method: "PUT",
+            adoptionData: { status: data.adoptionStatus, startDate: data.adoptionStartDate },
+          })
+        ).unwrap(),
+        {
+          pending: "Aggiornamento in corso...",
+          success: "Adozione aggiornata con successo!",
+          error: "Si è verificato un errore durante l'aggiornamento.",
+        },
+        {
+          autoClose: 4000, // Durata del toast
+        }
+      );
+
+      if (response) {
+        setAdoptionIdToUpdate("");
+        setShowUpdateSelectForm(false);
+        setValue("adoptionIdToUpdate", "");
+        setValue("adoptionStatus", "");
+        setValue("adoptionStartDate", undefined);
       }
     } catch (error) {
       const backendError = error as BackendError;
@@ -281,10 +322,8 @@ const BackOffice = () => {
                   <Form.Group controlId="updateById" className="d-flex justify-content-center align-items-center">
                     <Form.Control
                       {...register("adoptionIdToUpdate", { required: "Il campo non può essere vuoto." })}
-                      value={adoptionIdToUpdate}
                       className="form-inputs rounded-start rounded-end-0"
                       type="number"
-                      onChange={e => setAdoptionIdToUpdate(e.target.value)}
                     />
                     <Button variant="outline-none" className="update-btn rounded-end rounded-start-0 border-start-0" type="submit">
                       <SendFill />
@@ -292,6 +331,42 @@ const BackOffice = () => {
                   </Form.Group>
                 </Form>
                 {errors.adoptionIdToUpdate && <p className="text-danger mt-2">{errors.adoptionIdToUpdate.message}</p>}
+              </div>
+            )}
+
+            {showUpdateSelectForm && (
+              <div className="update-wrapper d-flex flex-column justify-content-start align-items-start w-50">
+                <p className="mb-1 mt-2 align-middle">{`Hai selezionato l'adozione con ID ${adoptionIdToUpdate}`}</p>
+                <p className="mb-1 align-middle">{`Al momento lo status di questa adozione è ${single?.status}`}</p>
+                <p className="mb-1 align-middle">Seleziona lo status:</p>
+                <Form onSubmit={handleSubmit(handleDefinitiveAdoptionUpdate)}>
+                  <Form.Group as={Col} controlId="formGridAdoptionStatus">
+                    <Form.Select
+                      value={adoptionStatus}
+                      {...register("adoptionStatus", { required: "Seleziona uno status" })}
+                      className="border border-dark"
+                      onChange={e => setAdoptionStatus(e.target.value)}
+                    >
+                      <option value={"DENIED"}>Rifiutato</option>
+                      <option value={"ACCEPTED"}>Accettato</option>
+                      <option value={"ENDED"}>Concluso</option>
+                    </Form.Select>
+                  </Form.Group>
+                  {adoptionStatus === "ACCEPTED" && (
+                    <div>
+                      <p className="mb-1 mt-2 align-middle">Seleziona la data di inizio:</p>
+                      <Form.Group as={Col}>
+                        <Form.Control type="date" {...register("adoptionStartDate", { required: "Seleziona una data di inizio" })} />
+                        {errors.adoptionStartDate && <p className="text-danger mt-2">{errors.adoptionStartDate.message}</p>}
+                      </Form.Group>
+                    </div>
+                  )}
+                  <div className="d-flex justify-content-center mt-4">
+                    <Button variant="outline-none" className="add-update-animal-btn" type="submit">
+                      Conferma modifica
+                    </Button>
+                  </div>
+                </Form>
               </div>
             )}
 
