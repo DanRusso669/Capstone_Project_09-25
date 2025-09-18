@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
@@ -54,10 +55,18 @@ public class AdoptionService {
         };
     }
 
-    public Page<Adoption> findAll(int pageNumber, int pageSize, String sortBy) {
+    public Page<Adoption> findAll(int pageNumber, int pageSize, String sortBy, String sortByDirection, String statusFilter) {
+        Specification<Adoption> spec = Specification.allOf((root, query, cb) -> cb.conjunction());
         if (pageSize > 20) pageSize = 20;
-        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
-        return this.adoptionRepository.findAll(pageable);
+        Sort.Direction direction = sortByDirection.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+
+        if (statusFilter != null) {
+            AdoptionStatus status = this.checkAdoptionStatus(statusFilter);
+            spec = spec.and((root, query, cb) -> cb.equal(root.get("status"), status));
+        }
+
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(direction, sortBy));
+        return this.adoptionRepository.findAll(spec, pageable);
     }
 
     public Adoption save(long userId, long animalId) {
