@@ -5,11 +5,12 @@ import { allAdoptionFetch, setPage as setAdoptionPage } from "../../redux/action
 import FilterOffcanvas from "../FilterOffcanvas";
 import { useSearchParams } from "react-router-dom";
 import { ArrowLeftShort, ArrowRightShort, SortAlphaDown, SortAlphaDownAlt, SortNumericDown, SortNumericDownAlt } from "react-bootstrap-icons";
+import { useEffect } from "react";
 
-const ViewAllAnimalPage = () => {
+const ViewAllPage = () => {
   const dispatch = useAppDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
-  const isAnimalPage = location.pathname.includes("animali/visualizza-tutti");
+  const isAnimalPage = location.pathname.includes("visualizza/animali");
 
   const {
     data: { list: animalList },
@@ -20,7 +21,7 @@ const ViewAllAnimalPage = () => {
   const {
     data: { list: adoptionList },
     requestStatus: adoptionRequestStatus,
-    filters: { page: adoptionPage, lastPage: adoptionLastPage, status: adoptionStatus, sortBy: adoptionSortBy, sortByDirection: adoptionSortByDirection },
+    filters: { page: adoptionPage },
   } = useAppSelector(state => state.adoptions);
 
   const loadMoreAnimals = () => {
@@ -53,9 +54,15 @@ const ViewAllAnimalPage = () => {
     setSearchParams(sortingParams);
   };
 
+  useEffect(() => {
+    if (!isAnimalPage) {
+      dispatch(allAdoptionFetch(searchParams.toString()));
+    }
+  }, [dispatch, isAnimalPage, searchParams]);
+
   return (
     <>
-      <Container fluid id="bo-all-animal-section" className="navbar-height d-flex flex-column justify-content-start align-items-start information pb-4">
+      <Container fluid id="back-office-viewAll-section" className="navbar-height d-flex flex-column justify-content-start align-items-start information pb-4">
         <h2 className="titles mx-auto mb-2 mt-4">{isAnimalPage ? "Animali" : "Adozioni"}</h2>
         <h4 className="subtitles mx-auto">{isAnimalPage ? "Visualizza tutti gli animali" : "Visualizza tutte le adozioni"}</h4>
         <div className="d-flex justify-content-center w-100">
@@ -172,4 +179,4 @@ const ViewAllAnimalPage = () => {
   );
 };
 
-export default ViewAllAnimalPage;
+export default ViewAllPage;

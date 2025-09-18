@@ -1,10 +1,10 @@
-#back-office-section,
+#back-office-main-section,
 #add-animal-section,
-#bo-all-animal-section {
+#back-office-viewAll-section {
   min-height: calc(100vh - 160px - 110px);
 }
 
-#back-office-section .category-btn {
+#back-office-main-section .category-btn {
   min-width: 167px;
   text-decoration: none;
   color: white;
@@ -15,23 +15,23 @@
   font-size: 22px;
 }
 
-#back-office-section .category-btn:hover {
+#back-office-main-section .category-btn:hover {
   background-color: white;
   color: #3a6b2f;
   font-weight: bold;
   border: 2px solid #3a6b2f;
 }
 
-#back-office-section .form-inputs {
+#back-office-main-section .form-inputs {
   border: 1px solid black;
 }
 
-#back-office-section .form-inputs:focus {
+#back-office-main-section .form-inputs:focus {
   box-shadow: 0px 0px 12px #3a6b2f;
   border: 1px solid black;
 }
 
-#back-office-section .delete-wrapper,
+#back-office-main-section .delete-wrapper,
 .update-wrapper {
   opacity: 0;
   transform: translateX(-10px);
@@ -45,28 +45,28 @@
   }
 }
 
-#back-office-section .crud-links {
+#back-office-main-section .crud-links {
   color: #3a6b2f;
 }
 
-#back-office-section .delete-btn {
+#back-office-main-section .delete-btn {
   border: 1px solid black;
   background-color: rgb(248, 11, 11);
   color: white;
 }
 
-#back-office-section .update-btn {
+#back-office-main-section .update-btn {
   color: white;
   background-color: #3a6b2f;
   border: 1px solid black;
 }
 
-#back-office-section .delete-btn:hover {
+#back-office-main-section .delete-btn:hover {
   background-color: white;
   color: rgb(248, 11, 11);
 }
 
-#back-office-section .update-btn:hover {
+#back-office-main-section .update-btn:hover {
   background-color: white;
   color: #3a6b2f;
 }
@@ -106,10 +106,10 @@
 
 /* VIEW ALL */
 
-#bo-all-animal-section .filter-btn {
+#back-office-viewAll-section .filter-btn {
   font-size: 23px;
 }
 
-#bo-all-animal-section .filter-btn:hover {
+#back-office-viewAll-section .filter-btn:hover {
   color: #3a6b2f;
 }

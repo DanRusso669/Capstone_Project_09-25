@@ -91,7 +91,7 @@ const BackOffice = () => {
     try {
       const response = await dispatch(animalCRUDFetch({ animalId: animalIdToUpdate, method: "GET", animalData: null })).unwrap();
       if (response) {
-        navigate(`/back-office/animali/modifica/${animalIdToUpdate}`);
+        navigate(`/back-office/modifica/animali/${animalIdToUpdate}`);
       }
     } catch (error) {
       const backendError = error as BackendError;
@@ -99,11 +99,21 @@ const BackOffice = () => {
     }
   };
 
-  const handleAdoptionUpdate = () => {};
+  const handleAdoptionUpdate = async () => {
+    try {
+      const response = await dispatch(adoptionCRUDFetch({ adoptionId: adoptionIdToUpdate, method: "GET", adoptionData: null })).unwrap();
+      if (response) {
+        navigate(`/back-office/modifica/adozioni/${adoptionIdToUpdate}`);
+      }
+    } catch (error) {
+      const backendError = error as BackendError;
+      setError("adoptionIdToUpdate", { message: backendError.message });
+    }
+  };
 
   return (
     <>
-      <Container id="back-office-section" className="navbar-height d-flex flex-column justify-content-start align-items-start information mb-4">
+      <Container id="back-office-main-section" className="navbar-height d-flex flex-column justify-content-start align-items-start information mb-4">
         <h1 className="titles mx-auto mb-2 mt-4">Back Office</h1>
         {category === "" && (
           <>
@@ -141,14 +151,14 @@ const BackOffice = () => {
             </h4>
             <h4 className="subtitles mt-3 mb-2">
               Visualizza tutti gli animale{" "}
-              <Link to={"/back-office/animali/visualizza-tutti"} className="crud-links">
+              <Link to={"/back-office/visualizza/animali"} className="crud-links">
                 <Plus />
               </Link>
             </h4>
             <p>Cliccare il + per visualizzare la tabella con tutti gli animali registrati.</p>
             <h4 className="subtitles mt-3 mb-2">
               Aggiungi un animale{" "}
-              <Link to={"/back-office/animali/aggiungi"} className="crud-links">
+              <Link to={"/back-office/aggiungi/animali"} className="crud-links">
                 <Plus />
               </Link>
             </h4>
@@ -243,14 +253,14 @@ const BackOffice = () => {
             </h4>
             <h4 className="subtitles mt-3 mb-2">
               Visualizza tutte le adozioni{" "}
-              <Link to={"/back-office/adozioni/visualizza-tutte"} className="crud-links">
+              <Link to={"/back-office/visualizza/adozioni"} className="crud-links">
                 <Plus />
               </Link>
             </h4>
             <p>Cliccare il + per visualizzare la tabella con tutte le adozioni registrate.</p>
             <h4 className="subtitles mt-3 mb-2">
               Aggiungi un'adozione{" "}
-              <Link to={"/back-office/adozioni/aggiungi"} className="crud-links">
+              <Link to={"/back-office/aggiungi/adozioni"} className="crud-links">
                 <Plus />
               </Link>
             </h4>

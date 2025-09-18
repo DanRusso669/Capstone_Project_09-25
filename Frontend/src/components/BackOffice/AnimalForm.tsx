@@ -55,7 +55,7 @@ const AnimalForm = () => {
   const { single } = useAppSelector(state => state.animals.data);
   const dispatch = useAppDispatch();
   const { animalId } = useParams();
-  const isUpdatePage = location.pathname.includes("modifica");
+  const isUpdatePage = location.pathname.includes("/animali/modifica");
 
   useEffect(() => {
     if (animalId && isUpdatePage) {

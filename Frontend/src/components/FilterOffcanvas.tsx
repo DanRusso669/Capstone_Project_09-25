@@ -22,25 +22,28 @@ const FilterOffcanvas = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useAppDispatch();
   const isAnimalPage = location.pathname.includes("i-nostri-animali");
+  const isAdoptionPage = location.pathname.includes("visualizza/adozioni");
 
   const {
     filters: { gender, species, breed, province, status, sortBy, sortByDirection },
   } = useAppSelector(state => state.animals);
 
   useEffect(() => {
-    if (firstRender.current) {
-      const newParams = new URLSearchParams(searchParams);
-      handleFilterReset();
-      dispatch(setPage(0));
-      if (isAnimalPage) {
-        newParams.set("sortByDirection", "desc");
-        dispatch(setSortByDirection("desc"));
+    if (!isAdoptionPage) {
+      if (firstRender.current) {
+        const newParams = new URLSearchParams(searchParams);
+        handleFilterReset();
+        dispatch(setPage(0));
+        if (isAnimalPage) {
+          newParams.set("sortByDirection", "desc");
+          dispatch(setSortByDirection("desc"));
+        }
+        dispatch(allAnimalFetch(searchParams.toString()));
+        setSearchParams(newParams);
+        firstRender.current = false;
+        lastParams.current = "";
+        return;
       }
-      dispatch(allAnimalFetch(searchParams.toString()));
-      setSearchParams(newParams);
-      firstRender.current = false;
-      lastParams.current = "";
-      return;
     }
 
     if (lastParams.current == searchParams.toString()) return;
