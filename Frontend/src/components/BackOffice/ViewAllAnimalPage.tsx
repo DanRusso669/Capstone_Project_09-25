@@ -9,7 +9,7 @@ import { ArrowLeftShort, ArrowRightShort, SortAlphaDown, SortAlphaDownAlt, SortN
 const ViewAllAnimalPage = () => {
   const dispatch = useAppDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
-  const isAnimalPage = location.pathname.includes("animali");
+  const isAnimalPage = location.pathname.includes("animali/visualizza-tutti");
 
   const {
     data: { list: animalList },

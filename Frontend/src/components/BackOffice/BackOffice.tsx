@@ -7,6 +7,7 @@ import { animalCRUDFetch } from "../../redux/actions/animalSlice";
 import { toast } from "react-toastify";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
+import { adoptionCRUDFetch } from "../../redux/actions/adoptionSlice";
 
 type BackOfficeFields = {
   animalIdToDelete?: string;
@@ -61,7 +62,26 @@ const BackOffice = () => {
     }
   };
 
-  const handleAdoptionDelete = () => {};
+  const handleAdoptionDelete = async () => {
+    setShowModal(false);
+    try {
+      await toast.promise(
+        dispatch(adoptionCRUDFetch({ adoptionId: adoptionIdToDelete, method: "DELETE", adoptionData: null })).unwrap(),
+        {
+          pending: `Rimozione in corso...`,
+          success: `Adozione con ID ${adoptionIdToDelete} rimossa con successo.`,
+          error: `Rimozione fallita. Riprovare.`,
+        },
+        {
+          autoClose: 4000,
+        }
+      );
+      setAdoptionIdToDelete("");
+    } catch (error) {
+      const backendError = error as BackendError;
+      setError("adoptionIdToDelete", { message: backendError.message });
+    }
+  };
 
   const onSubmit: SubmitHandler<BackOfficeFields> = () => {
     setShowModal(true);
