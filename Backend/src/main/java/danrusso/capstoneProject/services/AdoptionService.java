@@ -89,6 +89,10 @@ public class AdoptionService {
         found.setStatus(newStatus);
         found.setStartDate(payload.startDate());
 
+        if (newStatus.equals(AdoptionStatus.ENDED)) {
+            found.setEndDate(LocalDate.now());
+        }
+
         if (newStatus.equals(AdoptionStatus.DENIED) || newStatus.equals(AdoptionStatus.ENDED))
             found.getAnimal().setAdoptable(true);
 

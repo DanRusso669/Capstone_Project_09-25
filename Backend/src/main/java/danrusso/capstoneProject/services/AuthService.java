@@ -21,8 +21,8 @@ public class AuthService {
     private JWTTools jwtTools;
 
     public String generateAccessToken(UserLoginDTO payload) {
-        User user = this.userService.findByEmail(payload.email());
-        if (bcrypt.matches(payload.password(), user.getPassword())) {
+        User user = this.userService.findByEmail(payload.userEmail());
+        if (bcrypt.matches(payload.userPassword(), user.getPassword())) {
             return jwtTools.createToken(user);
         } else {
             throw new UnauthorizedException("Credenziali errate.");

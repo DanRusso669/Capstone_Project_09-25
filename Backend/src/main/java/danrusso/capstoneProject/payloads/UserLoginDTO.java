@@ -4,6 +4,6 @@ import jakarta.validation.constraints.Email;
 
 public record UserLoginDTO(
         @Email
-        String email,
-        String password) {
+        String userEmail,
+        String userPassword) {
 }
