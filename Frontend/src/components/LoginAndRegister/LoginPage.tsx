@@ -5,7 +5,6 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { loginFetch, resetForm, setEmail, setPassword } from "../../redux/actions/loginSlice";
 import { toast } from "react-toastify";
-import { useEffect } from "react";
 import { profileFetch } from "../../redux/actions/profileSlice";
 
 type FormFields = {
@@ -24,7 +23,6 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const {
     data: { userEmail, userPassword },
-    status,
   } = useAppSelector(state => state.login);
 
   const onSubmit: SubmitHandler<FormFields> = async data => {
@@ -41,18 +39,14 @@ const LoginPage = () => {
         }
       );
       await dispatch(profileFetch());
+      dispatch(resetForm());
+      setTimeout(() => {
+        navigate("/");
+      }, 500);
     } catch (error) {
       if (typeof error === "string") toast.error(error);
     }
   };
-
-  useEffect(() => {
-    if (status === "succeeded") {
-      dispatch(resetForm());
-      navigate("/");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status, dispatch]);
 
   return (
     <>
@@ -97,7 +91,7 @@ const LoginPage = () => {
               <Form.Text className="ms-1">
                 <br />
                 Non ricordi la password ?{" "}
-                <Link to={"/password-dimenticata"} className="cras-links">
+                <Link to={"/"} className="cras-links">
                   Clicca qui.
                 </Link>
               </Form.Text>
