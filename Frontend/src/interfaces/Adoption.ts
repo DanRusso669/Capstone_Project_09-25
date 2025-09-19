@@ -2,7 +2,7 @@ import type { Animal } from "./Animal";
 import type { ProfileResponse } from "./User";
 
 export interface Adoption {
-  id?: number | null;
+  id: number;
   requestDate: Date | null;
   startDate?: Date | null;
   endDate?: Date | null;

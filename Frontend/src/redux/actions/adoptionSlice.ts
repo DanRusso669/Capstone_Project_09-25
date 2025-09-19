@@ -63,6 +63,18 @@ const adoptionSlice = createSlice({
       .addCase(adoptionCRUDFetch.rejected, (state, action) => {
         state.requestStatus = "failed";
         state.errorMessage = action.payload as string;
+      })
+
+      .addCase(endOwnAdoptionFetch.pending, state => {
+        state.requestStatus = "pending";
+      })
+      .addCase(endOwnAdoptionFetch.fulfilled, (state, action) => {
+        state.requestStatus = "succeeded";
+        state.data.single = action.payload;
+      })
+      .addCase(endOwnAdoptionFetch.rejected, (state, action) => {
+        state.requestStatus = "failed";
+        state.errorMessage = action.payload as string;
       });
   },
 });
@@ -124,6 +136,28 @@ export const adoptionCRUDFetch = createAsyncThunk(
     }
   }
 );
+
+export const endOwnAdoptionFetch = createAsyncThunk("adoptions/me/end", async (adoptionId: string, { rejectWithValue }) => {
+  try {
+    const resp = await fetch(`http://localhost:3001/adoptions/me/${adoptionId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    });
+
+    if (!resp.ok) {
+      const errorData: ErrorsData = await resp.json();
+      return rejectWithValue(errorData);
+    }
+
+    const data: Adoption = await resp.json();
+    return data;
+  } catch (error) {
+    return rejectWithValue(error);
+  }
+});
 
 export const { setPage, setSize, setSortBy, setSortByDirection } = adoptionSlice.actions;
 

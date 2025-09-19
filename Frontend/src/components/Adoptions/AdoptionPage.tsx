@@ -1,9 +1,15 @@
-import { Card, Col, Container, Row } from "react-bootstrap";
+import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import "./adoption.css";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
-import { allAdoptionFetch } from "../../redux/actions/adoptionSlice";
+import { allAdoptionFetch, endOwnAdoptionFetch } from "../../redux/actions/adoptionSlice";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+
+type BackendError = {
+  message: string;
+  timestamp: string;
+};
 
 const AdoptionPage = () => {
   const dispatch = useAppDispatch();
@@ -17,7 +23,33 @@ const AdoptionPage = () => {
       const actualUser = JSON.parse(userJson);
       dispatch(allAdoptionFetch(`userId=${actualUser.id}`));
     }
-  }, []);
+  }, [dispatch]);
+
+  const handleEndOwnAdoption = async (adoptionId: string) => {
+    try {
+      await toast.promise(
+        dispatch(endOwnAdoptionFetch(adoptionId)).unwrap(),
+        {
+          pending: `Stiamo terminando la tua adozione...`,
+          success: `Adozione con ID ${adoptionId} terminata con successo.`,
+          error: `Qualcosa è andato storto.`,
+        },
+        {
+          autoClose: 4000,
+        }
+      );
+
+      const userJson = localStorage.getItem("user");
+
+      if (userJson !== null) {
+        const actualUser = JSON.parse(userJson);
+        dispatch(allAdoptionFetch(`userId=${actualUser.id}`));
+      }
+    } catch (error) {
+      const backendError = error as BackendError;
+      toast.error(backendError.message);
+    }
+  };
 
   return (
     <>
@@ -55,9 +87,12 @@ const AdoptionPage = () => {
                         <br />
                       </Card.Text>
                       <div className="d-flex justify-content-end details-btn-wrapper mt-3 mb-2">
-                        <Link to={`/dettagli/${adoption.animal.id}`} className="ms-auto details-btn">
+                        <Link to={`/dettagli/${adoption.animal.id}`} className="ms-auto details-accepted-btn">
                           Dettagli
                         </Link>
+                        <Button variant="outline-none" className="end-adoption-btn ms-1" onClick={() => handleEndOwnAdoption(adoption.id.toString())}>
+                          Termina
+                        </Button>
                       </div>
                     </Card.Body>
                   </Card>
@@ -81,8 +116,6 @@ const AdoptionPage = () => {
                     <Card.Body as={Col} className="d-flex flex-column justify-content-center align-items-center px-0">
                       <Card.Title className="text-center">{adoption.animal.name}</Card.Title>
                       <Card.Text>
-                        <span className="fw-medium fst-italic">Sesso</span>: {adoption.animal.gender === "MALE" ? "Maschio" : "Femmina"}
-                        <br />
                         <span className="fw-medium fst-italic">Specie</span>: {adoption.animal.species}
                         <br />
                         <span className="fw-medium fst-italic">Razza</span>: {adoption.animal.breed}
@@ -91,8 +124,8 @@ const AdoptionPage = () => {
                         {adoption.animal.status === "HOSPITALIZED" ? "Ricoverato" : adoption.animal.status === "RELEASED" ? "Rilasciato" : "Deceduto"}
                         <br />
                       </Card.Text>
-                      <div className="d-flex justify-content-end details-btn-wrapper mt-3 mb-2">
-                        <Link to={`/dettagli/${adoption.animal.id}`} className="ms-auto details-btn">
+                      <div className="d-flex justify-content-center details-btn-wrapper mt-3 mb-2 w-50 gap-1">
+                        <Link to={`/dettagli/${adoption.animal.id}`} className="details-btn">
                           Dettagli
                         </Link>
                       </div>

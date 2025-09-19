@@ -8,7 +8,6 @@
   border-radius: 60px;
   border: thin solid rgba(0, 0, 0, 0.336);
 }
-
 #adoption-section .details-btn {
   text-decoration: none;
   color: white;
@@ -17,4 +16,48 @@
   padding-block: 0.6rem;
   border-radius: 20px;
   font-size: 19px;
+}
+
+#adoption-section .details-btn:hover {
+  background-color: white;
+  color: #3a6b2f;
+  font-weight: bold;
+  border: 2px solid #3a6b2f;
+}
+
+#adoption-section .details-accepted-btn {
+  text-decoration: none;
+  color: white;
+  background-color: rgb(58, 107, 47);
+  padding-inline: 0.8rem;
+  padding-block: 0.4rem;
+  border-radius: 20px;
+  font-size: 16px;
+}
+#adoption-section .details-accepted-btn:hover {
+  background-color: white;
+  color: #3a6b2f;
+  font-weight: bold;
+  border: 2px solid #3a6b2f;
+}
+
+#adoption-section .animal-card {
+  min-height: 220px;
+}
+
+#adoption-section .end-adoption-btn {
+  text-decoration: none;
+  color: white;
+  background-color: rgb(240, 22, 22);
+  padding-inline: 0.8rem;
+  padding-block: 0.4rem;
+  border-radius: 20px;
+  font-size: 16px;
+}
+
+#adoption-section .end-adoption-btn:hover {
+  background-color: white;
+  color: rgb(240, 22, 22);
+  font-weight: bold;
+  border: 2px solid rgb(240, 22, 22);
 }
