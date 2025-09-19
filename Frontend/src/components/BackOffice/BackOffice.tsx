@@ -1,6 +1,6 @@
 import { Button, Col, Container, Form, Modal, Row } from "react-bootstrap";
 import "./backOffice.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Plus, Dash, TrashFill, ArrowReturnLeft, SendFill } from "react-bootstrap-icons";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { animalCRUDFetch } from "../../redux/actions/animalSlice";
@@ -107,6 +107,7 @@ const BackOffice = () => {
   };
 
   const handleAdoptionUpdate = async () => {
+    console.log(adoptionIdToUpdate);
     try {
       const response = await dispatch(adoptionCRUDFetch({ adoptionId: adoptionIdToUpdate, method: "GET", adoptionData: null })).unwrap();
       if (response) {
@@ -152,6 +153,18 @@ const BackOffice = () => {
     }
   };
 
+  useEffect(() => {
+    setShowDeleteForm(false);
+    setShowUpdateForm(false);
+    setShowUpdateSelectForm(false);
+    setAnimalIdToDelete("");
+    setAdoptionIdToDelete("");
+    setAdoptionIdToUpdate("");
+    setAnimalIdToUpdate("");
+    setAdoptionStatus("");
+    setShowModal(false);
+  }, [category]);
+
   return (
     <>
       <Container id="back-office-main-section" className="navbar-height d-flex flex-column justify-content-start align-items-start information mb-4">
@@ -187,7 +200,7 @@ const BackOffice = () => {
         {category === "animals" && (
           <>
             <h2 className="titles mx-auto mb-2 mt-4">Animali</h2>
-            <h4 className="subtitles mt-3 " onClick={() => setCategory("")} style={{ cursor: "pointer" }}>
+            <h4 className="subtitles mt-3 plus-minus-icons" onClick={() => setCategory("")}>
               Torna indietro <ArrowReturnLeft />
             </h4>
             <h4 className="subtitles mt-3 mb-2">
@@ -207,9 +220,9 @@ const BackOffice = () => {
             <h4 className="subtitles mt-3 mb-2">
               Modifica un animale{" "}
               {showUpdateForm ? (
-                <Dash onClick={() => setShowUpdateForm(!showUpdateForm)} style={{ cursor: "pointer" }} />
+                <Dash onClick={() => setShowUpdateForm(!showUpdateForm)} className="plus-minus-icons" />
               ) : (
-                <Plus onClick={() => setShowUpdateForm(!showUpdateForm)} style={{ cursor: "pointer" }} />
+                <Plus onClick={() => setShowUpdateForm(!showUpdateForm)} className="plus-minus-icons" />
               )}
             </h4>
             <p>Cliccare il + per modificare un animale tramite ID.</p>
@@ -237,9 +250,9 @@ const BackOffice = () => {
             <h4 className="subtitles mt-3 mb-2">
               Elimina un animale{" "}
               {showDeleteForm ? (
-                <Dash onClick={() => setShowDeleteForm(!showDeleteForm)} style={{ cursor: "pointer" }} />
+                <Dash onClick={() => setShowDeleteForm(!showDeleteForm)} className="plus-minus-icons" />
               ) : (
-                <Plus onClick={() => setShowDeleteForm(!showDeleteForm)} style={{ cursor: "pointer" }} />
+                <Plus onClick={() => setShowDeleteForm(!showDeleteForm)} className="plus-minus-icons" />
               )}
             </h4>
             <p>Cliccare il + per eliminare un animale.</p>
@@ -289,7 +302,7 @@ const BackOffice = () => {
         {category === "adoptions" && (
           <>
             <h2 className="titles mx-auto mb-2 mt-4">Adozioni</h2>
-            <h4 className="subtitles mt-3 " onClick={() => setCategory("")} style={{ cursor: "pointer" }}>
+            <h4 className="subtitles mt-3 plus-minus-icons" onClick={() => setCategory("")}>
               Torna indietro <ArrowReturnLeft />
             </h4>
             <h4 className="subtitles mt-3 mb-2">
@@ -300,18 +313,11 @@ const BackOffice = () => {
             </h4>
             <p>Cliccare il + per visualizzare la tabella con tutte le adozioni registrate.</p>
             <h4 className="subtitles mt-3 mb-2">
-              Aggiungi un'adozione{" "}
-              <Link to={"/back-office/aggiungi/adozioni"} className="crud-links">
-                <Plus />
-              </Link>
-            </h4>
-            <p>Cliccare il + per aggiungere un'adozione.</p>
-            <h4 className="subtitles mt-3 mb-2">
               Modifica un'adozione{" "}
               {showUpdateForm ? (
-                <Dash onClick={() => setShowUpdateForm(!showUpdateForm)} style={{ cursor: "pointer" }} />
+                <Dash onClick={() => setShowUpdateForm(!showUpdateForm)} className="plus-minus-icons" />
               ) : (
-                <Plus onClick={() => setShowUpdateForm(!showUpdateForm)} style={{ cursor: "pointer" }} />
+                <Plus onClick={() => setShowUpdateForm(!showUpdateForm)} className="plus-minus-icons" />
               )}
             </h4>
             <p>Cliccare il + per modificare un'adozione tramite ID.</p>
@@ -322,8 +328,10 @@ const BackOffice = () => {
                   <Form.Group controlId="updateById" className="d-flex justify-content-center align-items-center">
                     <Form.Control
                       {...register("adoptionIdToUpdate", { required: "Il campo non può essere vuoto." })}
+                      value={adoptionIdToUpdate}
                       className="form-inputs rounded-start rounded-end-0"
                       type="number"
+                      onChange={e => setAdoptionIdToUpdate(e.target.value)}
                     />
                     <Button variant="outline-none" className="update-btn rounded-end rounded-start-0 border-start-0" type="submit">
                       <SendFill />
@@ -334,7 +342,7 @@ const BackOffice = () => {
               </div>
             )}
 
-            {showUpdateSelectForm && (
+            {showUpdateSelectForm && !showUpdateForm && (
               <div className="update-wrapper d-flex flex-column justify-content-start align-items-start w-50">
                 <p className="mb-1 mt-2 align-middle">{`Hai selezionato l'adozione con ID ${adoptionIdToUpdate}`}</p>
                 <p className="mb-1 align-middle">{`Al momento lo status di questa adozione è ${single?.status}`}</p>
@@ -373,9 +381,9 @@ const BackOffice = () => {
             <h4 className="subtitles mt-3 mb-2">
               Elimina un'adozione{" "}
               {showDeleteForm ? (
-                <Dash onClick={() => setShowDeleteForm(!showDeleteForm)} style={{ cursor: "pointer" }} />
+                <Dash onClick={() => setShowDeleteForm(!showDeleteForm)} className="plus-minus-icons" />
               ) : (
-                <Plus onClick={() => setShowDeleteForm(!showDeleteForm)} style={{ cursor: "pointer" }} />
+                <Plus onClick={() => setShowDeleteForm(!showDeleteForm)} className="plus-minus-icons" />
               )}
             </h4>
             <p>Cliccare il + per eliminare un'adozione.</p>

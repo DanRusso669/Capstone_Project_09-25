@@ -99,8 +99,6 @@ const ViewAllPage = () => {
                 <th style={{ width: "5%" }}>Sesso</th>
                 <th style={{ width: "5%" }}>Specie</th>
                 <th style={{ width: "5%" }}>Razza</th>
-                {/* <th>Descrizione</th>
-              <th style={{ width: "7.14%" }} >Condizione Clinica</th> */}
                 <th style={{ width: "7%" }}>Status</th>
                 <th style={{ width: "6.5%" }}>Città</th>
                 <th style={{ width: "6.5%" }}>Provincia</th>

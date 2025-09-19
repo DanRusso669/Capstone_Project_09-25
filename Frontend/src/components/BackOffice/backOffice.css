@@ -71,6 +71,10 @@
   color: #3a6b2f;
 }
 
+#back-office-main-section .plus-minus-icons {
+  cursor: pointer;
+}
+
 #confirm-delete-animal-btn {
   background-color: red;
   color: white;
