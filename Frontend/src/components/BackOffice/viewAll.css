@@ -1,0 +1,90 @@
+#back-office-viewAll-section .go-back-btn {
+  text-decoration: underline #3a6b2f;
+  border: none;
+}
+
+#back-office-viewAll-section .view-all-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+#back-office-viewAll-section .view-all-table {
+  width: max-content;
+  table-layout: fixed;
+}
+
+#back-office-viewAll-section .view-all-table th,
+.view-all-table td {
+  text-align: center;
+  padding: 8px;
+}
+
+#back-office-viewAll-section .view-all-table th:nth-child(1),
+.view-all-table td:nth-child(1) {
+  width: 5%;
+}
+
+#back-office-viewAll-section .view-all-table th:nth-child(2),
+.view-all-table td:nth-child(2) {
+  width: 7%;
+}
+
+#back-office-viewAll-section .view-all-table th:nth-child(3),
+.view-all-table td:nth-child(3) {
+  width: 3%;
+}
+
+#back-office-viewAll-section .view-all-table th:nth-child(4),
+.view-all-table td:nth-child(4) {
+  width: 5%;
+}
+
+#back-office-viewAll-section .view-all-table th:nth-child(5),
+.view-all-table td:nth-child(5) {
+  width: 6%;
+}
+
+#back-office-viewAll-section .view-all-table th:nth-child(6),
+.view-all-table td:nth-child(6) {
+  width: 6%;
+}
+
+#back-office-viewAll-section .view-all-table th:nth-child(7),
+.view-all-table td:nth-child(7) {
+  width: 8%;
+}
+
+#back-office-viewAll-section .view-all-table th:nth-child(8),
+.view-all-table td:nth-child(8) {
+  width: 7%;
+}
+
+#back-office-viewAll-section .view-all-table th:nth-child(9),
+.view-all-table td:nth-child(9) {
+  width: 6%;
+}
+
+#back-office-viewAll-section .view-all-table th:nth-child(10),
+.view-all-table td:nth-child(10) {
+  width: 6%;
+}
+
+#back-office-viewAll-section .view-all-table th:nth-child(11),
+.view-all-table td:nth-child(11) {
+  width: 8%;
+}
+
+#back-office-viewAll-section .view-all-table th:nth-child(12),
+.view-all-table td:nth-child(12) {
+  width: 8%;
+}
+
+#back-office-viewAll-section .view-all-table th:nth-child(13),
+.view-all-table td:nth-child(13) {
+  width: 8%;
+}
+
+#back-office-viewAll-section .view-all-table th:nth-child(14),
+.view-all-table td:nth-child(14) {
+  width: 20%;
+}
