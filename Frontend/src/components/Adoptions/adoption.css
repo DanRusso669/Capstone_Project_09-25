@@ -1,0 +1,20 @@
+#adoption-section {
+  min-height: calc(100vh - 160px - 110px);
+}
+
+#adoption-section .card-img {
+  max-width: 250px;
+  min-height: 180px;
+  border-radius: 60px;
+  border: thin solid rgba(0, 0, 0, 0.336);
+}
+
+#adoption-section .details-btn {
+  text-decoration: none;
+  color: white;
+  background-color: rgb(58, 107, 47);
+  padding-inline: 0.8rem;
+  padding-block: 0.6rem;
+  border-radius: 20px;
+  font-size: 19px;
+}

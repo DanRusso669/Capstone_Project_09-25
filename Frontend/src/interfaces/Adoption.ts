@@ -8,7 +8,7 @@ export interface Adoption {
   endDate?: Date | null;
   status: string;
   user: ProfileResponse | null;
-  animal: Animal | null;
+  animal: Animal;
 }
 
 export interface Filter {
