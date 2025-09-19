@@ -4,6 +4,13 @@ import { animalCRUDFetch } from "../../redux/actions/animalSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { useParams } from "react-router-dom";
 import "./detail.css";
+import { toast } from "react-toastify";
+import { adoptionCRUDFetch } from "../../redux/actions/adoptionSlice";
+
+type BackendError = {
+  message: string;
+  timestamp: string;
+};
 
 const DetailPage = () => {
   const dispatch = useAppDispatch();
@@ -16,6 +23,25 @@ const DetailPage = () => {
     dispatch(animalCRUDFetch({ animalId, method: "GET", animalData: null }));
   }, [animalId, dispatch]);
 
+  const handleAdoption = async () => {
+    try {
+      await toast.promise(
+        dispatch(adoptionCRUDFetch({ adoptionId: animalId, method: "POST", adoptionData: null })).unwrap(),
+        {
+          pending: "Adozione in corso...",
+          success: "Adozione effettuata con successo!",
+          error: "Si è verificato un errore durante l'adozione.",
+        },
+        { autoClose: 4000 }
+      );
+
+      dispatch(animalCRUDFetch({ animalId, method: "GET", animalData: null }));
+    } catch (error) {
+      const backendError = error as BackendError;
+      toast.error(backendError.message);
+    }
+  };
+
   return (
     <>
       <Container id="details-section" className="navbar-height information d-flex flex-column justify-content-center align-items-center mb-4">
@@ -25,6 +51,22 @@ const DetailPage = () => {
             <Col className="d-flex justify-content-center align-items-center">
               <Image src={single.imageUrl} fluid className="rounded-5" />
             </Col>
+            {single.adoptable && (
+              <>
+                <Col className="text-center">
+                  <h4 className="subtitles text-center mb-2 mt-md-0">Questo animale è adottabile</h4>
+                  <p>
+                    I nostri animali hanno sempre bisogno di sostegno e <span className="fw-bold">tu puoi fare la differenza</span>.
+                  </p>
+                  <p>
+                    {`Se vuoi adottare ${single.name},`}{" "}
+                    <span className="adoption-btn" onClick={handleAdoption}>
+                      clicca qui.
+                    </span>
+                  </p>
+                </Col>
+              </>
+            )}
             <Col>
               <Row className="d-flex flex-row justify-content-center">
                 <h4 className="subtitles text-center mt-3 mb-2 mt-md-0">Caratteristiche di {single.name}</h4>

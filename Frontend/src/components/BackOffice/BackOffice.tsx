@@ -136,7 +136,7 @@ const BackOffice = () => {
           error: "Si è verificato un errore durante l'aggiornamento.",
         },
         {
-          autoClose: 4000, // Durata del toast
+          autoClose: 4000,
         }
       );
 

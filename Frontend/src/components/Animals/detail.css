@@ -1,3 +1,15 @@
 #details-section .card-img {
   max-width: 600px;
 }
+
+#details-section .adoption-btn {
+  cursor: pointer;
+  color: #3a6b2f;
+  text-decoration: none;
+  position: relative;
+  font-weight: 500;
+}
+
+#details-section .adoption-btn:hover {
+  font-weight: bold;
+}
