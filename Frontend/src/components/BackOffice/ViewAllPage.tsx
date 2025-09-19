@@ -1,7 +1,13 @@
 import { Button, Container, Form, Table } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
-import { allAnimalFetch, resetFilters, setPage as setAnimalPage, setSortBy, setSortByDirection } from "../../redux/actions/animalSlice";
-import { allAdoptionFetch, setPage as setAdoptionPage } from "../../redux/actions/adoptionSlice";
+import {
+  allAnimalFetch,
+  resetFilters,
+  setPage as setAnimalPage,
+  setSortBy,
+  setSortByDirection as setAnimalSortByDirection,
+} from "../../redux/actions/animalSlice";
+import { allAdoptionFetch, setPage as setAdoptionPage, setSortByDirection as setAdoptionSortByDirection } from "../../redux/actions/adoptionSlice";
 import FilterOffcanvas from "../FilterOffcanvas";
 import { Link, useSearchParams } from "react-router-dom";
 import { ArrowLeftShort, ArrowReturnLeft, ArrowRightShort, SortAlphaDown, SortAlphaDownAlt, SortNumericDown, SortNumericDownAlt } from "react-bootstrap-icons";
@@ -26,7 +32,7 @@ const ViewAllPage = () => {
   const {
     data: { list: adoptionList },
     requestStatus: adoptionRequestStatus,
-    filters: { page: adoptionPage, lastPage: adoptionLastPage },
+    filters: { page: adoptionPage, lastPage: adoptionLastPage, sortByDirection: adoptionSortByDirection },
   } = useAppSelector(state => state.adoptions);
 
   const loadMoreElements = () => {
@@ -47,22 +53,35 @@ const ViewAllPage = () => {
   };
 
   const handleSorting = (property: string) => {
-    dispatch(setAnimalPage(0));
-    dispatch(setSortBy(property));
-    const sortingParams = new URLSearchParams(searchParams);
+    if (isAnimalPage) {
+      dispatch(setAnimalPage(0));
+      dispatch(setSortBy(property));
+      const sortingParams = new URLSearchParams(searchParams);
 
-    sortingParams.set("sortBy", property);
-    const newSortDirection = animalSortByDirection === "asc" ? "desc" : "asc";
-    dispatch(setSortByDirection(newSortDirection));
-    sortingParams.set("sortByDirection", newSortDirection);
+      sortingParams.set("sortBy", property);
+      const newSortDirection = animalSortByDirection === "asc" ? "desc" : "asc";
+      dispatch(setAnimalSortByDirection(newSortDirection));
+      sortingParams.set("sortByDirection", newSortDirection);
 
-    setSearchParams(sortingParams);
+      setSearchParams(sortingParams);
+    }
+
+    if (isAdoptionPage) {
+      dispatch(setAdoptionPage(0));
+
+      const sortingParams = new URLSearchParams(searchParams);
+      const newSortDirection = adoptionSortByDirection === "asc" ? "desc" : "asc";
+      dispatch(setAdoptionSortByDirection(newSortDirection));
+      sortingParams.set("sortByDirection", newSortDirection);
+      setSearchParams(sortingParams);
+      dispatch(allAdoptionFetch(sortingParams.toString()));
+    }
   };
 
   useEffect(() => {
     if (isAdoptionPage && firstRender.current) {
       dispatch(setAdoptionPage(0));
-      dispatch(allAdoptionFetch(searchParams.toString()));
+      dispatch(allAdoptionFetch(""));
       firstRender.current = false;
     }
 
@@ -76,8 +95,9 @@ const ViewAllPage = () => {
       lastParams.current = adoptionStatusParam;
     } else {
       dispatch(allAdoptionFetch(""));
+      lastParams.current = adoptionStatusParam;
     }
-  }, [adoptionStatusParam, dispatch]);
+  }, [adoptionStatusParam, dispatch, isAdoptionPage, searchParams]);
 
   return (
     <>
@@ -90,7 +110,7 @@ const ViewAllPage = () => {
           </h4>
         </Link>
         <div className="d-flex justify-content-center w-100">
-          {searchParams.toString() !== "" && (
+          {searchParams.toString() !== "" && isAnimalPage && (
             <Button variant="outline-none" className="subtitles filter-btn" onClick={handleFilterReset}>
               <ArrowRightShort /> Resetta tutti i filtri <ArrowLeftShort />
             </Button>
@@ -150,7 +170,14 @@ const ViewAllPage = () => {
                 </tr>
               ) : (
                 <tr>
-                  <th>ID</th>
+                  <th onClick={() => handleSorting("id")}>
+                    ID{" "}
+                    {animalSortByDirection === "asc" && animalSortBy === "id" ? (
+                      <SortNumericDown className="ms-2" />
+                    ) : animalSortByDirection === "desc" && animalSortBy === "id" ? (
+                      <SortNumericDownAlt className="ms-2" />
+                    ) : null}
+                  </th>
                   <th>Status</th>
                   <th>Nome Utente</th>
                   <th>Cognome Utente</th>
