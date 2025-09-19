@@ -46,7 +46,7 @@ const FilterOffcanvas = () => {
       }
     }
 
-    if (lastParams.current == searchParams.toString()) return;
+    if (lastParams.current === searchParams.toString()) return;
 
     dispatch(allAnimalFetch(searchParams.toString()));
     lastParams.current = searchParams.toString();

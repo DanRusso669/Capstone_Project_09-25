@@ -1,32 +1,35 @@
-import { Button, Container, Table } from "react-bootstrap";
+import { Button, Container, Form, Table } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { allAnimalFetch, resetFilters, setPage as setAnimalPage, setSortBy, setSortByDirection } from "../../redux/actions/animalSlice";
 import { allAdoptionFetch, setPage as setAdoptionPage } from "../../redux/actions/adoptionSlice";
 import FilterOffcanvas from "../FilterOffcanvas";
 import { Link, useSearchParams } from "react-router-dom";
 import { ArrowLeftShort, ArrowReturnLeft, ArrowRightShort, SortAlphaDown, SortAlphaDownAlt, SortNumericDown, SortNumericDownAlt } from "react-bootstrap-icons";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./viewAll.css";
 
 const ViewAllPage = () => {
   const dispatch = useAppDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
+  const [adoptionStatusParam, setAdoptionStatusParam] = useState("");
   const isAnimalPage = location.pathname.includes("visualizza/animali");
   const isAdoptionPage = location.pathname.includes("visualizza/adozioni");
+  const firstRender = useRef(true);
+  const lastParams = useRef("");
 
   const {
     data: { list: animalList },
     requestStatus: animalRequestStatus,
-    filters: { page: animalPage, status: animalStatus, lastPage: animalLastPage, sortBy: animalSortBy, sortByDirection: animalSortByDirection },
+    filters: { page: animalPage, lastPage: animalLastPage, sortBy: animalSortBy, sortByDirection: animalSortByDirection },
   } = useAppSelector(state => state.animals);
 
   const {
     data: { list: adoptionList },
     requestStatus: adoptionRequestStatus,
-    filters: { page: adoptionPage },
+    filters: { page: adoptionPage, lastPage: adoptionLastPage },
   } = useAppSelector(state => state.adoptions);
 
-  const loadMoreAnimals = () => {
+  const loadMoreElements = () => {
     if (isAnimalPage) {
       if (animalRequestStatus === "pending") return;
       dispatch(setAnimalPage(animalPage + 1));
@@ -57,11 +60,24 @@ const ViewAllPage = () => {
   };
 
   useEffect(() => {
-    if (isAdoptionPage) {
+    if (isAdoptionPage && firstRender.current) {
+      dispatch(setAdoptionPage(0));
       dispatch(allAdoptionFetch(searchParams.toString()));
+      firstRender.current = false;
     }
-    console.log(adoptionList);
-  }, [dispatch, isAdoptionPage, searchParams]);
+
+    if (lastParams.current === adoptionStatusParam) return;
+
+    const newParams = new URLSearchParams("");
+    if (adoptionStatusParam !== "") {
+      dispatch(setAdoptionPage(0));
+      newParams.set("status", adoptionStatusParam);
+      dispatch(allAdoptionFetch(newParams.toString()));
+      lastParams.current = adoptionStatusParam;
+    } else {
+      dispatch(allAdoptionFetch(""));
+    }
+  }, [adoptionStatusParam, dispatch]);
 
   return (
     <>
@@ -79,10 +95,27 @@ const ViewAllPage = () => {
               <ArrowRightShort /> Resetta tutti i filtri <ArrowLeftShort />
             </Button>
           )}
-          <FilterOffcanvas />
+          {isAdoptionPage ? (
+            <>
+              <Form className="w-25 mt-2 text-center">
+                <Form.Group>
+                  <Form.Label className="fst-italic fw-semibold fs-5">Filtra per status</Form.Label>
+                  <Form.Select className="fs-5" onChange={e => setAdoptionStatusParam(e.target.value)}>
+                    <option value={""}>- - -</option>
+                    <option value={"ACCEPTED"}>Accettate</option>
+                    <option value={"DENIED"}>Rifiutate</option>
+                    <option value={"ENDED"}>Concluse</option>
+                    <option value={"PENDING"}>In Attesa</option>
+                  </Form.Select>
+                </Form.Group>
+              </Form>
+            </>
+          ) : (
+            <FilterOffcanvas />
+          )}
         </div>
         <div className="view-all-table-wrapper">
-          <Table bordered hover striped className="view-all-table mt-3 mx-auto">
+          <Table bordered hover striped className={`view-all-table ${isAnimalPage ? "mt-3" : "mt-4"} mx-auto`}>
             <thead>
               {isAnimalPage ? (
                 <tr>
@@ -169,19 +202,27 @@ const ViewAllPage = () => {
             )}
           </Table>
         </div>
-        {isAnimalPage ? (
-          animalStatus === "pending" ? (
+        {isAnimalPage &&
+          (animalRequestStatus === "pending" ? (
             <Button variant="outline-none" className="mt-4 load-more-btn mx-auto" disabled>
               Caricamento...
             </Button>
           ) : (
-            <Button variant="outline-none" className={`mt-4 load-more-btn mx-auto ${animalLastPage && "d-none"}`} onClick={loadMoreAnimals}>
+            <Button variant="outline-none" className={`mt-4 load-more-btn mx-auto ${animalLastPage && "d-none"}`} onClick={loadMoreElements}>
               Carica di più
             </Button>
-          )
-        ) : (
-          <></>
-        )}
+          ))}
+
+        {isAdoptionPage &&
+          (adoptionRequestStatus === "pending" ? (
+            <Button variant="outline-none" className="mt-4 load-more-btn mx-auto" disabled>
+              Caricamento...
+            </Button>
+          ) : (
+            <Button variant="outline-none" className={`mt-4 load-more-btn mx-auto ${adoptionLastPage && "d-none"}`} onClick={loadMoreElements}>
+              Carica di più
+            </Button>
+          ))}
       </Container>
     </>
   );
