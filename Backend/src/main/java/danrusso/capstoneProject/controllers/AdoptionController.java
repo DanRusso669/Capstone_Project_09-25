@@ -27,8 +27,9 @@ public class AdoptionController {
                                   @RequestParam(defaultValue = "10") int size,
                                   @RequestParam(defaultValue = "id") String sortBy,
                                   @RequestParam(defaultValue = "asc") String sortByDirection,
-                                  @RequestParam(required = false) String status) {
-        return this.adoptionService.findAll(page, size, sortBy, sortByDirection, status);
+                                  @RequestParam(required = false) String status,
+                                  @RequestParam(required = false) Long userId) {
+        return this.adoptionService.findAll(page, size, sortBy, sortByDirection, status, userId);
     }
 
     @GetMapping("/{adoptionId}")

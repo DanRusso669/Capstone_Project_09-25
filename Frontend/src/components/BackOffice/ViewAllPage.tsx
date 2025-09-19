@@ -172,9 +172,9 @@ const ViewAllPage = () => {
                 <tr>
                   <th onClick={() => handleSorting("id")}>
                     ID{" "}
-                    {animalSortByDirection === "asc" && animalSortBy === "id" ? (
+                    {adoptionSortByDirection === "asc" ? (
                       <SortNumericDown className="ms-2" />
-                    ) : animalSortByDirection === "desc" && animalSortBy === "id" ? (
+                    ) : adoptionSortByDirection === "desc" ? (
                       <SortNumericDownAlt className="ms-2" />
                     ) : null}
                   </th>

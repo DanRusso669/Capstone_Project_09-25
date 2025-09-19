@@ -20,6 +20,7 @@ import BackOffice from "./components/BackOffice/BackOffice";
 import AddAnimalPage from "./components/BackOffice/AddAnimalPage";
 import UpdateAnimalPage from "./components/BackOffice/UpdateAnimalPage";
 import ViewAllPage from "./components/BackOffice/ViewAllPage";
+import AdoptionPage from "./components/Adoptions/AdoptionPage";
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
           <Route path="/accedi" element={<LoginPage />} />
           <Route path="/registrati" element={<RegisterPage />} />
           <Route path="/profilo" element={<Profile />} />
+          <Route path="/profilo/adozioni" element={<AdoptionPage />} />
           <Route path="/back-office" element={<BackOffice />} />
           <Route path="/back-office/visualizza/animali" element={<ViewAllPage />} />
           <Route path="/back-office/aggiungi/animali" element={<AddAnimalPage />} />

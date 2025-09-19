@@ -55,7 +55,7 @@ public class AdoptionService {
         };
     }
 
-    public Page<Adoption> findAll(int pageNumber, int pageSize, String sortBy, String sortByDirection, String statusFilter) {
+    public Page<Adoption> findAll(int pageNumber, int pageSize, String sortBy, String sortByDirection, String statusFilter, Long userId) {
         Specification<Adoption> spec = Specification.allOf((root, query, cb) -> cb.conjunction());
         if (pageSize > 20) pageSize = 20;
         Sort.Direction direction = sortByDirection.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
@@ -63,6 +63,10 @@ public class AdoptionService {
         if (statusFilter != null) {
             AdoptionStatus status = this.checkAdoptionStatus(statusFilter);
             spec = spec.and((root, query, cb) -> cb.equal(root.get("status"), status));
+        }
+
+        if (userId != null) {
+            spec = spec.and((root, query, cb) -> cb.equal(root.get("user").get("id"), userId));
         }
 
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(direction, sortBy));
@@ -74,7 +78,7 @@ public class AdoptionService {
         if (!foundAnimal.isAdoptable()) throw new BadRequestException("L'animale selezionato non può essere adottato.");
         foundAnimal.setAdoptable(false);
         List<Adoption> activeAdoption = this.adoptionRepository.findActiveAdoptionsByUserId(userId);
-        if (activeAdoption.size() > 5)
+        if (activeAdoption.size() >= 5)
             throw new BadRequestException("Un utente può avere massimo 5 adozioni in corso.");
         User foundUser = this.userService.findById(userId);
 
