@@ -14,13 +14,13 @@ const MyVerticalModal = ({ show, onHide }: Props) => {
   const dispatch = useAppDispatch();
   const { passwordCheckResult } = useAppSelector(state => state.profile);
 
-  const handleCheck = () => {
+  const handleCheck = async () => {
     if (password.length === 0) {
       setValidation("Il campo non può essere vuoto.");
       return;
     }
 
-    dispatch(passwordCheck({ password }));
+    await dispatch(passwordCheck({ password }));
 
     if (!passwordCheckResult) {
       setValidation("La password non è corretta.");

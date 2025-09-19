@@ -4,12 +4,14 @@ import registerReducer from "../actions/registerSlice";
 import loginReducer from "../actions/loginSlice";
 import profileReducer from "../actions/profileSlice";
 import animalsReducer from "../actions/animalSlice";
+import adoptionsReducer from "../actions/adoptionSlice";
 
 const rootReducer = combineReducers({
   register: registerReducer,
   login: loginReducer,
   profile: profileReducer,
   animals: animalsReducer,
+  adoptions: adoptionsReducer,
 });
 
 const store = configureStore({

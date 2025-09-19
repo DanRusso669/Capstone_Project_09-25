@@ -23,29 +23,31 @@ public class AdoptionController {
 
     @GetMapping
     @PreAuthorize("hasAuthority('ADMIN')")
-    public Page<Adoption> findAll (@RequestParam(defaultValue = "0") int page,
-                               @RequestParam(defaultValue = "10") int size,
-                               @RequestParam(defaultValue = "id") String sortBy) {
-        return this.adoptionService.findAll(page, size, sortBy);
+    public Page<Adoption> findAll(@RequestParam(defaultValue = "0") int page,
+                                  @RequestParam(defaultValue = "10") int size,
+                                  @RequestParam(defaultValue = "id") String sortBy,
+                                  @RequestParam(defaultValue = "asc") String sortByDirection,
+                                  @RequestParam(required = false) String status) {
+        return this.adoptionService.findAll(page, size, sortBy, sortByDirection, status);
     }
 
     @GetMapping("/{adoptionId}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public Adoption findById(@PathVariable long adoptionId){
+    public Adoption findById(@PathVariable long adoptionId) {
         return this.adoptionService.findById(adoptionId);
     }
 
     @PostMapping("/{animalId}")
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
-    public CreationRespDTO save (@AuthenticationPrincipal User currentAuthenticatedUser, @PathVariable long animalId){
+    public CreationRespDTO save(@AuthenticationPrincipal User currentAuthenticatedUser, @PathVariable long animalId) {
         Adoption newAdoption = this.adoptionService.save(currentAuthenticatedUser.getId(), animalId);
         return new CreationRespDTO(newAdoption.getId());
     }
 
     @PutMapping("/{adoptionId}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public CreationRespDTO update (@PathVariable long adoptionId, @RequestBody @Validated UpdatedAdoptionDTO payload, BindingResult validation){
+    public CreationRespDTO update(@PathVariable long adoptionId, @RequestBody @Validated UpdatedAdoptionDTO payload, BindingResult validation) {
         this.adoptionService.checkValidationErrors(validation);
         Adoption updatedAdoption = this.adoptionService.findByIdAndUpdate(adoptionId, payload);
         return new CreationRespDTO(updatedAdoption.getId());
@@ -53,14 +55,14 @@ public class AdoptionController {
 
     @PatchMapping("/{adoptionId}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public CreationRespDTO endAdoptionById (@PathVariable long adoptionId){
+    public CreationRespDTO endAdoptionById(@PathVariable long adoptionId) {
         Adoption endedAdoption = this.adoptionService.findByIdAndEndIt(adoptionId);
         return new CreationRespDTO(endedAdoption.getId());
     }
 
     @PatchMapping("/me/{adoptionId}")
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
-    public CreationRespDTO endOwnAdoption (@PathVariable long adoptionId, @AuthenticationPrincipal User currentAuthenticatedUser){
+    public CreationRespDTO endOwnAdoption(@PathVariable long adoptionId, @AuthenticationPrincipal User currentAuthenticatedUser) {
         Adoption endedAdoption = this.adoptionService.endOwnAdoption(adoptionId, currentAuthenticatedUser.getId());
         return new CreationRespDTO(endedAdoption.getId());
     }
@@ -68,7 +70,7 @@ public class AdoptionController {
     @DeleteMapping("/{adoptionId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAuthority('ADMIN')")
-    public void delete (@PathVariable long adoptionId){
+    public void delete(@PathVariable long adoptionId) {
         this.adoptionService.findByIdAndDelete(adoptionId);
     }
 }
