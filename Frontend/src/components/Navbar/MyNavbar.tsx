@@ -77,7 +77,7 @@ const MyNavbar = () => {
           <Link to={"/blog"} className="nav-link">
             Blog
           </Link>
-          <Link to={"/i-nostri-animali"} className="nav-link">
+          <Link to={"/i-nostri-animali?sortByDirection=desc"} className="nav-link">
             Ospiti
           </Link>
         </Nav>
