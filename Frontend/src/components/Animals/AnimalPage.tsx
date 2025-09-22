@@ -8,6 +8,8 @@ import FilterOffcanvas from "../FilterOffcanvas";
 
 const AnimalPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const accessTokenStored = localStorage.getItem("accessToken");
+  const accessToken: string = accessTokenStored ? JSON.parse(accessTokenStored) : null;
 
   const dispatch = useAppDispatch();
   const {
@@ -42,60 +44,87 @@ const AnimalPage = () => {
           esplorare le storie di questi straordinari animali e a conoscere più da vicino{" "}
           <span className="fw-bold">il nostro impegno nella tutela della fauna selvatica</span>.
         </p>
-        <h2 className="subtitles mx-auto">Ultimi arrivati</h2>
-        <div className={`d-flex  ${searchParams.toString() !== "" ? "justify-content-center" : "justify-content-end"} justify-content-lg-end w-100`}>
-          {searchParams.toString() !== "" && (
-            <Button variant="outline-none" className="subtitles filter-btn" onClick={handleFilterReset}>
-              <ArrowRightShort /> Resetta tutti i filtri <ArrowLeftShort />
-            </Button>
-          )}
-          <FilterOffcanvas />
-        </div>
-        <Row className="gy-2 gx-2 w-100">
-          {list.length !== 0 ? (
-            list.map(animal => (
-              <Col key={animal.id} xs={12} md={6}>
-                <Card className="d-flex flex-column flex-lg-row align-items-center justify-content-between mb-2 rounded-5 animal-card">
-                  <Col className="text-center">
-                    <Card.Img src={animal.imageUrl} className="mt-4 mt-lg-0 ms-4" />
+        {accessToken ? (
+          <>
+            {" "}
+            <h2 className="subtitles mx-auto">Ultimi arrivati</h2>
+            <div className={`d-flex  ${searchParams.toString() !== "" ? "justify-content-center" : "justify-content-end"} justify-content-lg-end w-100`}>
+              {searchParams.toString() !== "" && (
+                <Button variant="outline-none" className="subtitles filter-btn" onClick={handleFilterReset}>
+                  <ArrowRightShort /> Resetta tutti i filtri <ArrowLeftShort />
+                </Button>
+              )}
+              <FilterOffcanvas />
+            </div>
+            <Row className="gy-2 gx-2 w-100">
+              {list.length !== 0 ? (
+                list.map(animal => (
+                  <Col key={animal.id} xs={12} md={6}>
+                    <Card className="d-flex flex-column flex-lg-row align-items-center justify-content-between mb-2 rounded-5 animal-card">
+                      <Col className="text-center">
+                        <Card.Img src={animal.imageUrl} className="mt-4 mt-lg-0 ms-4" />
+                      </Col>
+                      <Card.Body as={Col} className="d-flex flex-column justify-content-center align-items-center px-0">
+                        <Card.Title className="text-center">{animal.name}</Card.Title>
+                        <Card.Text>
+                          <span className="fw-medium fst-italic">Sesso</span>: {animal.gender === "MALE" ? "Maschio" : "Femmina"}
+                          <br />
+                          <span className="fw-medium fst-italic">Specie</span>: {animal.species}
+                          <br />
+                          <span className="fw-medium fst-italic">Razza</span>: {animal.breed}
+                          <br />
+                          <span className="fw-medium fst-italic">Status</span>:{" "}
+                          {animal.status === "HOSPITALIZED" ? "Ricoverato" : animal.status === "RELEASED" ? "Rilasciato" : "Deceduto"}
+                          <br />
+                        </Card.Text>
+                        <div className="d-flex justify-content-end details-btn-wrapper mt-3 mb-2">
+                          <Link to={`/dettagli/${animal.id}`} className="ms-auto details-btn">
+                            Dettagli
+                          </Link>
+                        </div>
+                      </Card.Body>
+                    </Card>
                   </Col>
-                  <Card.Body as={Col} className="d-flex flex-column justify-content-center align-items-center px-0">
-                    <Card.Title className="text-center">{animal.name}</Card.Title>
-                    <Card.Text>
-                      <span className="fw-medium fst-italic">Sesso</span>: {animal.gender === "MALE" ? "Maschio" : "Femmina"}
-                      <br />
-                      <span className="fw-medium fst-italic">Specie</span>: {animal.species}
-                      <br />
-                      <span className="fw-medium fst-italic">Razza</span>: {animal.breed}
-                      <br />
-                      <span className="fw-medium fst-italic">Status</span>:{" "}
-                      {animal.status === "HOSPITALIZED" ? "Ricoverato" : animal.status === "RELEASED" ? "Rilasciato" : "Deceduto"}
-                      <br />
-                    </Card.Text>
-                    <div className="d-flex justify-content-end details-btn-wrapper mt-3 mb-2">
-                      <Link to={`/dettagli/${animal.id}`} className="ms-auto details-btn">
-                        Dettagli
-                      </Link>
-                    </div>
-                  </Card.Body>
-                </Card>
-              </Col>
-            ))
-          ) : (
-            <>
-              <h4>Putroppo non ci sono animali al momento</h4>
-            </>
-          )}
-        </Row>
-
-        {status === "pending" ? (
-          <Button variant="outline-none" className="mt-4 load-more-btn mx-auto" disabled>
-            Caricamento...
-          </Button>
+                ))
+              ) : (
+                <>
+                  <h4>Putroppo non ci sono animali al momento</h4>
+                </>
+              )}
+            </Row>
+            {status === "pending" ? (
+              <Button variant="outline-none" className="mt-4 load-more-btn mx-auto" disabled>
+                Caricamento...
+              </Button>
+            ) : (
+              <Button variant="outline-none" className={`mt-4 load-more-btn mx-auto ${lastPage && "d-none"}`} onClick={loadMoreAnimals}>
+                Carica di più
+              </Button>
+            )}
+          </>
         ) : (
-          <Button variant="outline-none" className={`mt-4 load-more-btn mx-auto ${lastPage && "d-none"}`} onClick={loadMoreAnimals}>
-            Carica di più
-          </Button>
+          <>
+            <div className="text-center w-100 mt-5">
+              <h4 className="subtitles">Utente non autenticato</h4>
+              <p>
+                Siamo spiacenti, ma per poter visualizzare i nostri ospiti <span className="fw-bold">bisogna accedere</span> al nostro sito.
+              </p>
+              <p>
+                <span className="fw-bold">Se sei già registrato</span>,{" "}
+                <Link to={"/accedi"} className="log-links">
+                  clicca qui
+                </Link>{" "}
+                per accedere.
+              </p>
+              <p>
+                Se invece <span className="fw-bold">vuoi registrati</span>,{" "}
+                <Link to={"/registrati"} className="log-links">
+                  clicca qui
+                </Link>{" "}
+                e unisciti agli altri sostenitori del rifugio Mamo.
+              </p>
+            </div>
+          </>
         )}
       </Container>
     </>

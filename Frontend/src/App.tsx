@@ -21,8 +21,19 @@ import AddAnimalPage from "./components/BackOffice/AddAnimalPage";
 import UpdateAnimalPage from "./components/BackOffice/UpdateAnimalPage";
 import ViewAllPage from "./components/BackOffice/ViewAllPage";
 import AdoptionPage from "./components/Adoptions/AdoptionPage";
+import Unauthorized from "./components/Unauthorized/Unauthorized";
+import ProtectedRoute from "./components/ProtectedRoute";
+import type { ProfileResponse } from "./interfaces/User";
+import { useEffect, useState } from "react";
 
 function App() {
+  const [user, setUser] = useState<ProfileResponse | null>(null);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) setUser(JSON.parse(storedUser));
+  }, []);
+
   return (
     <>
       <BrowserRouter>
@@ -39,16 +50,22 @@ function App() {
           <Route path="/donazione-mensile" element={<MonthlyDonationPage />} />
           <Route path="/volontariato" element={<VolunteeringPage />} />
           <Route path="/visite" element={<VisitPage />} />
-          <Route path="/accedi" element={<LoginPage />} />
+          <Route path="/accedi" element={<LoginPage setUser={setUser} />} />
           <Route path="/registrati" element={<RegisterPage />} />
           <Route path="/profilo" element={<Profile />} />
           <Route path="/profilo/adozioni" element={<AdoptionPage />} />
-          <Route path="/back-office" element={<BackOffice />} />
-          <Route path="/back-office/visualizza/animali" element={<ViewAllPage />} />
-          <Route path="/back-office/aggiungi/animali" element={<AddAnimalPage />} />
-          <Route path="/back-office/modifica/animali/:animalId" element={<UpdateAnimalPage />} />
-          <Route path="/back-office/visualizza/adozioni" element={<ViewAllPage />} />
-          <Route path="/back-office/modifica/adozioni/:adoptionId" element={<UpdateAnimalPage />} />
+
+          {/* BACK OFFICE */}
+          <Route path="/back-office" element={<ProtectedRoute user={user} />}>
+            <Route index element={<BackOffice />} />
+            <Route path="visualizza/animali" element={<ViewAllPage />} />
+            <Route path="aggiungi/animali" element={<AddAnimalPage />} />
+            <Route path="modifica/animali/:animalId" element={<UpdateAnimalPage />} />
+            <Route path="visualizza/adozioni" element={<ViewAllPage />} />
+            <Route path="modifica/adozioni/:adoptionId" element={<UpdateAnimalPage />} />
+          </Route>
+
+          <Route path="/unauthorized" element={<Unauthorized />} />
         </Routes>
         <Footer />
       </BrowserRouter>

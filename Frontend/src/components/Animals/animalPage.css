@@ -53,3 +53,9 @@
   font-size: 18px;
   cursor: pointer;
 }
+
+#animal-section .log-links {
+  color: #3a6b2f;
+  text-decoration: none;
+  font-weight: bold;
+}

@@ -6,13 +6,14 @@ import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { loginFetch, resetForm, setEmail, setPassword } from "../../redux/actions/loginSlice";
 import { toast } from "react-toastify";
 import { profileFetch } from "../../redux/actions/profileSlice";
+import type { ProfileResponse } from "../../interfaces/User";
 
 type FormFields = {
   userEmail: string;
   userPassword: string;
 };
 
-const LoginPage = () => {
+const LoginPage = ({ setUser }: { setUser: React.Dispatch<React.SetStateAction<ProfileResponse | null>> }) => {
   const {
     register,
     handleSubmit,
@@ -38,7 +39,8 @@ const LoginPage = () => {
           autoClose: 5000,
         }
       );
-      await dispatch(profileFetch());
+      const profile = await dispatch(profileFetch()).unwrap();
+      setUser(profile);
       dispatch(resetForm());
       setTimeout(() => {
         navigate("/");
