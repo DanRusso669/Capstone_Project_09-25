@@ -8,8 +8,7 @@ import FilterOffcanvas from "../FilterOffcanvas";
 
 const AnimalPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const accessTokenStored = localStorage.getItem("accessToken");
-  const accessToken: string = accessTokenStored ? JSON.parse(accessTokenStored) : null;
+  const accessToken = localStorage.getItem("accessToken");
 
   const dispatch = useAppDispatch();
   const {
