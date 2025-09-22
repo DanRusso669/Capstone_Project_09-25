@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users")
-@JsonIgnoreProperties({"password", "authorities", "enabled", "accountNonExpired", "credentialsNonExpired", "accountNonLocked", "username"})
+@JsonIgnoreProperties({"userPassword", "authorities", "enabled", "accountNonExpired", "credentialsNonExpired", "accountNonLocked", "username"})
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

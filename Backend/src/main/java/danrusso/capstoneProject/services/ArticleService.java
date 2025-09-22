@@ -4,14 +4,17 @@ import danrusso.capstoneProject.entities.Article;
 import danrusso.capstoneProject.entities.User;
 import danrusso.capstoneProject.exceptions.BadRequestException;
 import danrusso.capstoneProject.exceptions.NotFoundException;
+import danrusso.capstoneProject.exceptions.ValidationException;
 import danrusso.capstoneProject.payloads.NewArticleDTO;
 import danrusso.capstoneProject.repositories.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 
 @Service
 public class ArticleService {
@@ -26,6 +29,12 @@ public class ArticleService {
         return this.articleRepository.findById(articleId).orElseThrow(() -> new NotFoundException(articleId, "Articolo"));
     }
 
+    public void checkValidationErrors(BindingResult validation) {
+        if (validation.hasErrors()) {
+            throw new ValidationException(validation.getFieldErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).toList());
+        }
+    }
+
     public Page<Article> findAll(int pageNumber, int pageSize, String sortBy) {
         if (pageSize > 20) pageSize = 20;
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
@@ -34,7 +43,7 @@ public class ArticleService {
 
     public Article save(long userId, NewArticleDTO payload) {
         User foundUser = this.userService.findById(userId);
-        if (foundUser.getRoles().stream().anyMatch(role -> role.getRoleDef().equalsIgnoreCase("ADMIN"))) {
+        if (foundUser.getRoles().stream().noneMatch(role -> role.getRoleDef().equalsIgnoreCase("ADMIN"))) {
             throw new BadRequestException("Questo utente non ha i permessi per pubblicare un articolo.");
         }
 
