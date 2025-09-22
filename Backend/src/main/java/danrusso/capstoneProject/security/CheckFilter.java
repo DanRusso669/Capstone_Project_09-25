@@ -26,7 +26,6 @@ public class CheckFilter extends OncePerRequestFilter {
     @Autowired
     private UserService userService;
 
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
@@ -53,6 +52,11 @@ public class CheckFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return new AntPathMatcher().match("/auth/**", request.getServletPath());
+        String path = request.getServletPath();
+        String method = request.getMethod();
+
+
+        return new AntPathMatcher().match("/auth/**", path) || (new AntPathMatcher().match("/articles/*", path) && method.equalsIgnoreCase("GET")) ||
+                (new AntPathMatcher().match("/articles", path) && method.equalsIgnoreCase("GET"));
     }
 }
