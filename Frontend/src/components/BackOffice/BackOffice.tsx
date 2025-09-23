@@ -16,6 +16,8 @@ type BackOfficeFields = {
   adoptionIdToUpdate?: string;
   adoptionStatus: string;
   adoptionStartDate?: Date;
+  articleIdToDelete?: string;
+  articleIdToUpdate?: string;
 };
 
 type BackendError = {
@@ -28,11 +30,17 @@ const BackOffice = () => {
   const [showDeleteForm, setShowDeleteForm] = useState(false);
   const [showUpdateForm, setShowUpdateForm] = useState(false);
   const [showUpdateSelectForm, setShowUpdateSelectForm] = useState(false);
+
   const [animalIdToDelete, setAnimalIdToDelete] = useState("");
+  const [animalIdToUpdate, setAnimalIdToUpdate] = useState("");
+
   const [adoptionIdToDelete, setAdoptionIdToDelete] = useState("");
   const [adoptionIdToUpdate, setAdoptionIdToUpdate] = useState("");
-  const [animalIdToUpdate, setAnimalIdToUpdate] = useState("");
   const [adoptionStatus, setAdoptionStatus] = useState("");
+
+  const [articleIdToDelete, setArticleIdToDelete] = useState("");
+  const [articleIdToUpdate, setArticleIdToUpdate] = useState("");
+
   const [showModal, setShowModal] = useState(false);
 
   const dispatch = useAppDispatch();
@@ -172,25 +180,20 @@ const BackOffice = () => {
         {category === "" && (
           <>
             <h4 className="subtitles mx-auto mt-3 mb-2">Scegli una categoria</h4>
-            <Row className="d-flex justify-content-center align-items-center w-75 mt-5 mx-auto g-2">
-              <Col md={6} lg={3} className="text-center">
+            <Row className="d-flex justify-content-center align-items-center w-100 mt-5 mx-auto g-2">
+              <Col xs={12} md={4} className="text-center text-md-end">
                 <Button variant="outline-none" className="category-btn" onClick={() => setCategory("animals")}>
                   Animali
                 </Button>
               </Col>
-              <Col md={6} lg={3} className="text-center">
+              <Col xs={12} md={4} className="text-center">
                 <Button variant="outline-none" className="category-btn" onClick={() => setCategory("adoptions")}>
                   Adozioni
                 </Button>
               </Col>
-              <Col md={6} lg={3} className="text-center">
-                <Button variant="outline-none" className="category-btn" onClick={() => setCategory("news")}>
+              <Col xs={12} md={4} className="text-center text-md-start">
+                <Button variant="outline-none" className="category-btn" onClick={() => setCategory("articles")}>
                   Articoli
-                </Button>
-              </Col>
-              <Col md={6} lg={3} className="text-center">
-                <Button variant="outline-none" className="category-btn" onClick={() => setCategory("blog")}>
-                  Blog
                 </Button>
               </Col>
             </Row>
@@ -423,6 +426,108 @@ const BackOffice = () => {
                   Annulla
                 </Button>
                 <Button variant="outline-none" id="confirm-delete-animal-btn" onClick={handleAdoptionDelete}>
+                  Rimuovi
+                </Button>
+              </Modal.Footer>
+            </Modal>
+          </>
+        )}
+        {/* ARTICLES CATEGORY */}
+        {category === "articles" && (
+          <>
+            <h2 className="titles mx-auto mb-2 mt-4">Articoli</h2>
+            <h4 className="subtitles mt-3 plus-minus-icons" onClick={() => setCategory("")}>
+              Torna indietro <ArrowReturnLeft />
+            </h4>
+            <h4 className="subtitles mt-3 mb-2">
+              Visualizza tutti gli articoli{" "}
+              <Link to={"/back-office/visualizza/articoli"} className="crud-links">
+                <Plus />
+              </Link>
+            </h4>
+            <p>Cliccare il + per visualizzare la tabella con tutti gli articoli registrati.</p>
+            <h4 className="subtitles mt-3 mb-2">
+              Aggiungi un articolo{" "}
+              <Link to={"/back-office/aggiungi/articoli"} className="crud-links">
+                <Plus />
+              </Link>
+            </h4>
+            <p>Cliccare il + per aggiungere un articolo.</p>
+            <h4 className="subtitles mt-3 mb-2">
+              Modifica un animale{" "}
+              {showUpdateForm ? (
+                <Dash onClick={() => setShowUpdateForm(!showUpdateForm)} className="plus-minus-icons" />
+              ) : (
+                <Plus onClick={() => setShowUpdateForm(!showUpdateForm)} className="plus-minus-icons" />
+              )}
+            </h4>
+            <p>Cliccare il + per modificare un articolo tramite ID.</p>
+            {showUpdateForm && (
+              <div className="update-wrapper d-flex flex-column justify-content-start align-items-start w-50">
+                <p className="mb-1 mt-2 align-middle">Inserire l'ID dell'articolo che si vuole modificare:</p>
+                <Form onSubmit={handleSubmit(handleAnimalUpdate)}>
+                  <Form.Group controlId="updateById" className="d-flex justify-content-center align-items-center">
+                    <Form.Control
+                      {...register("articleIdToUpdate", { required: "Il campo non può essere vuoto." })}
+                      value={articleIdToUpdate}
+                      className="form-inputs rounded-start rounded-end-0"
+                      type="number"
+                      onChange={e => setArticleIdToUpdate(e.target.value)}
+                    />
+                    <Button variant="outline-none" className="update-btn rounded-end rounded-start-0 border-start-0" type="submit">
+                      <SendFill />
+                    </Button>
+                  </Form.Group>
+                </Form>
+                {errors.articleIdToUpdate && <p className="text-danger mt-2">{errors.articleIdToUpdate.message}</p>}
+              </div>
+            )}
+
+            <h4 className="subtitles mt-3 mb-2">
+              Elimina un articolo{" "}
+              {showDeleteForm ? (
+                <Dash onClick={() => setShowDeleteForm(!showDeleteForm)} className="plus-minus-icons" />
+              ) : (
+                <Plus onClick={() => setShowDeleteForm(!showDeleteForm)} className="plus-minus-icons" />
+              )}
+            </h4>
+            <p>Cliccare il + per eliminare un articolo.</p>
+
+            {showDeleteForm && (
+              <div className="delete-wrapper d-flex flex-column justify-content-start align-items-start w-50">
+                <p className="mb-1 mt-2 align-middle">Inserire l'ID dell'articolo che si vuole cancellare:</p>
+                <Form onSubmit={handleSubmit(onSubmit)}>
+                  <Form.Group controlId="deleteById" className="d-flex justify-content-center align-items-center">
+                    <Form.Control
+                      {...register("articleIdToDelete", { required: "Il campo non può essere vuoto." })}
+                      value={articleIdToDelete}
+                      className="form-inputs rounded-start rounded-end-0"
+                      type="number"
+                      onChange={e => setArticleIdToDelete(e.target.value)}
+                    />
+                    <Button variant="outline-none" className="delete-btn rounded-end rounded-start-0 border-start-0" type="submit">
+                      <TrashFill />
+                    </Button>
+                  </Form.Group>
+                </Form>
+                {errors.articleIdToDelete && <p className="text-danger mt-2">{errors.articleIdToDelete.message}</p>}
+              </div>
+            )}
+
+            <Modal centered show={showModal} onHide={() => setShowModal(false)}>
+              <Modal.Header closeButton></Modal.Header>
+
+              <Modal.Body>
+                <p className="text-center">
+                  Sei sicuro di volere rimuovere questo animale ?<br /> <span className="fw-bold">L'azione è irreversibile.</span>
+                </p>
+              </Modal.Body>
+
+              <Modal.Footer>
+                <Button variant="outline-none" id="cancel-delete-animal-btn" onClick={() => setShowModal(false)}>
+                  Annulla
+                </Button>
+                <Button variant="outline-none" id="confirm-delete-animal-btn" onClick={handleAnimalDelete}>
                   Rimuovi
                 </Button>
               </Modal.Footer>
