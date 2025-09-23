@@ -38,18 +38,18 @@ const CrasPage = () => {
         <h4 className="subtitles mt-4 mb-2 ms-sm-3 ms-md-5">Cosa fare in caso di ritrovamento di un animale</h4>
         <p className="ms-sm-3 ms-md-5">
           Leggi i nostri{" "}
-          <Link className="cras-links" to={"/cosa-fare"}>
+          <Link className="cras-links" to={"/articoli"}>
             approfondimenti
           </Link>{" "}
           per affrontare una situazione di emergenza nel modo corretto oppure consulta le{" "}
-          <Link className="cras-links" to={"/faq"}>
+          <Link className="cras-links" to={"/cras"}>
             domande frequenti
           </Link>{" "}
           che ci vengono poste.
           <br />
           <br />
           <span className="fw-bold">Nota molto importante</span>: controlla{" "}
-          <Link className="cras-links" to={"https://elencocras.it/"}>
+          <Link className="cras-links" to={"https://elencocras.it/"} target="blank">
             il C.R.A.S. di competenza
           </Link>{" "}
           nella zona dove trovi l'animale.
