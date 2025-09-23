@@ -25,6 +25,7 @@ import Unauthorized from "./components/Unauthorized/Unauthorized";
 import ProtectedRoute from "./components/ProtectedRoute";
 import type { ProfileResponse } from "./interfaces/User";
 import { useEffect, useState } from "react";
+import ArticlePage from "./components/Articles/ArticlePage";
 
 function App() {
   const [user, setUser] = useState<ProfileResponse | null>(null);
@@ -44,6 +45,7 @@ function App() {
           <Route path="/" element={<Homepage />} />
           <Route path="/il-rifugio" element={<ShelterPage />} />
           <Route path="/cras" element={<CrasPage />} />
+          <Route path="/articoli" element={<ArticlePage />} />
           <Route path="/i-nostri-animali" element={<AnimalPage />} />
           <Route path="/dettagli/:animalId" element={<DetailPage />} />
           <Route path="/donazioni" element={<DonationPage />} />

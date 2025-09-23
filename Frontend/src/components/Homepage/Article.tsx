@@ -1,16 +1,9 @@
 import { Button, Card, Col, Row } from "react-bootstrap";
 import "./homepage.css";
 
-interface TitleProps {
-  subtitle: string;
-}
-
-const Articles = (props: TitleProps) => {
+const Article = () => {
   return (
     <>
-      {/* TODO - Inserire i dati una volta creato il DB */}
-
-      <h3 className="ms-2 mt-4 mb-3 mb-xl-0 news-subtitle py-1">{props.subtitle}</h3>
       <Row className="main-section g-3">
         <Col xs={12} sm={6} md={6} lg={4} xl={3} className="d-flex justify-content-center align-items-center">
           <Card className="d-flex justify-content-center align-items-center rounded-4" id="art1">
@@ -85,4 +78,4 @@ const Articles = (props: TitleProps) => {
   );
 };
 
-export default Articles;
+export default Article;

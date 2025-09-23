@@ -16,6 +16,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
+import java.time.LocalDate;
+
 @Service
 public class ArticleService {
 
@@ -35,9 +37,10 @@ public class ArticleService {
         }
     }
 
-    public Page<Article> findAll(int pageNumber, int pageSize, String sortBy) {
+    public Page<Article> findAll(int pageNumber, int pageSize, String sortBy, String sortByDirection) {
         if (pageSize > 20) pageSize = 20;
-        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
+        Sort.Direction direction = sortByDirection.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(direction, sortBy));
         return this.articleRepository.findAll(pageable);
     }
 
@@ -47,7 +50,10 @@ public class ArticleService {
             throw new BadRequestException("Questo utente non ha i permessi per pubblicare un articolo.");
         }
 
-        Article newArticle = new Article(payload.title(), payload.publicationDate(), payload.content(), foundUser);
+        String imageUrl = "http://localhost:5173/src/assets/Logo-Rifugio-Mamo.jpg";
+        if (!payload.articleImg().isEmpty()) imageUrl = payload.articleImg();
+
+        Article newArticle = new Article(payload.title(), LocalDate.now(), payload.content(), imageUrl, foundUser);
         return this.articleRepository.save(newArticle);
     }
 
@@ -55,7 +61,6 @@ public class ArticleService {
         Article articleFound = this.findById(articleId);
 
         articleFound.setTitle(payload.title());
-        articleFound.setPublicationDate(payload.publicationDate());
         articleFound.setContent(payload.content());
         return this.articleRepository.save(articleFound);
     }

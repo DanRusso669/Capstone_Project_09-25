@@ -71,11 +71,8 @@ const MyNavbar = () => {
           <Link to={"/cras"} className="nav-link">
             Il C.R.A.S.
           </Link>
-          <Link to={"/news"} className="nav-link">
-            News
-          </Link>
-          <Link to={"/blog"} className="nav-link">
-            Blog
+          <Link to={"/articoli"} className="nav-link">
+            Articoli
           </Link>
           <Link to={"/i-nostri-animali?sortByDirection=desc"} className="nav-link">
             Ospiti
@@ -149,11 +146,8 @@ const MyNavbar = () => {
             <Link to={"/cras"} className="nav-link" onClick={handleShowOffcanvas}>
               Il C.R.A.S.
             </Link>
-            <Link to={"/news"} className="nav-link" onClick={handleShowOffcanvas}>
-              News
-            </Link>
-            <Link to={"/blog"} className="nav-link" onClick={handleShowOffcanvas}>
-              Blog
+            <Link to={"/articoli"} className="nav-link" onClick={handleShowOffcanvas}>
+              Articoli
             </Link>
             <Link to={"/i-nostri-animali"} className="nav-link" onClick={handleShowOffcanvas}>
               Ospiti

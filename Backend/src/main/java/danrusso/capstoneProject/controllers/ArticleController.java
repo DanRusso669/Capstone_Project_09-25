@@ -23,8 +23,9 @@ public class ArticleController {
     @GetMapping
     public Page<Article> findAll(@RequestParam(defaultValue = "0") int page,
                                  @RequestParam(defaultValue = "10") int size,
-                                 @RequestParam(defaultValue = "id") String sortBy) {
-        return this.articleService.findAll(page, size, sortBy);
+                                 @RequestParam(defaultValue = "publicationDate") String sortBy,
+                                 @RequestParam(defaultValue = "desc") String sortByDirection) {
+        return this.articleService.findAll(page, size, sortBy, sortByDirection);
     }
 
     @GetMapping("/{articleId}")
