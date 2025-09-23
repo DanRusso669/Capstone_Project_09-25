@@ -2,18 +2,20 @@ import { useEffect } from "react";
 import { Col, Container, Image, Row } from "react-bootstrap";
 import { animalCRUDFetch } from "../../redux/actions/animalSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
-import { useParams } from "react-router-dom";
-import "./detail.css";
+import { useNavigate, useParams } from "react-router-dom";
+import "./animalPage.css";
 import { toast } from "react-toastify";
 import { adoptionCRUDFetch } from "../../redux/actions/adoptionSlice";
+import { ArrowReturnLeft } from "react-bootstrap-icons";
 
 type BackendError = {
   message: string;
   timestamp: string;
 };
 
-const DetailPage = () => {
+const AnimalDetailPage = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { animalId } = useParams() as { animalId: string };
   const {
     data: { single },
@@ -44,8 +46,11 @@ const DetailPage = () => {
 
   return (
     <>
-      <Container id="details-section" className="navbar-height information d-flex flex-column justify-content-center align-items-center mb-4">
-        <h1 className="titles mx-auto mb-2 mt-4">{single !== null ? `Profilo di ${single.name}` : "Qualcosa non va!"}</h1>
+      <Container id="animal-details-section" className="navbar-height information d-flex flex-column justify-content-center align-items-center mb-4">
+        <h1 className="titles text-center mb-2 mt-4 position-relative w-75">
+          {single !== null ? `Profilo di ${single.name}` : "Qualcosa non va!"}
+          <ArrowReturnLeft className="go-back-btn d-none d-lg-block" onClick={() => navigate("/i-nostri-animali?sortByDirection=desc")} />
+        </h1>
         {single !== null ? (
           <Row className="d-flex flex-column justify-content-center align-items-center gy-3">
             <Col className="d-flex justify-content-center align-items-center">
@@ -149,4 +154,4 @@ const DetailPage = () => {
   );
 };
 
-export default DetailPage;
+export default AnimalDetailPage;

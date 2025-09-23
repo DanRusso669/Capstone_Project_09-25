@@ -15,7 +15,7 @@ import RegisterPage from "./components/LoginAndRegister/RegisterPage";
 import { ToastContainer } from "react-toastify";
 import Profile from "./components/Profile/Profile";
 import AnimalPage from "./components/Animals/AnimalPage";
-import DetailPage from "./components/Animals/DetailPage";
+import AnimalDetailPage from "./components/Animals/AnimalDetailPage";
 import BackOffice from "./components/BackOffice/BackOffice";
 import AddAnimalPage from "./components/BackOffice/AddAnimalPage";
 import UpdateAnimalPage from "./components/BackOffice/UpdateAnimalPage";
@@ -26,6 +26,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import type { ProfileResponse } from "./interfaces/User";
 import { useEffect, useState } from "react";
 import ArticlePage from "./components/Articles/ArticlePage";
+import ArticleDetailPage from "./components/Articles/ArticleDetailPage";
 
 function App() {
   const [user, setUser] = useState<ProfileResponse | null>(null);
@@ -46,8 +47,9 @@ function App() {
           <Route path="/il-rifugio" element={<ShelterPage />} />
           <Route path="/cras" element={<CrasPage />} />
           <Route path="/articoli" element={<ArticlePage />} />
+          <Route path="/articoli/dettagli/:articleId" element={<ArticleDetailPage />} />
           <Route path="/i-nostri-animali" element={<AnimalPage />} />
-          <Route path="/dettagli/:animalId" element={<DetailPage />} />
+          <Route path="/i-nostri-animali/dettagli/:animalId" element={<AnimalDetailPage />} />
           <Route path="/donazioni" element={<DonationPage />} />
           <Route path="/donazione-mensile" element={<MonthlyDonationPage />} />
           <Route path="/volontariato" element={<VolunteeringPage />} />

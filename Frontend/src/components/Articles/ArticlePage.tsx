@@ -10,7 +10,7 @@ const ArticlePage = () => {
         <p className="mb-4 text-center w-100">
           Questa pagina è dedicata ad articoli che riguardano il Rifugio Mamo e tutto il mondo di cui fa parte.
           <br />
-          Si possono trovare informazioni sull'ambiente, istruzioni su come comportarsi in una situazione di emergenza e molto altro.
+          Si possono trovare istruzioni su <span className="fw-bold">come comportarsi in una situazione di emergenza</span> e molto altro.
         </p>
         <Article />
       </Container>

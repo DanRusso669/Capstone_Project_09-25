@@ -15,13 +15,16 @@ export interface Filter {
   lastPage: boolean;
 }
 
-export interface Article {
-  id: number;
+export interface ArticleBody {
   title: string;
-  publicationDate: Date;
   content: string;
+  articleImg: string;
+}
+
+export interface Article extends ArticleBody {
+  id: number;
+  publicationDate: Date;
   author: ProfileResponse;
-  image: string;
 }
 
 export interface ArticleResponse {
