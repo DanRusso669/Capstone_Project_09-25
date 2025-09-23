@@ -87,7 +87,7 @@ const AdoptionPage = () => {
                         <br />
                       </Card.Text>
                       <div className="d-flex justify-content-end details-btn-wrapper mt-3 mb-2">
-                        <Link to={`/dettagli/${adoption.animal.id}`} className="ms-auto details-accepted-btn">
+                        <Link to={`/i-nostri-animali/dettagli/${adoption.animal.id}`} className="ms-auto details-accepted-btn">
                           Dettagli
                         </Link>
                         <Button variant="outline-none" className="end-adoption-btn ms-1" onClick={() => handleEndOwnAdoption(adoption.id.toString())}>
@@ -125,7 +125,7 @@ const AdoptionPage = () => {
                         <br />
                       </Card.Text>
                       <div className="d-flex justify-content-center details-btn-wrapper mt-3 mb-2 w-50 gap-1">
-                        <Link to={`/dettagli/${adoption.animal.id}`} className="details-btn">
+                        <Link to={`/i-nostri-animali/dettagli/${adoption.animal.id}`} className="details-btn">
                           Dettagli
                         </Link>
                       </div>
@@ -162,7 +162,7 @@ const AdoptionPage = () => {
                         <br />
                       </Card.Text>
                       <div className="d-flex justify-content-end details-btn-wrapper mt-3 mb-2">
-                        <Link to={`/dettagli/${adoption.animal.id}`} className="ms-auto details-btn">
+                        <Link to={`/i-nostri-animali/dettagli/${adoption.animal.id}`} className="ms-auto details-btn">
                           Dettagli
                         </Link>
                       </div>
@@ -199,7 +199,7 @@ const AdoptionPage = () => {
                         <br />
                       </Card.Text>
                       <div className="d-flex justify-content-end details-btn-wrapper mt-3 mb-2">
-                        <Link to={`/dettagli/${adoption.animal.id}`} className="ms-auto details-btn">
+                        <Link to={`/i-nostri-animali/dettagli/${adoption.animal.id}`} className="ms-auto details-btn">
                           Dettagli
                         </Link>
                       </div>

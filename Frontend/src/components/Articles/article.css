@@ -1,0 +1,47 @@
+#articles-section,
+#article-details-section {
+  min-height: calc(100vh - 160px - 110px);
+}
+
+.articles-section .article-cards {
+  max-width: 320px;
+  height: 410px;
+}
+
+.articles-section .card-body {
+  font-family: "Yrsa", serif;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+.articles-section .card-title {
+  font-weight: 700;
+  font-size: 22px;
+  min-height: 55px;
+}
+
+.articles-section .learn-more-btn:hover {
+  background-color: white;
+  border-color: black;
+  color: #3a6b2f;
+  font-weight: 800;
+}
+
+.articles-section .learn-more-btn {
+  background-color: #3a6b2f;
+  color: white;
+  text-decoration: none;
+  letter-spacing: 0.1rem;
+}
+
+#article-details-section .go-back-btn {
+  cursor: pointer;
+  position: absolute;
+  left: 0px;
+  top: 3px;
+  font-size: 35px;
+  padding-inline: 7px;
+  color: #faf3dd;
+  background-color: #3a6b2f;
+  border-radius: 10px;
+}

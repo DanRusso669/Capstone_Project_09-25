@@ -77,7 +77,7 @@ const AnimalPage = () => {
                           <br />
                         </Card.Text>
                         <div className="d-flex justify-content-end details-btn-wrapper mt-3 mb-2">
-                          <Link to={`/dettagli/${animal.id}`} className="ms-auto details-btn">
+                          <Link to={`/i-nostri-animali/dettagli/${animal.id}`} className="ms-auto details-btn">
                             Dettagli
                           </Link>
                         </div>

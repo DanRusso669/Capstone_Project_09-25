@@ -1,5 +1,6 @@
 package danrusso.capstoneProject.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -13,7 +14,12 @@ public class Article {
     private String title;
     @Column(name = "publication_date")
     private LocalDate publicationDate;
+    @Lob
+    @Column(columnDefinition = "TEXT")
     private String content;
+    @Column(name = "article_image")
+    @JsonProperty("articleImg")
+    private String articleImg;
     @ManyToOne
     @JoinColumn(name = "author_id")
     private User author;
@@ -21,11 +27,20 @@ public class Article {
     public Article() {
     }
 
-    public Article(String title, LocalDate publicationDate, String content, User author) {
+    public Article(String title, LocalDate publicationDate, String content, String articleImg, User author) {
         this.title = title;
         this.publicationDate = publicationDate;
         this.content = content;
+        this.articleImg = articleImg;
         this.author = author;
+    }
+
+    public String getArticleImg() {
+        return articleImg;
+    }
+
+    public void setArticleImg(String articleImg) {
+        this.articleImg = articleImg;
     }
 
     public long getId() {

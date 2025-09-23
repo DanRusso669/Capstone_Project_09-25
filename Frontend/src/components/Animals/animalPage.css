@@ -59,3 +59,31 @@
   text-decoration: none;
   font-weight: bold;
 }
+
+#animal-details-section .card-img {
+  max-width: 600px;
+}
+
+#animal-details-section .adoption-btn {
+  cursor: pointer;
+  color: #3a6b2f;
+  text-decoration: none;
+  position: relative;
+  font-weight: 500;
+}
+
+#animal-details-section .adoption-btn:hover {
+  font-weight: bold;
+}
+
+#animal-details-section .go-back-btn {
+  cursor: pointer;
+  position: absolute;
+  left: 0px;
+  top: 3px;
+  font-size: 35px;
+  padding-inline: 7px;
+  color: #faf3dd;
+  background-color: #3a6b2f;
+  border-radius: 10px;
+}

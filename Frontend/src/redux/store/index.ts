@@ -5,6 +5,7 @@ import loginReducer from "../actions/loginSlice";
 import profileReducer from "../actions/profileSlice";
 import animalsReducer from "../actions/animalSlice";
 import adoptionsReducer from "../actions/adoptionSlice";
+import articlesReducer from "../actions/articleSlice";
 
 const rootReducer = combineReducers({
   register: registerReducer,
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   profile: profileReducer,
   animals: animalsReducer,
   adoptions: adoptionsReducer,
+  articles: articlesReducer,
 });
 
 const store = configureStore({
