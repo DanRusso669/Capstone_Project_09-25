@@ -1,5 +1,5 @@
 import { Col, Container, Image, Row } from "react-bootstrap";
-import Article from "./Article";
+import Article from "../Articles/Article";
 import "./homepage.css";
 
 const MainSection = () => {
@@ -35,7 +35,7 @@ const MainSection = () => {
         <Image fluid className="object-fit-contain" src="https://images.pexels.com/photos/17867770/pexels-photo-17867770.jpeg" />
       </div>
       <Container className="mb-4 d-flex flex-column justify-content-center align-items-center align-items-xxl-start">
-        <h3 className="ms-2 mt-4 mb-3 mb-xl-0 news-subtitle py-1">Ultimi articoli</h3>
+        <h3 className="ms-2 mt-4 mb-3 news-subtitle titles">Ultimi articoli</h3>
         <Article />
       </Container>
     </>

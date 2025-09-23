@@ -1,5 +1,6 @@
 import { Container } from "react-bootstrap";
-import Article from "../Homepage/Article";
+import Article from "./Article";
+import "./article.css";
 
 const ArticlePage = () => {
   return (
