@@ -2,7 +2,7 @@ import { Container } from "react-bootstrap";
 import AnimalForm from "./AnimalForm";
 import ArticleForm from "./ArticleForm";
 
-const AddAnimalPage = () => {
+const AddPage = () => {
   const isArticlePage = location.pathname.includes("/aggiungi/articoli");
 
   return (
@@ -15,4 +15,4 @@ const AddAnimalPage = () => {
     </>
   );
 };
-export default AddAnimalPage;
+export default AddPage;

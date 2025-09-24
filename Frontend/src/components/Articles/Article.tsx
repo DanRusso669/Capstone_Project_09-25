@@ -14,7 +14,7 @@ const Article = () => {
   } = useAppSelector(state => state.articles);
 
   useEffect(() => {
-    dispatch(allArticleFetch());
+    dispatch(allArticleFetch(""));
   }, [dispatch]);
 
   return (

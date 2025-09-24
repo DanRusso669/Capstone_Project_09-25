@@ -17,7 +17,7 @@ import Profile from "./components/Profile/Profile";
 import AnimalPage from "./components/Animals/AnimalPage";
 import AnimalDetailPage from "./components/Animals/AnimalDetailPage";
 import BackOffice from "./components/BackOffice/BackOffice";
-import AddAnimalPage from "./components/BackOffice/AddAnimalPage";
+import AddPage from "./components/BackOffice/AddPage";
 import UpdatePage from "./components/BackOffice/UpdatePage";
 import ViewAllPage from "./components/BackOffice/ViewAllPage";
 import AdoptionPage from "./components/Adoptions/AdoptionPage";
@@ -65,10 +65,11 @@ function App() {
           <Route path="/back-office" element={isLoadingUser ? null : <ProtectedRoute user={user} />}>
             <Route index element={<BackOffice />} />
             <Route path="visualizza/animali" element={<ViewAllPage />} />
-            <Route path="aggiungi/animali" element={<AddAnimalPage />} />
+            <Route path="aggiungi/animali" element={<AddPage />} />
             <Route path="modifica/animali/:animalId" element={<UpdatePage />} />
             <Route path="visualizza/adozioni" element={<ViewAllPage />} />
-            <Route path="aggiungi/articoli" element={<AddAnimalPage />} />
+            <Route path="visualizza/articoli" element={<ViewAllPage />} />
+            <Route path="aggiungi/articoli" element={<AddPage />} />
             <Route path="modifica/articoli/:articleId" element={<UpdatePage />} />
           </Route>
 
