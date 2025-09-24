@@ -30,10 +30,12 @@ import ArticleDetailPage from "./components/Articles/ArticleDetailPage";
 
 function App() {
   const [user, setUser] = useState<ProfileResponse | null>(null);
+  const [isLoadingUser, setIsLoadingUser] = useState(true);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) setUser(JSON.parse(storedUser));
+    setIsLoadingUser(false);
   }, []);
 
   return (
@@ -60,7 +62,7 @@ function App() {
           <Route path="/profilo/adozioni" element={<AdoptionPage />} />
 
           {/* BACK OFFICE */}
-          <Route path="/back-office" element={<ProtectedRoute user={user} />}>
+          <Route path="/back-office" element={isLoadingUser ? null : <ProtectedRoute user={user} />}>
             <Route index element={<BackOffice />} />
             <Route path="visualizza/animali" element={<ViewAllPage />} />
             <Route path="aggiungi/animali" element={<AddAnimalPage />} />
