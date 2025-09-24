@@ -3,6 +3,18 @@
   border: none;
 }
 
+#back-office-add-section .go-back-btn {
+  color: #3a6b2f;
+  text-decoration: underline #3a6b2f;
+  cursor: pointer;
+}
+
+#back-office-update-section .go-back-btn {
+  color: #3a6b2f;
+  text-decoration: underline #3a6b2f;
+  cursor: pointer;
+}
+
 #back-office-viewAll-section .view-all-table-wrapper {
   width: 100%;
   overflow-x: auto;
