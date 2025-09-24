@@ -52,7 +52,6 @@ const MyNavbar = () => {
   };
 
   return (
-    // TODO - Collegare i link alle rispettive pagine una volta create.
     <>
       <Navbar
         expand="lg"

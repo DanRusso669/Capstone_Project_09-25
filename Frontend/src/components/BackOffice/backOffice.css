@@ -1,6 +1,7 @@
 #back-office-main-section,
-#add-animal-section,
-#back-office-viewAll-section {
+#back-office-add-section,
+#back-office-viewAll-section,
+#back-office-update-section {
   min-height: calc(100vh - 160px - 110px);
 }
 

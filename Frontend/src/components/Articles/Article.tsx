@@ -14,7 +14,7 @@ const Article = () => {
   } = useAppSelector(state => state.articles);
 
   useEffect(() => {
-    dispatch(allArticleFetch());
+    dispatch(allArticleFetch(""));
   }, [dispatch]);
 
   return (
@@ -23,7 +23,7 @@ const Article = () => {
         {list && !isArticlePage
           ? list.slice(0, 4).map(article => (
               <Col key={article.id} xs={12} sm={6} md={6} lg={3} className="d-flex justify-content-center align-items-center">
-                <Card className="d-flex justify-content-center align-items-center rounded-4 article-cards">
+                <Card className="d-flex justify-content-center align-items-center rounded-4 article-cards w-100">
                   <Card.Img className="rounded-top-4 article-imgs" title={article.title} alt={article.title} variant="top" src={article.articleImg} />
                   <Card.Body className="d-flex flex-column justify-content-center align-items-center">
                     <Card.Title className="text-center article-title">{article.title}</Card.Title>
@@ -39,7 +39,7 @@ const Article = () => {
             ))
           : list.map(article => (
               <Col key={article.id} xs={12} sm={6} md={6} lg={3} className="d-flex justify-content-center align-items-center">
-                <Card className="d-flex justify-content-center align-items-center rounded-4 article-cards">
+                <Card className="d-flex justify-content-center align-items-center rounded-4 article-cards w-100">
                   <Card.Img className="rounded-top-4 article-imgs" title={article.title} alt={article.title} variant="top" src={article.articleImg} />
                   <Card.Body className="d-flex flex-column justify-content-center align-items-center">
                     <Card.Title className="text-center article-title">{article.title}</Card.Title>

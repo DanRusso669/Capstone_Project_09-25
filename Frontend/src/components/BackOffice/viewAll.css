@@ -3,6 +3,18 @@
   border: none;
 }
 
+#back-office-add-section .go-back-btn {
+  color: #3a6b2f;
+  text-decoration: underline #3a6b2f;
+  cursor: pointer;
+}
+
+#back-office-update-section .go-back-btn {
+  color: #3a6b2f;
+  text-decoration: underline #3a6b2f;
+  cursor: pointer;
+}
+
 #back-office-viewAll-section .view-all-table-wrapper {
   width: 100%;
   overflow-x: auto;
@@ -87,4 +99,39 @@
 #back-office-viewAll-section .view-all-table th:nth-child(14),
 .view-all-table td:nth-child(14) {
   width: 20%;
+}
+
+#back-office-viewAll-section .view-all-articles-table {
+  width: max-content;
+  table-layout: fixed;
+}
+
+#back-office-viewAll-section .view-all-articles-table th:nth-child(1),
+.view-all-articles-table td:nth-child(1) {
+  max-width: 1.5%;
+}
+
+#back-office-viewAll-section .view-all-articles-table th:nth-child(2),
+.view-all-articles-table td:nth-child(2) {
+  max-width: 2%;
+}
+
+#back-office-viewAll-section .view-all-articles-table th:nth-child(3),
+.view-all-articles-table td:nth-child(3) {
+  max-width: 5%;
+}
+
+#back-office-viewAll-section .view-all-articles-table th:nth-child(4),
+.view-all-articles-table td:nth-child(4) {
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 200px;
+  text-overflow: ellipsis;
+}
+#back-office-viewAll-section .view-all-articles-table th:nth-child(5),
+.view-all-articles-table td:nth-child(5) {
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 600px;
+  text-overflow: ellipsis;
 }

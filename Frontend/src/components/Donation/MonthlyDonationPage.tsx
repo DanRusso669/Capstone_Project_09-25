@@ -24,7 +24,6 @@ const MonthlyDonationPage = () => {
           Compila il seguente form per essere inserito tra i nostri sostenitori e ricordati che{" "}
           <span className="fw-bold">è obbligatorio essere registrati</span> prima di poter continuare con la donazione mensile.
         </p>
-        {/* TODO - Form da cambiare, i dati vengono presi direttamente quando l'utente effettua il login */}
         <RegisterForm />
       </Container>
     </>

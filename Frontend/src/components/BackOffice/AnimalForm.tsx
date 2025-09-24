@@ -55,7 +55,7 @@ const AnimalForm = () => {
   const { single } = useAppSelector(state => state.animals.data);
   const dispatch = useAppDispatch();
   const { animalId } = useParams();
-  const isUpdatePage = location.pathname.includes("/animali/modifica");
+  const isUpdatePage = location.pathname.includes("/modifica/animali");
 
   useEffect(() => {
     if (animalId && isUpdatePage) {
@@ -111,13 +111,13 @@ const AnimalForm = () => {
 
       reset();
     } catch (error) {
-      console.error("Errore durante la fetch dell'animale:", error);
+      toast.error("Errore durante la fetch dell'animale: " + error);
     }
   };
 
   return (
     <>
-      <Form className="w-100" onSubmit={handleSubmit(onSubmit)}>
+      <Form className="w-100 mb-4" onSubmit={handleSubmit(onSubmit)}>
         <Row>
           <Form.Group as={Col} xs={12} sm={6} lg={4} controlId="formGridName" className="mt-3">
             <Form.Label className="fst-italic fw-semibold">Nome</Form.Label>

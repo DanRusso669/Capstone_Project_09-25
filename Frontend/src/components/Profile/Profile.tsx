@@ -295,8 +295,6 @@ const Profile = () => {
             </Button>
           </div>
         </Form>
-        <h4 className="subtitles mx-auto mt-3 mb-2">Le tue donazioni mensili</h4>
-        <h4 className="subtitles mx-auto mt-3 mb-2">Le tue adozioni</h4>
       </Container>
       <MyVerticalModal show={modalShow} onHide={() => setModalShow(false)} />
     </>

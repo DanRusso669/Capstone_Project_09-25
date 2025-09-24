@@ -17,8 +17,8 @@ import Profile from "./components/Profile/Profile";
 import AnimalPage from "./components/Animals/AnimalPage";
 import AnimalDetailPage from "./components/Animals/AnimalDetailPage";
 import BackOffice from "./components/BackOffice/BackOffice";
-import AddAnimalPage from "./components/BackOffice/AddAnimalPage";
-import UpdateAnimalPage from "./components/BackOffice/UpdateAnimalPage";
+import AddPage from "./components/BackOffice/AddPage";
+import UpdatePage from "./components/BackOffice/UpdatePage";
 import ViewAllPage from "./components/BackOffice/ViewAllPage";
 import AdoptionPage from "./components/Adoptions/AdoptionPage";
 import Unauthorized from "./components/Unauthorized/Unauthorized";
@@ -30,10 +30,12 @@ import ArticleDetailPage from "./components/Articles/ArticleDetailPage";
 
 function App() {
   const [user, setUser] = useState<ProfileResponse | null>(null);
+  const [isLoadingUser, setIsLoadingUser] = useState(true);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) setUser(JSON.parse(storedUser));
+    setIsLoadingUser(false);
   }, []);
 
   return (
@@ -60,13 +62,15 @@ function App() {
           <Route path="/profilo/adozioni" element={<AdoptionPage />} />
 
           {/* BACK OFFICE */}
-          <Route path="/back-office" element={<ProtectedRoute user={user} />}>
+          <Route path="/back-office" element={isLoadingUser ? null : <ProtectedRoute user={user} />}>
             <Route index element={<BackOffice />} />
             <Route path="visualizza/animali" element={<ViewAllPage />} />
-            <Route path="aggiungi/animali" element={<AddAnimalPage />} />
-            <Route path="modifica/animali/:animalId" element={<UpdateAnimalPage />} />
+            <Route path="aggiungi/animali" element={<AddPage />} />
+            <Route path="modifica/animali/:animalId" element={<UpdatePage />} />
             <Route path="visualizza/adozioni" element={<ViewAllPage />} />
-            <Route path="modifica/adozioni/:adoptionId" element={<UpdateAnimalPage />} />
+            <Route path="visualizza/articoli" element={<ViewAllPage />} />
+            <Route path="aggiungi/articoli" element={<AddPage />} />
+            <Route path="modifica/articoli/:articleId" element={<UpdatePage />} />
           </Route>
 
           <Route path="/unauthorized" element={<Unauthorized />} />

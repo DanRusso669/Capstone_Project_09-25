@@ -45,3 +45,7 @@
   background-color: #3a6b2f;
   border-radius: 10px;
 }
+
+#article-details-section .animal-details-img {
+  max-width: 500px;
+}

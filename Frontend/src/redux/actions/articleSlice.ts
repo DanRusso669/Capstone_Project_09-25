@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { Article, ArticleBody, ArticleResponse, ArticleState } from "../../interfaces/Article";
 import type { ErrorsData } from "../../interfaces/ErrorsData";
 
@@ -18,7 +18,17 @@ const initialState: ArticleState = {
 const articleSlice = createSlice({
   name: "articles",
   initialState,
-  reducers: {},
+  reducers: {
+    setPage: (state, action: PayloadAction<number>) => {
+      state.filters.page = action.payload;
+    },
+    setSortBy: (state, action: PayloadAction<string>) => {
+      state.filters.sortBy = action.payload;
+    },
+    setSortByDirection: (state, action: PayloadAction<string>) => {
+      state.filters.sortByDirection = action.payload;
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(allArticleFetch.pending, state => {
@@ -53,9 +63,9 @@ const articleSlice = createSlice({
   },
 });
 
-export const allArticleFetch = createAsyncThunk("articles/get-all", async (_, { rejectWithValue }) => {
+export const allArticleFetch = createAsyncThunk("articles/get-all", async (filterParams: string, { rejectWithValue }) => {
   try {
-    const resp = await fetch("http://localhost:3001/articles", {
+    const resp = await fetch(`http://localhost:3001/articles?${filterParams}`, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -91,6 +101,10 @@ export const articleCRUDFetch = createAsyncThunk(
         return rejectWithValue(errorData);
       }
 
+      if (resp.status === 204) {
+        return null;
+      }
+
       const data: Article = await resp.json();
       return data;
     } catch (error) {
@@ -98,5 +112,7 @@ export const articleCRUDFetch = createAsyncThunk(
     }
   }
 );
+
+export const { setPage, setSortBy, setSortByDirection } = articleSlice.actions;
 
 export default articleSlice.reducer;

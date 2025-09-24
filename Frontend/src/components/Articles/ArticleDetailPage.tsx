@@ -29,7 +29,7 @@ const ArticleDetailPage = () => {
             <p className="subtitles mb-2">{new Date(single.publicationDate).toLocaleDateString()}</p>
             <Row className="d-flex flex-column justify-content-center align-items-center gy-3">
               <Col className="d-flex justify-content-center align-items-center">
-                <Image src={single.articleImg} fluid className="rounded-5" />
+                <Image src={single.articleImg} fluid className="rounded-5 animal-details-img" />
               </Col>
 
               <Col className="text-center mt-5 w-75">
