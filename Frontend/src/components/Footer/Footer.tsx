@@ -20,7 +20,7 @@ const Footer = () => {
                 </Link>
               </Col>
               <Col xs={4} sm={4} md={4} lg={1} className="text-center footer-links-wrapper">
-                <Link to={"/rifugio"} className="footer-links">
+                <Link to={"/il-rifugio"} className="footer-links">
                   Chi siamo
                 </Link>
               </Col>

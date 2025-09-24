@@ -115,7 +115,7 @@ const RegisterForm = () => {
             value={userEmail}
             autoComplete="off"
             className="form-inputs"
-            type="email"
+            type="text"
             placeholder="Inserisci email"
             onChange={e => dispatch(setEmail(e.target.value))}
           />
