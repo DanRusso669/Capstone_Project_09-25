@@ -18,7 +18,7 @@ import AnimalPage from "./components/Animals/AnimalPage";
 import AnimalDetailPage from "./components/Animals/AnimalDetailPage";
 import BackOffice from "./components/BackOffice/BackOffice";
 import AddAnimalPage from "./components/BackOffice/AddAnimalPage";
-import UpdateAnimalPage from "./components/BackOffice/UpdateAnimalPage";
+import UpdatePage from "./components/BackOffice/UpdatePage";
 import ViewAllPage from "./components/BackOffice/ViewAllPage";
 import AdoptionPage from "./components/Adoptions/AdoptionPage";
 import Unauthorized from "./components/Unauthorized/Unauthorized";
@@ -64,9 +64,10 @@ function App() {
             <Route index element={<BackOffice />} />
             <Route path="visualizza/animali" element={<ViewAllPage />} />
             <Route path="aggiungi/animali" element={<AddAnimalPage />} />
-            <Route path="modifica/animali/:animalId" element={<UpdateAnimalPage />} />
+            <Route path="modifica/animali/:animalId" element={<UpdatePage />} />
             <Route path="visualizza/adozioni" element={<ViewAllPage />} />
-            <Route path="modifica/adozioni/:adoptionId" element={<UpdateAnimalPage />} />
+            <Route path="aggiungi/articoli" element={<AddAnimalPage />} />
+            <Route path="modifica/articoli/:articleId" element={<UpdatePage />} />
           </Route>
 
           <Route path="/unauthorized" element={<Unauthorized />} />

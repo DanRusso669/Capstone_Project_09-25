@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { adoptionCRUDFetch } from "../../redux/actions/adoptionSlice";
+import { articleCRUDFetch } from "../../redux/actions/articleSlice";
 
 type BackOfficeFields = {
   animalIdToDelete?: string;
@@ -56,6 +57,24 @@ const BackOffice = () => {
 
   const { single } = useAppSelector(state => state.adoptions.data);
 
+  const onSubmit: SubmitHandler<BackOfficeFields> = () => {
+    setShowModal(true);
+  };
+
+  useEffect(() => {
+    setShowDeleteForm(false);
+    setShowUpdateForm(false);
+    setShowUpdateSelectForm(false);
+    setAnimalIdToDelete("");
+    setAdoptionIdToDelete("");
+    setAdoptionIdToUpdate("");
+    setAnimalIdToUpdate("");
+    setAdoptionStatus("");
+    setShowModal(false);
+  }, [category]);
+
+  // ANIMAL METHODS
+
   const handleAnimalDelete = async () => {
     setShowModal(false);
     try {
@@ -76,6 +95,20 @@ const BackOffice = () => {
       setError("animalIdToDelete", { message: backendError.message });
     }
   };
+
+  const handleAnimalUpdate = async () => {
+    try {
+      const response = await dispatch(animalCRUDFetch({ animalId: animalIdToUpdate, method: "GET", animalData: null })).unwrap();
+      if (response) {
+        navigate(`/back-office/modifica/animali/${animalIdToUpdate}`);
+      }
+    } catch (error) {
+      const backendError = error as BackendError;
+      setError("animalIdToUpdate", { message: backendError.message });
+    }
+  };
+
+  // ADOPTION METHODS
 
   const handleAdoptionDelete = async () => {
     setShowModal(false);
@@ -98,24 +131,7 @@ const BackOffice = () => {
     }
   };
 
-  const onSubmit: SubmitHandler<BackOfficeFields> = () => {
-    setShowModal(true);
-  };
-
-  const handleAnimalUpdate = async () => {
-    try {
-      const response = await dispatch(animalCRUDFetch({ animalId: animalIdToUpdate, method: "GET", animalData: null })).unwrap();
-      if (response) {
-        navigate(`/back-office/modifica/animali/${animalIdToUpdate}`);
-      }
-    } catch (error) {
-      const backendError = error as BackendError;
-      setError("animalIdToUpdate", { message: backendError.message });
-    }
-  };
-
   const handleAdoptionUpdate = async () => {
-    console.log(adoptionIdToUpdate);
     try {
       const response = await dispatch(adoptionCRUDFetch({ adoptionId: adoptionIdToUpdate, method: "GET", adoptionData: null })).unwrap();
       if (response) {
@@ -161,17 +177,40 @@ const BackOffice = () => {
     }
   };
 
-  useEffect(() => {
-    setShowDeleteForm(false);
-    setShowUpdateForm(false);
-    setShowUpdateSelectForm(false);
-    setAnimalIdToDelete("");
-    setAdoptionIdToDelete("");
-    setAdoptionIdToUpdate("");
-    setAnimalIdToUpdate("");
-    setAdoptionStatus("");
+  // ARTICLE METHODS
+
+  const handleArticleDelete = async () => {
     setShowModal(false);
-  }, [category]);
+    try {
+      await toast.promise(
+        dispatch(articleCRUDFetch({ articleId: articleIdToDelete, method: "DELETE", articleData: null })).unwrap(),
+        {
+          pending: `Rimozione in corso...`,
+          success: `Articolo con ID ${articleIdToDelete} rimosso con successo.`,
+          error: `Rimozione fallita. Riprovare.`,
+        },
+        {
+          autoClose: 4000,
+        }
+      );
+      setArticleIdToDelete("");
+    } catch (error) {
+      const backendError = error as BackendError;
+      setError("articleIdToDelete", { message: backendError.message });
+    }
+  };
+
+  const handleArticleUpdate = async () => {
+    try {
+      const response = await dispatch(articleCRUDFetch({ articleId: articleIdToUpdate, method: "GET", articleData: null })).unwrap();
+      if (response) {
+        navigate(`/back-office/modifica/articoli/${articleIdToUpdate}`);
+      }
+    } catch (error) {
+      const backendError = error as BackendError;
+      setError("articleIdToUpdate", { message: backendError.message });
+    }
+  };
 
   return (
     <>
@@ -454,7 +493,7 @@ const BackOffice = () => {
             </h4>
             <p>Cliccare il + per aggiungere un articolo.</p>
             <h4 className="subtitles mt-3 mb-2">
-              Modifica un animale{" "}
+              Modifica un articolo{" "}
               {showUpdateForm ? (
                 <Dash onClick={() => setShowUpdateForm(!showUpdateForm)} className="plus-minus-icons" />
               ) : (
@@ -465,7 +504,7 @@ const BackOffice = () => {
             {showUpdateForm && (
               <div className="update-wrapper d-flex flex-column justify-content-start align-items-start w-50">
                 <p className="mb-1 mt-2 align-middle">Inserire l'ID dell'articolo che si vuole modificare:</p>
-                <Form onSubmit={handleSubmit(handleAnimalUpdate)}>
+                <Form onSubmit={handleSubmit(handleArticleUpdate)}>
                   <Form.Group controlId="updateById" className="d-flex justify-content-center align-items-center">
                     <Form.Control
                       {...register("articleIdToUpdate", { required: "Il campo non può essere vuoto." })}
@@ -519,7 +558,7 @@ const BackOffice = () => {
 
               <Modal.Body>
                 <p className="text-center">
-                  Sei sicuro di volere rimuovere questo animale ?<br /> <span className="fw-bold">L'azione è irreversibile.</span>
+                  Sei sicuro di volere rimuovere questo articolo ?<br /> <span className="fw-bold">L'azione è irreversibile.</span>
                 </p>
               </Modal.Body>
 
@@ -527,7 +566,7 @@ const BackOffice = () => {
                 <Button variant="outline-none" id="cancel-delete-animal-btn" onClick={() => setShowModal(false)}>
                   Annulla
                 </Button>
-                <Button variant="outline-none" id="confirm-delete-animal-btn" onClick={handleAnimalDelete}>
+                <Button variant="outline-none" id="confirm-delete-animal-btn" onClick={handleArticleDelete}>
                   Rimuovi
                 </Button>
               </Modal.Footer>

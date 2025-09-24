@@ -91,6 +91,10 @@ export const articleCRUDFetch = createAsyncThunk(
         return rejectWithValue(errorData);
       }
 
+      if (resp.status === 204) {
+        return null;
+      }
+
       const data: Article = await resp.json();
       return data;
     } catch (error) {
