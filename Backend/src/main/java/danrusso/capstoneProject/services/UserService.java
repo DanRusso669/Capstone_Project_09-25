@@ -8,6 +8,7 @@ import danrusso.capstoneProject.payloads.NewUserDTO;
 import danrusso.capstoneProject.payloads.UpdateUserDTO;
 import danrusso.capstoneProject.repositories.RoleRepository;
 import danrusso.capstoneProject.repositories.UserRepository;
+import danrusso.capstoneProject.tools.MailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.data.domain.Page;
@@ -28,6 +29,9 @@ public class UserService {
 
     @Autowired
     private PasswordEncoder bcrypt;
+
+    @Autowired
+    private MailSender mailSender;
 
     public User findById(long userId) {
         return this.userRepository.findById(userId).orElseThrow(() -> new NotFoundException(userId, "Utente"));
@@ -61,12 +65,13 @@ public class UserService {
     }
 
     public User save(NewUserDTO payload) {
-        this.checkEmailAvailability(payload.email());
+        this.checkEmailAvailability(payload.userEmail());
 
-        User newUser = new User(payload.name(), payload.surname(), payload.email(), bcrypt.encode(payload.password()), payload.phoneNumber());
+        User newUser = new User(payload.userName(), payload.userSurname(), payload.userEmail(), bcrypt.encode(payload.userPassword()), payload.userPhoneNumber());
 
         Role userRole = this.roleRepository.findByRoleDef("USER").orElseThrow(() -> new NotFoundException("Ruolo USER non trovato."));
         newUser.getRoles().add(userRole);
+        this.mailSender.sendThanksEmail(newUser);
 
         return this.userRepository.save(newUser);
     }

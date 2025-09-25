@@ -11,6 +11,7 @@ import danrusso.capstoneProject.payloads.NewAnimalDTO;
 import danrusso.capstoneProject.payloads.NewUserDTO;
 import danrusso.capstoneProject.repositories.AnimalRepository;
 import danrusso.capstoneProject.repositories.UserRepository;
+import danrusso.capstoneProject.tools.MailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.data.domain.Page;
@@ -38,6 +39,9 @@ public class AnimalService {
 
     @Autowired
     private PasswordEncoder bcrypt;
+
+    @Autowired
+    private MailSender mailSender;
 
     public Animal findById(long animalId) {
         return this.animalRepository.findById(animalId).orElseThrow(() -> new NotFoundException(animalId, "Animale"));
@@ -103,11 +107,13 @@ public class AnimalService {
         Gender gender = this.checkGenderValue(payload.gender());
         AnimalStatus status = this.checkStatusValue(payload.status());
 
-        // TODO - Se l'utente viene creato con una password temporanea, mandare email per fargliela modificare.
         User userFound = this.userRepository.findByEmail(payload.userEmail()).orElseGet(() -> {
             NewUserDTO newUser = new NewUserDTO(payload.userName(), payload.userSurname(), payload.userEmail(), "1234?Ciao", payload.userPhoneNumber());
-            return this.userService.save(newUser);
+            User savedUser = this.userService.save(newUser);
+            this.mailSender.sendTemporaryPasswordEmail(savedUser);
+            return savedUser;
         });
+
 
         String imageUrl = "http://localhost:5173/src/assets/Logo-Rifugio-Mamo.jpg";
         if (!(payload.imageUrl().isEmpty())) imageUrl = payload.imageUrl();

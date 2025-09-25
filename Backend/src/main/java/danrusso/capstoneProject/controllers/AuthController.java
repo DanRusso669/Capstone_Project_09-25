@@ -25,7 +25,7 @@ public class AuthController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public UserRespDTO register(@RequestBody @Validated NewUserDTO payload, BindingResult validation){
+    public UserRespDTO register(@RequestBody @Validated NewUserDTO payload, BindingResult validation) {
         this.userService.checkValidationErrors(validation);
 
         User newUser = this.userService.save(payload);
@@ -34,7 +34,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public LoginRespDTO login (@RequestBody @Validated UserLoginDTO payload, BindingResult validation){
+    public LoginRespDTO login(@RequestBody @Validated UserLoginDTO payload, BindingResult validation) {
         this.userService.checkValidationErrors(validation);
         return new LoginRespDTO(authService.generateAccessToken(payload));
     }
