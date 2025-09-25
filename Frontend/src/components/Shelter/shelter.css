@@ -1,0 +1,12 @@
+.shelter-section {
+  min-height: calc(100vh - 160px - 110px);
+  background-image: url("https://images.pexels.com/photos/13601506/pexels-photo-13601506.jpeg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.shelter-paragraph {
+  background-color: rgb(245, 245, 245, 0.7);
+  border-radius: 50px;
+}

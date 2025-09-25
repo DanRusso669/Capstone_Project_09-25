@@ -1,0 +1,28 @@
+.cras-links,
+.calendar {
+  color: #3a6b2f;
+  text-decoration: none;
+  position: relative;
+  font-weight: bold;
+}
+
+.cras-links::after,
+.calendar::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #3a6b2f;
+  transition: width 0.7s linear;
+}
+
+.cras-links:hover::after,
+.calendar:hover::after {
+  width: 100%;
+}
+
+.cras-links:hover {
+  font-weight: bold;
+}

@@ -1,0 +1,29 @@
+#unauthorized-section {
+  min-height: calc(100vh - 160px - 110px);
+}
+
+#unauthorized-section > img {
+  max-width: 400px;
+}
+
+#unauthorized-section a:first-of-type {
+  font-size: 10px;
+  color: black;
+}
+
+#unauthorized-section a:nth-of-type(2) {
+  text-decoration: none;
+  color: white;
+  background-color: rgb(58, 107, 47);
+  padding-inline: 0.8rem;
+  padding-block: 0.5rem;
+  border-radius: 20px;
+  font-size: 19px;
+}
+
+#unauthorized-section a:nth-of-type(2):hover {
+  background-color: white;
+  color: #3a6b2f;
+  font-weight: bold;
+  border: 2px solid #3a6b2f;
+}

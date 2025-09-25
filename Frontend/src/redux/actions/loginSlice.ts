@@ -1,0 +1,71 @@
+import { createAsyncThunk, createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import type { ErrorsData } from "../../interfaces/ErrorsData";
+import type { LoginData, UserState } from "../../interfaces/User";
+
+interface LoginResp {
+  accessToken: string;
+}
+
+const initialState: UserState<LoginData> = {
+  data: { userEmail: "", userPassword: "" },
+  status: "pending",
+  errorMessage: "",
+};
+
+const loginSlice = createSlice({
+  name: "login",
+  initialState,
+  reducers: {
+    setEmail: (state, action: PayloadAction<string>) => {
+      state.data.userEmail = action.payload;
+    },
+    setPassword: (state, action: PayloadAction<string>) => {
+      state.data.userPassword = action.payload;
+    },
+    setErrorMessage: (state, action: PayloadAction<string>) => {
+      state.errorMessage = action.payload;
+    },
+    resetForm: () => initialState,
+  },
+  extraReducers: builder => {
+    builder
+      .addCase(loginFetch.pending, state => {
+        state.status = "pending";
+      })
+      .addCase(loginFetch.fulfilled, state => {
+        state.status = "succeeded";
+      })
+      .addCase(loginFetch.rejected, (state, action) => {
+        state.status = "failed";
+        state.errorMessage = action.payload as string;
+      });
+  },
+});
+
+export const loginFetch = createAsyncThunk("login/signin", async (formData: LoginData, { rejectWithValue }) => {
+  try {
+    const resp = await fetch("http://localhost:3001/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+
+    if (!resp.ok) {
+      const errorData: ErrorsData = await resp.json();
+      return rejectWithValue(errorData.message);
+    }
+
+    const data: LoginResp = await resp.json();
+    localStorage.setItem("accessToken", data.accessToken);
+    return data;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (error) {
+    return rejectWithValue("Errore durante il login. Riprovare più tardi.");
+  }
+});
+
+export const { setEmail, setPassword, setErrorMessage, resetForm } = loginSlice.actions;
+
+export default loginSlice.reducer;

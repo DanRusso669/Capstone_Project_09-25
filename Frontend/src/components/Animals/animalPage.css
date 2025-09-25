@@ -1,0 +1,89 @@
+#animal-section {
+  min-height: calc(100vh - 160px - 110px);
+}
+
+#animal-section .card-img {
+  max-width: 250px;
+  min-height: 180px;
+  border-radius: 60px;
+  border: thin solid rgba(0, 0, 0, 0.336);
+}
+
+#animal-section .details-btn,
+.load-more-btn,
+.filter-submit-btn {
+  text-decoration: none;
+  color: white;
+  background-color: rgb(58, 107, 47);
+  padding-inline: 0.8rem;
+  padding-block: 0.6rem;
+  border-radius: 20px;
+  font-size: 19px;
+}
+
+#animal-section .details-btn:hover,
+.load-more-btn:hover,
+.filter-submit-btn:hover {
+  background-color: white;
+  color: #3a6b2f;
+  font-weight: bold;
+  border: 2px solid #3a6b2f;
+}
+
+#animal-section .card-body {
+  max-width: 260px;
+}
+
+#animal-section .filter-btn {
+  font-size: 23px;
+}
+
+#animal-section .filter-btn:hover {
+  color: #3a6b2f;
+}
+
+#filter-offcanvas {
+  border-radius: 0px 0px 40px 40px;
+  background-color: #faf3dd;
+  transition: all 1s linear;
+  height: 400px;
+}
+
+#filter-offcanvas .reset-btn {
+  font-size: 18px;
+  cursor: pointer;
+}
+
+#animal-section .log-links {
+  color: #3a6b2f;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+#animal-details-section .card-img {
+  max-width: 600px;
+}
+
+#animal-details-section .adoption-btn {
+  cursor: pointer;
+  color: #3a6b2f;
+  text-decoration: none;
+  position: relative;
+  font-weight: 500;
+}
+
+#animal-details-section .adoption-btn:hover {
+  font-weight: bold;
+}
+
+#animal-details-section .go-back-btn {
+  cursor: pointer;
+  position: absolute;
+  left: 0px;
+  top: 3px;
+  font-size: 35px;
+  padding-inline: 7px;
+  color: #faf3dd;
+  background-color: #3a6b2f;
+  border-radius: 10px;
+}
