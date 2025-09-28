@@ -19,6 +19,7 @@ const AnimalDetailPage = () => {
   const { animalId } = useParams() as { animalId: string };
   const {
     data: { single },
+    filters: { gender, status, species, breed, province },
   } = useAppSelector(state => state.animals);
 
   useEffect(() => {
@@ -44,17 +45,28 @@ const AnimalDetailPage = () => {
     }
   };
 
+  const handleGoBack = () => {
+    const params: Record<string, string> = {};
+    if (gender) params.gender = gender;
+    if (status) params.status = status;
+    if (species) params.species = species;
+    if (breed) params.breed = breed;
+    if (province) params.province = province;
+
+    navigate(`/i-nostri-animali?${new URLSearchParams(params).toString()}`);
+  };
+
   return (
     <>
       <Container id="animal-details-section" className="navbar-height information d-flex flex-column justify-content-center align-items-center mb-4">
         <h1 className="titles text-center mb-2 mt-4 position-relative w-75">
           {single !== null ? `Profilo di ${single.name}` : "Qualcosa non va!"}
-          <ArrowReturnLeft className="go-back-btn d-none d-lg-block" onClick={() => navigate("/i-nostri-animali?sortByDirection=desc")} />
+          <ArrowReturnLeft className="go-back-btn d-none d-lg-block" onClick={handleGoBack} />
         </h1>
         {single !== null ? (
           <Row className="d-flex flex-column justify-content-center align-items-center gy-3">
             <Col className="d-flex justify-content-center align-items-center">
-              <Image src={single.imageUrl} fluid className="rounded-5" />
+              <Image src={single.imageUrl} fluid className="rounded-5 animal-details-image" />
             </Col>
             {single.adoptable && (
               <>

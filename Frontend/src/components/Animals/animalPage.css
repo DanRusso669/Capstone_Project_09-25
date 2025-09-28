@@ -87,3 +87,7 @@
   background-color: #3a6b2f;
   border-radius: 10px;
 }
+
+#animal-details-section .animal-details-image {
+  max-height: 340px;
+}
