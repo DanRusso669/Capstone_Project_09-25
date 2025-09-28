@@ -22,7 +22,7 @@ const ArticleDetailPage = () => {
       <Container id="article-details-section" className="navbar-height information d-flex flex-column justify-content-start align-items-center mb-4">
         {single !== null ? (
           <>
-            <h1 className="titles text-center position-relative w-75 mt-3">
+            <h1 className="titles text-center position-relative w-75 mt-3 px-5">
               {single && single.title} <ArrowReturnLeft className="go-back-btn d-none d-lg-block" onClick={() => navigate("/articoli")} />
             </h1>
             <h5 className="subtitles text-center">{`di ${single?.author.userName} ${single?.author.userSurname}`}</h5>
@@ -32,8 +32,8 @@ const ArticleDetailPage = () => {
                 <Image src={single.articleImg} fluid className="rounded-5 animal-details-img" />
               </Col>
 
-              <Col className="text-center mt-5 w-75">
-                <p>{single.content}</p>
+              <Col className=" mt-5 w-75">
+                <pre className="article-content">{single.content}</pre>
               </Col>
             </Row>
           </>

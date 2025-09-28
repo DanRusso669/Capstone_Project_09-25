@@ -49,3 +49,11 @@
 #article-details-section .animal-details-img {
   max-width: 500px;
 }
+
+#article-details-section .article-content {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family: "Yrsa", serif;
+  font-weight: 400;
+  font-size: 19px;
+}
