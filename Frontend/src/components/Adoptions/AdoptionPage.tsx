@@ -15,7 +15,7 @@ const AdoptionPage = () => {
   const dispatch = useAppDispatch();
 
   const { list } = useAppSelector(state => state.adoptions.data);
-  console.log(list);
+
   useEffect(() => {
     const userJson = localStorage.getItem("user");
 
