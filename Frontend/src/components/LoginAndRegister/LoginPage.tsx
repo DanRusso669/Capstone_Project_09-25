@@ -99,7 +99,7 @@ const LoginPage = ({ setUser }: { setUser: React.Dispatch<React.SetStateAction<P
               </Form.Text>
             </Form.Group>
 
-            <Button disabled={isSubmitting} className="login-btn text-center" type="submit">
+            <Button disabled={isSubmitting} variant="outline-none" className="login-btn text-center" type="submit">
               {isSubmitting ? "Caricamento..." : "Accedi"}
             </Button>
             <div className="text-center mt-3">
