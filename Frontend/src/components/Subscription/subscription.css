@@ -1,0 +1,33 @@
+#subscription-section {
+  min-height: calc(100vh - 160px - 110px);
+}
+
+#subscription-section p {
+  text-align: center;
+}
+
+#subscription-section .subscription-img {
+  width: 580px;
+}
+
+#subscription-section .subscription-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #3a6b2f;
+  transition: width 0.7s linear;
+}
+
+#subscription-section .subscription-link:hover::after {
+  width: 100%;
+}
+
+#subscription-section .subscription-link {
+  color: #3a6b2f;
+  text-decoration: none;
+  position: relative;
+  font-weight: bold;
+}

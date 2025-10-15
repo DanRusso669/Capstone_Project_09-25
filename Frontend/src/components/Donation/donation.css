@@ -1,11 +1,12 @@
 /* DONATION PAGE */
 
-.donation-section {
+#donation-section {
   max-width: 680px;
 }
 
 .month-donation-btn,
-.monthly-form-btn {
+.monthly-form-btn,
+.monthly-payment-btn {
   text-decoration: none;
   color: white;
   background-color: rgb(58, 107, 47);
@@ -18,8 +19,13 @@
   font-size: 20px;
 }
 
+.monthly-payment-btn {
+  font-size: 18px;
+}
+
 .month-donation-btn:hover,
-.monthly-form-btn:hover {
+.monthly-form-btn:hover,
+.monthly-payment-btn:hover {
   background-color: white;
   color: #3a6b2f;
   font-weight: bold;
@@ -42,10 +48,18 @@
 
 /* MONTHLY DONATION PAGE */
 
+#monthly-donation-section {
+  min-height: calc(100vh - 160px - 110px);
+}
+
 .monthly-donation-incipit {
   background-color: #ccf3a4;
   padding-inline: 1rem;
   padding-block: 1rem;
   max-width: 1000px;
   border-radius: 20px;
+}
+
+.plan-card {
+  max-width: 400px;
 }
