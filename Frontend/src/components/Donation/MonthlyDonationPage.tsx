@@ -1,7 +1,10 @@
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import "./donation.css";
+import { toast } from "react-toastify";
 
 const MonthlyDonationPage = () => {
+  const accessToken = localStorage.getItem("accessToken");
+
   const plans = [
     {
       name: "Sostenitore Base",
@@ -22,6 +25,40 @@ const MonthlyDonationPage = () => {
       feature: "Con questo piano riuscirai a salvare tre vite all'anno.",
     },
   ];
+
+  // Subscribe Method
+
+  const handleSubscription = async (priceId: string) => {
+    try {
+      const response = await fetch("http://localhost:3001/api/subscriptions/create-checkout-session", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({
+          priceId: priceId,
+          successUrl: `http://localhost:5173/abbonamento/effettuato`,
+          cancelUrl: `http://localhost:5173abbonamento/cancellato`,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Errore nella creazione della sessione");
+      }
+
+      const { url } = await response.json();
+
+      if (url) {
+        // reindirizza l'utente all'URL del checkout di stripe
+        window.location.href = url;
+      } else {
+        throw new Error("URL di Checkout non ricevuto");
+      }
+    } catch (error) {
+      toast.error("Errore durante la sottoscrizione:" + error);
+    }
+  };
 
   return (
     <>
@@ -50,8 +87,8 @@ const MonthlyDonationPage = () => {
               <Card.Body>
                 <Card.Title className="subtitles fs-3">{plan.name}</Card.Title>
                 <Card.Text className="fw-bold fst-italic fs-3">{plan.price}</Card.Text>
-                <Card.Text>{plan.feature}</Card.Text>
-                <Button className="monthly-payment-btn mt-3 mb-2" variant="outline-none">
+                <Card.Text className="px-4">{plan.feature}</Card.Text>
+                <Button className="monthly-payment-btn mt-3 mb-2" variant="outline-none" onClick={() => handleSubscription(plan.priceId)}>
                   Sostieni
                 </Button>
               </Card.Body>
