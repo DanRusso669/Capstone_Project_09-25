@@ -96,6 +96,11 @@
             <artifactId>unirest-java-core</artifactId>
             <version>4.5.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.stripe</groupId>
+            <artifactId>stripe-java</artifactId>
+            <version>30.0.0</version>
+        </dependency>
     </dependencies>
 
     <build>
