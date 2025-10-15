@@ -27,6 +27,7 @@ import type { ProfileResponse } from "./interfaces/User";
 import { useEffect, useState } from "react";
 import ArticlePage from "./components/Articles/ArticlePage";
 import ArticleDetailPage from "./components/Articles/ArticleDetailPage";
+import SubscriptionResult from "./components/Subscription/SubscriptionResult";
 
 function App() {
   const [user, setUser] = useState<ProfileResponse | null>(null);
@@ -60,6 +61,11 @@ function App() {
           <Route path="/registrati" element={<RegisterPage />} />
           <Route path="/profilo" element={<Profile />} />
           <Route path="/profilo/adozioni" element={<AdoptionPage />} />
+
+          {/* SUBSCRIPTION RESULT */}
+
+          <Route path="/abbonamento/effettuato" element={<SubscriptionResult />} />
+          <Route path="/abbonamento/fallito" element={<SubscriptionResult />} />
 
           {/* BACK OFFICE */}
           <Route path="/back-office" element={isLoadingUser ? null : <ProtectedRoute user={user} />}>

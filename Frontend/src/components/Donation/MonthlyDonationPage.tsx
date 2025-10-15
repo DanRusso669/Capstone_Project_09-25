@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 
 const MonthlyDonationPage = () => {
   const accessToken = localStorage.getItem("accessToken");
+  const user = JSON.parse(localStorage.getItem("user")!);
 
   const plans = [
     {
@@ -39,7 +40,8 @@ const MonthlyDonationPage = () => {
         body: JSON.stringify({
           priceId: priceId,
           successUrl: `http://localhost:5173/abbonamento/effettuato`,
-          cancelUrl: `http://localhost:5173abbonamento/cancellato`,
+          cancelUrl: `http://localhost:5173/abbonamento/fallito`,
+          userEmail: user.userEmail,
         }),
       });
 
@@ -55,8 +57,9 @@ const MonthlyDonationPage = () => {
       } else {
         throw new Error("URL di Checkout non ricevuto");
       }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
-      toast.error("Errore durante la sottoscrizione:" + error);
+      toast.error("Errore durante la sottoscrizione");
     }
   };
 
