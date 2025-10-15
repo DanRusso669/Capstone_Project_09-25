@@ -17,7 +17,7 @@ public class StripeService {
     private String stripeSecretKey;
 
     public String createSubscriptionCheckoutSession(String priceId, String userId,
-                                                    String successUrl, String cancelUrl) {
+                                                    String successUrl, String cancelUrl, String userEmail) {
 
         // inizializzo Stripe con la secret key
         Stripe.apiKey = stripeSecretKey;
@@ -40,6 +40,8 @@ public class StripeService {
 
         // reindirizzamento automatico dopo il pagamento
         params.put("automatic_tax", Map.of("enabled", true));
+
+        params.put("customer_email", userEmail);
 
         try {
             // Crea la sessione di checkout su Stripe

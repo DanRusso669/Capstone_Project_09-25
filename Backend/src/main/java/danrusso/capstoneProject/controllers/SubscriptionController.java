@@ -31,7 +31,8 @@ public class SubscriptionController {
                 payload.priceId(),
                 userId,
                 payload.successUrl(),
-                payload.cancelUrl()
+                payload.cancelUrl(),
+                payload.userEmail()
         );
 
         return new CheckoutSessionResponseDTO(checkoutUrl);
