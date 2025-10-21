@@ -41,7 +41,7 @@ It allows user registration, animal management by administrators, viewing of ani
 
 - 🔎 Advanced search with filters (species, age, ecc).
 
-- 📅 Possibility to book visits.
+- 💸 Subscription payment via Stripe.
 
 - 📱 UI Responsive (mobile-friendly).
 
