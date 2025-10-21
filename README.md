@@ -61,4 +61,4 @@ It allows user registration, animal management by administrators, viewing of ani
 
 ## 👨‍💻 Autore
 
-Daniele Russo - [LinkedIn](https://www.linkedin.com/in/daniele-russo-967756369/)
+Daniele Russo - [LinkedIn](https://www.linkedin.com/in/dani-russo/)
