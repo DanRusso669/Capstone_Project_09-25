@@ -1,7 +1,7 @@
 # Animal Shelter Management System (Capstone Project)
 
 **Full-stack** application for managing an animal shelter, developed with **React (Redux Toolkit + TypeScript)** for the frontend and **Spring-Boot + Postgres** for the backend.
-It allows user registration, animal management by administrators, viewing of animals currently housed and a booking calendar for visits to the shelter.
+It allows user registration, animal management by administrators, viewing of animals currently housed and a payment method for subscriptions.
 
 ## 🚀 Tech Stack
 
