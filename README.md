@@ -2,6 +2,7 @@
 
 **Full-stack** application for managing an animal shelter, developed with **React (Redux Toolkit + TypeScript)** for the frontend and **Spring-Boot + Postgres** for the backend.
 It allows user registration, animal management by administrators, viewing of animals currently housed and a payment method for subscriptions.
+Docker images and containers have been created.
 
 ## 🚀 Tech Stack
 
@@ -34,6 +35,8 @@ It allows user registration, animal management by administrators, viewing of ani
 - 🔌 REST API
 
 ## ✨ Main Features
+
+- 🐋 NEW! Docker images and containers created for this project.
 
 - 👤 JWT Authentication with roles (Admin / User / Volunteer).
 
